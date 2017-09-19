@@ -1,0 +1,460 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+Intel(R) C++ Intel(R) 64 Compiler for applications running on Intel(R) 64, Version 17.0.2.174 Build 20170213
+
+Compiler options: -I/opt/cray/pe/libsci/16.11.1/INTEL/15.0/mic_knl/include -I/opt/cray/pe/mpt/7.5.5/gni/mpich-intel/16.0/include -I/opt/cray/rca/2.1.8_g6cd9a1b-3.1/include -I/opt/cray/alps/6.3.4-2.21/include -I/opt/cray/xpmem/2.1.1_gf9c9084-2.38/include -I/opt/cray/gni-headers/5.0.11-2.2/include -I/opt/cray/pe/pmi/5.0.11/include -I/opt/cray/ugni/6.0.15-2.2/include -I/opt/cray/udreg/2.3.2-7.54/include -I/opt/cray/wlm_detect/1.2.1-3.10/include -I/opt/cray/krca/2.1.3_g923f58b-2.244/include -I/opt/cray-hss-devel/8.0.0/include -xmic-avx512 -static -D__CRAYXC -D__CRAY_MIC_KNL -D__CRAYXT_COMPUTE_LINUX_TARGET -std=c++11 -qopenmp -xmic-avx512 -qopt-report=5 -c -o performanceTimers.o -Wl,-T/opt/cray/pe/craype/2.5.9/bin/2.25.0.craype.ld
+
+    Report from: Interprocedural optimizations [ipo]
+
+  WHOLE PROGRAM (SAFE) [EITHER METHOD]: false
+  WHOLE PROGRAM (SEEN) [TABLE METHOD]: false
+  WHOLE PROGRAM (READ) [OBJECT READER METHOD]: false
+
+INLINING OPTION VALUES:
+  -inline-factor: 100
+  -inline-min-size: 30
+  -inline-max-size: 230
+  -inline-max-total-size: 2000
+  -inline-max-per-routine: 10000
+  -inline-max-per-compile: 500000
+
+In the inlining report below:
+   "sz" refers to the "size" of the routine. The smaller a routine's size,
+      the more likely it is to be inlined.
+   "isz" refers to the "inlined size" of the routine. This is the amount
+      the calling routine will grow if the called routine is inlined into it.
+      The compiler generally limits the amount a routine can grow by having
+      routines inlined into it.
+
+Begin optimization report for: profileStart(TimerHandle)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (profileStart(TimerHandle)) [1/8=12.5%] performanceTimers.cpp(93,1)
+  -> INLINE: (94,30) getTime() (isz = 10) (sz = 15)
+    -> EXTERN: (247,4) gettimeofday(timeval *, timezone *)
+
+
+    Report from: Code generation optimizations [cg]
+
+performanceTimers.cpp(93,1):remark #34051: REGISTER ALLOCATION : [_Z12profileStart11TimerHandle] performanceTimers.cpp:93
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :    5[ rax rdx rbp rsi rdi]
+        
+    Routine temporaries
+        Total         :      15
+            Global    :       7
+            Local     :       8
+        Regenerable   :       3
+        Spilled       :       1
+        
+    Routine stack
+        Variables     :      16 bytes*
+            Reads     :       2 [2.00e+00 ~ 8.3%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :       8 bytes*
+            Reads     :       1 [1.00e+00 ~ 4.2%]
+            Writes    :       1 [1.00e+00 ~ 4.2%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: getElapsedTime(TimerHandle)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (getElapsedTime(TimerHandle)) [2/8=25.0%] performanceTimers.cpp(109,1)
+  -> INLINE: (110,19) getTick() (isz = 0) (sz = 5)
+
+
+    Report from: Code generation optimizations [cg]
+
+performanceTimers.cpp(109,1):remark #34051: REGISTER ALLOCATION : [_Z14getElapsedTime11TimerHandle] performanceTimers.cpp:109
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :    4[ rax rdi zmm0 zmm16]
+        
+    Routine temporaries
+        Total         :      13
+            Global    :       0
+            Local     :      13
+        Regenerable   :       0
+        Spilled       :       0
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: printPerformanceResults(int, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (printPerformanceResults(int, int)) [3/8=37.5%] performanceTimers.cpp(121,1)
+  -> INLINE: (123,4) timerStats() (isz = 170) (sz = 173)
+    -> EXTERN: (271,4) addDoubleParallel(double *, double *, int)
+    -> EXTERN: (274,53) getNRanks()
+    -> EXTERN: (282,32) getMyRank()
+    -> EXTERN: (284,4) minRankDoubleParallel(RankReduceData *, RankReduceData *, int)
+    -> EXTERN: (290,4) maxRankDoubleParallel(RankReduceData *, RankReduceData *, int)
+    -> EXTERN: (303,4) addDoubleParallel(double *, double *, int)
+    -> EXTERN: (306,57) getNRanks()
+  -> EXTERN: (125,9) printRank()
+  -> INLINE: (129,18) getTick() (isz = 0) (sz = 5)
+  -> EXTERN: (132,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (132,52) getMyRank()
+  -> EXTERN: (133,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (134,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (139,10) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (147,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (147,65) getNRanks()
+  -> EXTERN: (148,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (149,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (154,10) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (160,47) getNRanks()
+  -> EXTERN: (167,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (168,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (169,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (171,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (172,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (173,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (175,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (176,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (177,4) fprintf(FILE *, const char *, ...)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at performanceTimers.cpp(269,4) inlined into performanceTimers.cpp(123,4)
+   remark #15388: vectorization support: reference sendBuf[ii] has aligned access   [ performanceTimers.cpp(270,7) ]
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   remark #15328: vectorization support: non-unit strided load was emulated for the variable <perfTimer.total[ii]>, stride is 9   [ performanceTimers.cpp(270,29) ]
+   remark #15410: vectorization support: conversion from int to float will be emulated   [ performanceTimers.cpp(270,29) ]
+   remark #15305: vectorization support: vector length 2
+   remark #15399: vectorization support: unroll factor set to 5
+   remark #15449: unmasked aligned unit stride stores: 1 
+   remark #15452: unmasked strided loads: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 6 
+   remark #15477: vector cost: 7.500 
+   remark #15478: estimated potential speedup: 0.810 
+   remark #15487: type converts: 1 
+   remark #15488: --- end vector cost summary ---
+   remark #25436: completely unrolled by 11  
+LOOP END
+
+LOOP BEGIN at performanceTimers.cpp(273,4) inlined into performanceTimers.cpp(123,4)
+   remark #15382: vectorization support: call to function getNRanks() cannot be vectorized   [ performanceTimers.cpp(274,53) ]
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization
+LOOP END
+
+LOOP BEGIN at performanceTimers.cpp(279,4) inlined into performanceTimers.cpp(123,4)
+   remark #15382: vectorization support: call to function getMyRank() cannot be vectorized   [ performanceTimers.cpp(282,32) ]
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization
+LOOP END
+
+LOOP BEGIN at performanceTimers.cpp(285,4) inlined into performanceTimers.cpp(123,4)
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <perfTimer.minValue[ii]>, stride is 9   [ performanceTimers.cpp(287,7) ]
+   remark #15328: vectorization support: non-unit strided load was emulated for the variable <reduceRecvBuf.val[ii]>, stride is 2   [ performanceTimers.cpp(287,32) ]
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <perfTimer.minRank[ii]>, stride is 18   [ performanceTimers.cpp(288,7) ]
+   remark #15328: vectorization support: non-unit strided load was emulated for the variable <reduceRecvBuf.rank[ii]>, stride is 4   [ performanceTimers.cpp(288,31) ]
+   remark #15305: vectorization support: vector length 2
+   remark #15399: vectorization support: unroll factor set to 5
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   remark #15416: vectorization support: non-unit strided store was generated for the variable <perfTimer.minValue[ii]>, masked, stride is 9   [ performanceTimers.cpp(287,7) ]
+   remark #15415: vectorization support: non-unit strided load was generated for the variable <reduceRecvBuf.val[ii]>, masked, stride is 2   [ performanceTimers.cpp(287,32) ]
+   remark #15416: vectorization support: non-unit strided store was generated for the variable <perfTimer.minRank[ii]>, masked, stride is 18   [ performanceTimers.cpp(288,7) ]
+   remark #15415: vectorization support: non-unit strided load was generated for the variable <reduceRecvBuf.rank[ii]>, masked, stride is 4   [ performanceTimers.cpp(288,31) ]
+   remark #15305: vectorization support: vector length 16
+   remark #15427: loop was completely unrolled
+   remark #15460: masked strided loads: 2 
+   remark #15462: unmasked indexed (or gather) loads: 2 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 7 
+   remark #15477: vector cost: 8.310 
+   remark #15478: estimated potential speedup: 0.570 
+   remark #15488: --- end vector cost summary ---
+   remark #25436: completely unrolled by 11  
+LOOP END
+
+LOOP BEGIN at performanceTimers.cpp(291,4) inlined into performanceTimers.cpp(123,4)
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <perfTimer.maxValue[ii]>, stride is 9   [ performanceTimers.cpp(293,7) ]
+   remark #15328: vectorization support: non-unit strided load was emulated for the variable <reduceRecvBuf.val[ii]>, stride is 2   [ performanceTimers.cpp(293,32) ]
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <perfTimer.maxRank[ii]>, stride is 18   [ performanceTimers.cpp(294,7) ]
+   remark #15328: vectorization support: non-unit strided load was emulated for the variable <reduceRecvBuf.rank[ii]>, stride is 4   [ performanceTimers.cpp(294,31) ]
+   remark #15305: vectorization support: vector length 2
+   remark #15399: vectorization support: unroll factor set to 5
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   remark #15416: vectorization support: non-unit strided store was generated for the variable <perfTimer.maxValue[ii]>, masked, stride is 9   [ performanceTimers.cpp(293,7) ]
+   remark #15415: vectorization support: non-unit strided load was generated for the variable <reduceRecvBuf.val[ii]>, masked, stride is 2   [ performanceTimers.cpp(293,32) ]
+   remark #15416: vectorization support: non-unit strided store was generated for the variable <perfTimer.maxRank[ii]>, masked, stride is 18   [ performanceTimers.cpp(294,7) ]
+   remark #15415: vectorization support: non-unit strided load was generated for the variable <reduceRecvBuf.rank[ii]>, masked, stride is 4   [ performanceTimers.cpp(294,31) ]
+   remark #15305: vectorization support: vector length 16
+   remark #15427: loop was completely unrolled
+   remark #15460: masked strided loads: 2 
+   remark #15462: unmasked indexed (or gather) loads: 2 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 7 
+   remark #15477: vector cost: 8.310 
+   remark #15478: estimated potential speedup: 0.570 
+   remark #15488: --- end vector cost summary ---
+   remark #25436: completely unrolled by 11  
+LOOP END
+
+LOOP BEGIN at performanceTimers.cpp(298,4) inlined into performanceTimers.cpp(123,4)
+   remark #15388: vectorization support: reference sendBuf[ii] has aligned access   [ performanceTimers.cpp(301,7) ]
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   remark #15328: vectorization support: non-unit strided load was emulated for the variable <perfTimer.total[ii]>, stride is 9   [ performanceTimers.cpp(300,29) ]
+   remark #15410: vectorization support: conversion from int to float will be emulated   [ performanceTimers.cpp(300,29) ]
+   remark #15328: vectorization support: non-unit strided load was emulated for the variable <perfTimer.average[ii]>, stride is 9   [ performanceTimers.cpp(300,51) ]
+   remark #15305: vectorization support: vector length 2
+   remark #15399: vectorization support: unroll factor set to 5
+   remark #15309: vectorization support: normalized vectorization overhead 0.017
+   remark #15449: unmasked aligned unit stride stores: 1 
+   remark #15452: unmasked strided loads: 2 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 12 
+   remark #15477: vector cost: 12.000 
+   remark #15478: estimated potential speedup: 0.980 
+   remark #15487: type converts: 1 
+   remark #15488: --- end vector cost summary ---
+   remark #25436: completely unrolled by 11  
+LOOP END
+
+LOOP BEGIN at performanceTimers.cpp(304,4) inlined into performanceTimers.cpp(123,4)
+   remark #15382: vectorization support: call to function getNRanks() cannot be vectorized   [ performanceTimers.cpp(306,57) ]
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization
+LOOP END
+
+LOOP BEGIN at performanceTimers.cpp(135,4)
+   remark #15527: loop was not vectorized: function call to fprintf(FILE *, const char *, ...) cannot be vectorized   [ performanceTimers.cpp(139,10) ]
+   remark #25436: completely unrolled by 11  
+LOOP END
+
+LOOP BEGIN at performanceTimers.cpp(151,4)
+   remark #15527: loop was not vectorized: function call to fprintf(FILE *, const char *, ...) cannot be vectorized   [ performanceTimers.cpp(154,10) ]
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+performanceTimers.cpp(121,1):remark #34051: REGISTER ALLOCATION : [_Z23printPerformanceResultsii] performanceTimers.cpp:121
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   47[ rax rdx rcx rbx rbp rsi rdi r8-r12 r14-r15 zmm0-zmm31 k1]
+        
+    Routine temporaries
+        Total         :     751
+            Global    :      66
+            Local     :     685
+        Regenerable   :      93
+        Spilled       :       9
+        
+    Routine stack
+        Variables     :     528 bytes*
+            Reads     :      48 [8.80e+01 ~ 6.9%]
+            Writes    :      24 [4.40e+01 ~ 3.4%]
+        Spills        :      72 bytes*
+            Reads     :      36 [1.11e+01 ~ 0.9%]
+            Writes    :      13 [9.52e+00 ~ 0.7%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: printPerformanceResultsYaml(FILE *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (printPerformanceResultsYaml(FILE *)) [4/8=50.0%] performanceTimers.cpp(181,1)
+  -> EXTERN: (182,10) printRank()
+  -> INLINE: (185,18) getTick() (isz = 0) (sz = 5)
+  -> EXTERN: (188,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (189,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (189,40) getNRanks()
+  -> EXTERN: (190,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (191,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (191,56) getMyRank()
+  -> EXTERN: (197,10) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (198,10) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (199,10) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (200,10) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (201,10) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (205,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (210,10) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (211,10) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (212,10) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (213,10) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (214,10) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (215,10) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (216,10) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (220,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (221,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (222,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (223,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (224,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (225,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (226,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (227,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (228,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (229,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (231,4) fprintf(FILE *, const char *, ...)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at performanceTimers.cpp(192,4)
+   remark #15382: vectorization support: call to function fprintf(FILE *, const char *, ...) cannot be vectorized   [ performanceTimers.cpp(197,10) ]
+   remark #15382: vectorization support: call to function fprintf(FILE *, const char *, ...) cannot be vectorized   [ performanceTimers.cpp(198,10) ]
+   remark #15382: vectorization support: call to function fprintf(FILE *, const char *, ...) cannot be vectorized   [ performanceTimers.cpp(199,10) ]
+   remark #15382: vectorization support: call to function fprintf(FILE *, const char *, ...) cannot be vectorized   [ performanceTimers.cpp(200,10) ]
+   remark #15382: vectorization support: call to function fprintf(FILE *, const char *, ...) cannot be vectorized   [ performanceTimers.cpp(201,10) ]
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization
+   remark #15346: vector dependence: assumed OUTPUT dependence between call:fprintf(FILE *, const char *, ...) (197:10) and call:fprintf(FILE *, const char *, ...) (201:10)
+   remark #15346: vector dependence: assumed OUTPUT dependence between call:fprintf(FILE *, const char *, ...) (201:10) and call:fprintf(FILE *, const char *, ...) (197:10)
+LOOP END
+
+LOOP BEGIN at performanceTimers.cpp(206,4)
+   remark #15382: vectorization support: call to function fprintf(FILE *, const char *, ...) cannot be vectorized   [ performanceTimers.cpp(210,10) ]
+   remark #15382: vectorization support: call to function fprintf(FILE *, const char *, ...) cannot be vectorized   [ performanceTimers.cpp(211,10) ]
+   remark #15382: vectorization support: call to function fprintf(FILE *, const char *, ...) cannot be vectorized   [ performanceTimers.cpp(212,10) ]
+   remark #15382: vectorization support: call to function fprintf(FILE *, const char *, ...) cannot be vectorized   [ performanceTimers.cpp(213,10) ]
+   remark #15382: vectorization support: call to function fprintf(FILE *, const char *, ...) cannot be vectorized   [ performanceTimers.cpp(214,10) ]
+   remark #15382: vectorization support: call to function fprintf(FILE *, const char *, ...) cannot be vectorized   [ performanceTimers.cpp(215,10) ]
+   remark #15382: vectorization support: call to function fprintf(FILE *, const char *, ...) cannot be vectorized   [ performanceTimers.cpp(216,10) ]
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization
+   remark #15346: vector dependence: assumed OUTPUT dependence between call:fprintf(FILE *, const char *, ...) (210:10) and call:fprintf(FILE *, const char *, ...) (216:10)
+   remark #15346: vector dependence: assumed OUTPUT dependence between call:fprintf(FILE *, const char *, ...) (216:10) and call:fprintf(FILE *, const char *, ...) (210:10)
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+performanceTimers.cpp(181,1):remark #34051: REGISTER ALLOCATION : [_Z27printPerformanceResultsYamlP8_IO_FILE] performanceTimers.cpp:181
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   18[ rax rdx rsi rdi r12-r14 zmm0-zmm1 zmm16-zmm24]
+        
+    Routine temporaries
+        Total         :     177
+            Global    :      26
+            Local     :     151
+        Regenerable   :      74
+        Spilled       :       8
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :      64 bytes*
+            Reads     :      14 [1.08e+01 ~ 5.2%]
+            Writes    :      10 [7.17e+00 ~ 3.5%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: getTime()
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (getTime()) performanceTimers.cpp(244,1)
+
+===========================================================================
+
+Begin optimization report for: getTick()
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (getTick()) performanceTimers.cpp(258,1)
+
+===========================================================================
+
+Begin optimization report for: timerStats()
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (timerStats()) performanceTimers.cpp(265,1)
+
+===========================================================================
+
+Begin optimization report for: profileStop(TimerHandle)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (profileStop(TimerHandle)) [8/8=100.0%] performanceTimers.cpp(98,1)
+  -> INLINE: (100,21) getTime() (isz = 10) (sz = 15)
+    -> EXTERN: (247,4) gettimeofday(timeval *, timezone *)
+
+
+    Report from: Code generation optimizations [cg]
+
+performanceTimers.cpp(98,1):remark #34051: REGISTER ALLOCATION : [_Z11profileStop11TimerHandle] performanceTimers.cpp:98
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :    4[ rax rbp rsi rdi]
+        
+    Routine temporaries
+        Total         :      16
+            Global    :       7
+            Local     :       9
+        Regenerable   :       3
+        Spilled       :       1
+        
+    Routine stack
+        Variables     :      16 bytes*
+            Reads     :       2 [2.00e+00 ~ 7.7%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :       8 bytes*
+            Reads     :       1 [1.00e+00 ~ 3.8%]
+            Writes    :       1 [1.00e+00 ~ 3.8%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================

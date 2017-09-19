@@ -1,0 +1,703 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+Intel(R) C++ Intel(R) 64 Compiler for applications running on Intel(R) 64, Version 17.0.2.174 Build 20170213
+
+Compiler options: -I/opt/cray/pe/libsci/16.11.1/INTEL/15.0/mic_knl/include -I/opt/cray/pe/mpt/7.5.5/gni/mpich-intel/16.0/include -I/opt/cray/rca/2.1.8_g6cd9a1b-3.1/include -I/opt/cray/alps/6.3.4-2.21/include -I/opt/cray/xpmem/2.1.1_gf9c9084-2.38/include -I/opt/cray/gni-headers/5.0.11-2.2/include -I/opt/cray/pe/pmi/5.0.11/include -I/opt/cray/ugni/6.0.15-2.2/include -I/opt/cray/udreg/2.3.2-7.54/include -I/opt/cray/wlm_detect/1.2.1-3.10/include -I/opt/cray/krca/2.1.3_g923f58b-2.244/include -I/opt/cray-hss-devel/8.0.0/include -xmic-avx512 -static -D__CRAYXC -D__CRAY_MIC_KNL -D__CRAYXT_COMPUTE_LINUX_TARGET -std=c++11 -qopenmp -xmic-avx512 -qopt-report=5 -c -o initAtoms.o -Wl,-T/opt/cray/pe/craype/2.5.9/bin/2.25.0.craype.ld
+
+    Report from: Interprocedural optimizations [ipo]
+
+  WHOLE PROGRAM (SAFE) [EITHER METHOD]: false
+  WHOLE PROGRAM (SEEN) [TABLE METHOD]: false
+  WHOLE PROGRAM (READ) [OBJECT READER METHOD]: false
+
+INLINING OPTION VALUES:
+  -inline-factor: 100
+  -inline-min-size: 30
+  -inline-max-size: 230
+  -inline-max-total-size: 2000
+  -inline-max-per-routine: 10000
+  -inline-max-per-compile: 500000
+
+In the inlining report below:
+   "sz" refers to the "size" of the routine. The smaller a routine's size,
+      the more likely it is to be inlined.
+   "isz" refers to the "inlined size" of the routine. This is the amount
+      the calling routine will grow if the called routine is inlined into it.
+      The compiler generally limits the amount a routine can grow by having
+      routines inlined into it.
+
+Begin optimization report for: destroyAtoms(Atoms *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (destroyAtoms(Atoms *)) [1/10=10.0%] initAtoms.cpp(69,1)
+  -> INLINE: (70,4) comdFree(void *) (isz = 0) (sz = 5)
+    -> EXTERN: memUtils.h:(38,2) _mm_free(void *)
+  -> INLINE: (71,4) comdFree(void *) (isz = 0) (sz = 5)
+    -> EXTERN: memUtils.h:(38,2) _mm_free(void *)
+  -> INLINE: (73,4) comdFree(void *) (isz = 0) (sz = 5)
+    -> EXTERN: memUtils.h:(38,2) _mm_free(void *)
+  -> INLINE: (74,4) comdFree(void *) (isz = 0) (sz = 5)
+    -> EXTERN: memUtils.h:(38,2) _mm_free(void *)
+  -> INLINE: (75,4) comdFree(void *) (isz = 0) (sz = 5)
+    -> EXTERN: memUtils.h:(38,2) _mm_free(void *)
+  -> INLINE: (77,4) comdFree(void *) (isz = 0) (sz = 5)
+    -> EXTERN: memUtils.h:(38,2) _mm_free(void *)
+  -> INLINE: (79,4) comdFree(void *) (isz = 0) (sz = 5)
+    -> EXTERN: memUtils.h:(38,2) _mm_free(void *)
+  -> INLINE: (80,4) comdFree(void *) (isz = 0) (sz = 5)
+    -> EXTERN: memUtils.h:(38,2) _mm_free(void *)
+  -> INLINE: (81,4) comdFree(void *) (isz = 0) (sz = 5)
+    -> EXTERN: memUtils.h:(38,2) _mm_free(void *)
+  -> INLINE: (83,4) comdFree(void *) (isz = 0) (sz = 5)
+    -> EXTERN: memUtils.h:(38,2) _mm_free(void *)
+  -> INLINE: (84,4) comdFree(void *) (isz = 0) (sz = 5)
+    -> EXTERN: memUtils.h:(38,2) _mm_free(void *)
+
+
+    Report from: Code generation optimizations [cg]
+
+initAtoms.cpp(69,1):remark #34051: REGISTER ALLOCATION : [_Z12destroyAtomsP7AtomsSt] initAtoms.cpp:69
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :    2[ rdi r13]
+        
+    Routine temporaries
+        Total         :      29
+            Global    :      17
+            Local     :      12
+        Regenerable   :       0
+        Spilled       :       1
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :       8 bytes*
+            Reads     :       1 [1.00e+00 ~ 1.7%]
+            Writes    :       1 [1.00e+00 ~ 1.7%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: createFccLattice(int, int, int, real_t, SimFlat *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (createFccLattice(int, int, int, real_t, SimFlat *)) [2/10=20.0%] initAtoms.cpp(91,1)
+  -> EXTERN: (96,19) ?1memcpy
+  -> EXTERN: (106,19) floor(double)
+  -> EXTERN: (107,19) ceil(double)
+  -> EXTERN: (124,16) putAtomInBox(LinkCell *, AtomsSt *, int, int, real_t, real_t, real_t, real_t, real_t, real_t)
+  -> EXTERN: (128,4) profileStart(TimerHandle)
+  -> EXTERN: (129,4) addIntParallel(int *, int *, int)
+  -> EXTERN: (130,4) profileStop(TimerHandle)
+  -> EXTERN: (132,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at initAtoms.cpp(104,4)
+   remark #25427: Loop Statements Reordered
+   remark #15389: vectorization support: reference localMax[ii] has unaligned access   [ initAtoms.cpp(107,25) ]
+   remark #15389: vectorization support: reference end[ii] has unaligned access   [ initAtoms.cpp(107,7) ]
+   remark #15389: vectorization support: reference localMin[ii] has unaligned access   [ initAtoms.cpp(106,25) ]
+   remark #15389: vectorization support: reference begin[ii] has unaligned access   [ initAtoms.cpp(106,7) ]
+   remark #15381: vectorization support: unaligned access used inside loop body
+   remark #15305: vectorization support: vector length 2
+   remark #15389: vectorization support: reference localMax[ii] has unaligned access   [ initAtoms.cpp(107,25) ]
+   remark #15389: vectorization support: reference end[ii] has unaligned access   [ initAtoms.cpp(107,7) ]
+   remark #15389: vectorization support: reference localMin[ii] has unaligned access   [ initAtoms.cpp(106,25) ]
+   remark #15389: vectorization support: reference begin[ii] has unaligned access   [ initAtoms.cpp(106,7) ]
+   remark #15381: vectorization support: unaligned access used inside loop body
+   remark #15305: vectorization support: vector length 4
+   remark #15427: loop was completely unrolled
+   remark #15309: vectorization support: normalized vectorization overhead 0.069
+   remark #15300: LOOP WAS VECTORIZED
+   remark #15456: masked unaligned unit stride loads: 2 
+   remark #15457: masked unaligned unit stride stores: 2 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 271 
+   remark #15477: vector cost: 65.250 
+   remark #15478: estimated potential speedup: 2.910 
+   remark #15482: vectorized math library calls: 2 
+   remark #15486: divides: 2 
+   remark #15487: type converts: 2 
+   remark #15488: --- end vector cost summary ---
+LOOP END
+
+LOOP BEGIN at initAtoms.cpp(115,13)
+   remark #15382: vectorization support: call to function putAtomInBox(LinkCell *, AtomsSt *, int, int, real_t, real_t, real_t, real_t, real_t, real_t) cannot be vectorized   [ initAtoms.cpp(124,16) ]
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization
+   remark #25436: completely unrolled by 4  
+LOOP END
+
+
+Non-optimizable loops:
+
+
+LOOP BEGIN at initAtoms.cpp(112,4)
+   remark #15543: loop was not vectorized: loop with function call not considered an optimization candidate.
+
+   LOOP BEGIN at initAtoms.cpp(113,7)
+      remark #15543: loop was not vectorized: loop with function call not considered an optimization candidate.
+
+      LOOP BEGIN at initAtoms.cpp(114,10)
+         remark #15543: loop was not vectorized: loop with function call not considered an optimization candidate.
+      LOOP END
+   LOOP END
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+initAtoms.cpp(96,19):remark #34000: call to memcpy implemented inline with loads and stores with proven source (alignment, offset): (64, 0), and destination (alignment, offset): (64, 0)
+initAtoms.cpp(91,1):remark #34051: REGISTER ALLOCATION : [_Z16createFccLatticeiiidP9SimFlatSt] initAtoms.cpp:91
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   31[ rax rdx rcx rbx rsi rdi r8-r10 r12-r15 zmm0-zmm11 zmm16 k0-k4]
+        
+    Routine temporaries
+        Total         :     200
+            Global    :      53
+            Local     :     147
+        Regenerable   :      30
+        Spilled       :      17
+        
+    Routine stack
+        Variables     :     120 bytes*
+            Reads     :      21 [1.54e+03 ~ 21.9%]
+            Writes    :       4 [4.00e+00 ~ 0.1%]
+        Spills        :     136 bytes*
+            Reads     :      28 [7.76e+01 ~ 1.1%]
+            Writes    :      28 [6.18e+01 ~ 0.9%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: setVcm(SimFlat *, real_t *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (setVcm(SimFlat *, real_t *)) [3/10=30.0%] initAtoms.cpp(138,1)
+  -> INLINE: (140,4) computeVcm(SimFlat *, real_t *) (isz = 141) (sz = 148)
+    -> EXTERN: (234,23) ?1memset
+    -> EXTERN: (235,21) ?1memset
+    -> EXTERN: (261,4) profileStart(TimerHandle)
+    -> EXTERN: (262,4) addRealParallel(real_t *, real_t *, int)
+    -> EXTERN: (263,4) profileStop(TimerHandle)
+
+
+    Report from: OpenMP optimizations [openmp]
+
+initAtoms.cpp(242:4-242:4):OMP:_Z6setVcmP9SimFlatStPd:  OpenMP DEFINED LOOP WAS PARALLELIZED
+initAtoms.cpp(147:4-147:4):OMP:_Z6setVcmP9SimFlatStPd:  OpenMP DEFINED LOOP WAS PARALLELIZED
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at initAtoms.cpp(243,4) inlined into initAtoms.cpp(140,4)
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at initAtoms.cpp(245,7) inlined into initAtoms.cpp(140,4)
+   <Peeled loop for vectorization>
+      remark #15389: vectorization support: reference Ua_V->atoms->iSpecies[iOff] has unaligned access   [ initAtoms.cpp(251,25) ]
+      remark #15389: vectorization support: reference Ua_V->atoms->iSpecies[iOff] has unaligned access   [ initAtoms.cpp(251,25) ]
+      remark #15381: vectorization support: unaligned access used inside loop body
+      remark #15305: vectorization support: vector length 8
+      remark #15309: vectorization support: normalized vectorization overhead 1.168
+      remark #15301: PEEL LOOP WAS VECTORIZED
+   LOOP END
+
+   LOOP BEGIN at initAtoms.cpp(245,7) inlined into initAtoms.cpp(140,4)
+      remark #25084: Preprocess Loopnests: Moving Out Store    [ initAtoms.cpp(247,10) ]
+      remark #25084: Preprocess Loopnests: Moving Out Store    [ initAtoms.cpp(248,10) ]
+      remark #25084: Preprocess Loopnests: Moving Out Store    [ initAtoms.cpp(249,10) ]
+      remark #25084: Preprocess Loopnests: Moving Out Store    [ initAtoms.cpp(252,10) ]
+      remark #15389: vectorization support: reference Ua_V->atoms->iSpecies[iOff] has unaligned access   [ initAtoms.cpp(251,25) ]
+      remark #15389: vectorization support: reference Ua_V->atoms->iSpecies[iOff] has unaligned access   [ initAtoms.cpp(251,25) ]
+      remark #15381: vectorization support: unaligned access used inside loop body
+      remark #15415: vectorization support: non-unit strided load was generated for the variable <Ua_V->atoms->p[iOff][0]>, stride is 3   [ initAtoms.cpp(247,16) ]
+      remark #15415: vectorization support: non-unit strided load was generated for the variable <Ua_V->atoms->p[iOff][1]>, stride is 3   [ initAtoms.cpp(248,16) ]
+      remark #15415: vectorization support: non-unit strided load was generated for the variable <Ua_V->atoms->p[iOff][2]>, stride is 3   [ initAtoms.cpp(249,16) ]
+      remark #15415: vectorization support: irregularly indexed load was generated for the variable <Ua_V->species->mass[*(Ua_V->atoms->iSpecies+iOff*4)]>, part of index is read from memory   [ initAtoms.cpp(252,16) ]
+      remark #15305: vectorization support: vector length 8
+      remark #15309: vectorization support: normalized vectorization overhead 1.467
+      remark #15300: LOOP WAS VECTORIZED
+      remark #15442: entire loop may be executed in remainder
+      remark #15450: unmasked unaligned unit stride loads: 1 
+      remark #15452: unmasked strided loads: 3 
+      remark #15462: unmasked indexed (or gather) loads: 1 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 22 
+      remark #15477: vector cost: 9.370 
+      remark #15478: estimated potential speedup: 2.070 
+      remark #15488: --- end vector cost summary ---
+   LOOP END
+
+   LOOP BEGIN at initAtoms.cpp(245,7) inlined into initAtoms.cpp(140,4)
+   <Remainder loop for vectorization>
+      remark #15389: vectorization support: reference Ua_V->atoms->iSpecies[iOff] has unaligned access   [ initAtoms.cpp(251,25) ]
+      remark #15389: vectorization support: reference Ua_V->atoms->iSpecies[iOff] has unaligned access   [ initAtoms.cpp(251,25) ]
+      remark #15381: vectorization support: unaligned access used inside loop body
+      remark #15305: vectorization support: vector length 8
+      remark #15309: vectorization support: normalized vectorization overhead 1.168
+      remark #15301: REMAINDER LOOP WAS VECTORIZED
+   LOOP END
+LOOP END
+
+LOOP BEGIN at initAtoms.cpp(148,4)
+   remark #15541: outer loop was not auto-vectorized: consider using SIMD directive
+
+   LOOP BEGIN at initAtoms.cpp(150,7)
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization
+      remark #15346: vector dependence: assumed ANTI dependence between s->species->mass[*(s->atoms->iSpecies+iOff*4)] (153:24) and s->atoms->p[iOff][2] (157:10)
+      remark #15346: vector dependence: assumed FLOW dependence between s->atoms->p[iOff][2] (157:10) and s->species->mass[*(s->atoms->iSpecies+iOff*4)] (153:24)
+   LOOP END
+LOOP END
+
+LOOP BEGIN at initAtoms.cpp(242,4) inlined into initAtoms.cpp(140,4)
+   remark #15389: vectorization support: reference at (242:4) has unaligned access
+   remark #15389: vectorization support: reference at (242:4) has unaligned access
+   remark #15389: vectorization support: reference at (242:4) has unaligned access
+   remark #15381: vectorization support: unaligned access used inside loop body
+   remark #15305: vectorization support: vector length 4
+   remark #15427: loop was completely unrolled
+   remark #15309: vectorization support: normalized vectorization overhead 1.000
+   remark #15301: MATERIALIZED LOOP WAS VECTORIZED
+   remark #15450: unmasked unaligned unit stride loads: 2 
+   remark #15451: unmasked unaligned unit stride stores: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 8 
+   remark #15477: vector cost: 2.250 
+   remark #15478: estimated potential speedup: 1.770 
+   remark #15488: --- end vector cost summary ---
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+initAtoms.cpp(247,16):remark #34030: adjacent sparse (strided) loads optimized for speed. Details: stride { 24 }, types { F64-V512, F64-V512, F64-V512 }, number of elements { 8 }, select mask { 0x000000007 }.
+initAtoms.cpp(234,23):remark #34000: call to memset implemented inline with stores with proven (alignment, offset): (64, 0)
+initAtoms.cpp(235,21):remark #34000: call to memset implemented inline with stores with proven (alignment, offset): (64, 0)
+initAtoms.cpp(138,1):remark #34051: REGISTER ALLOCATION : [_Z6setVcmP9SimFlatStPd] initAtoms.cpp:138
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   52[ rax rdx rcx rbx rsi rdi r8-r15 zmm0-zmm31 k1-k6]
+        
+    Routine temporaries
+        Total         :     508
+            Global    :     105
+            Local     :     403
+        Regenerable   :     132
+        Spilled       :      16
+        
+    Routine stack
+        Variables     :     204 bytes*
+            Reads     :      32 [1.56e+01 ~ 0.4%]
+            Writes    :      32 [7.80e+01 ~ 1.9%]
+        Spills        :     160 bytes*
+            Reads     :      39 [5.91e+01 ~ 1.5%]
+            Writes    :      35 [4.31e+01 ~ 1.1%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: setTemperature(SimFlat *, real_t)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (setTemperature(SimFlat *, real_t)) [4/10=40.0%] initAtoms.cpp(173,1)
+  -> EXTERN: (183,26) mkSeed(uint32_t, uint32_t)
+  -> EXTERN: (184,48) gasdev(uint64_t *)
+  -> EXTERN: (185,48) gasdev(uint64_t *)
+  -> EXTERN: (186,48) gasdev(uint64_t *)
+  -> EXTERN: (192,20) ?1memset
+  -> INLINE: (193,4) setVcm(SimFlat *, real_t *) (isz = 266) (sz = 273)
+    -> INLINE: (140,4) computeVcm(SimFlat *, real_t *) (isz = 141) (sz = 148)
+      -> EXTERN: (234,23) ?1memset
+      -> EXTERN: (235,21) ?1memset
+      -> EXTERN: (261,4) profileStart(TimerHandle)
+      -> EXTERN: (262,4) addRealParallel(real_t *, real_t *, int)
+      -> EXTERN: (263,4) profileStop(TimerHandle)
+  -> EXTERN: (194,4) kineticEnergy(SimFlat *)
+  -> EXTERN: (208,4) kineticEnergy(SimFlat *)
+
+
+    Report from: OpenMP optimizations [openmp]
+
+initAtoms.cpp(175:4-175:4):OMP:_Z14setTemperatureP9SimFlatStd:  OpenMP DEFINED LOOP WAS PARALLELIZED
+initAtoms.cpp(242:4-242:4):OMP:_Z14setTemperatureP9SimFlatStd:  OpenMP DEFINED LOOP WAS PARALLELIZED
+initAtoms.cpp(147:4-147:4):OMP:_Z14setTemperatureP9SimFlatStd:  OpenMP DEFINED LOOP WAS PARALLELIZED
+initAtoms.cpp(198:4-198:4):OMP:_Z14setTemperatureP9SimFlatStd:  OpenMP DEFINED LOOP WAS PARALLELIZED
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at initAtoms.cpp(243,4) inlined into initAtoms.cpp(193,4)
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at initAtoms.cpp(245,7) inlined into initAtoms.cpp(193,4)
+   <Peeled loop for vectorization>
+      remark #15389: vectorization support: reference Ua_V->atoms->iSpecies[iOff] has unaligned access   [ initAtoms.cpp(251,25) ]
+      remark #15389: vectorization support: reference Ua_V->atoms->iSpecies[iOff] has unaligned access   [ initAtoms.cpp(251,25) ]
+      remark #15381: vectorization support: unaligned access used inside loop body
+      remark #15305: vectorization support: vector length 8
+      remark #15309: vectorization support: normalized vectorization overhead 1.168
+      remark #15301: PEEL LOOP WAS VECTORIZED
+   LOOP END
+
+   LOOP BEGIN at initAtoms.cpp(245,7) inlined into initAtoms.cpp(193,4)
+      remark #25084: Preprocess Loopnests: Moving Out Store    [ initAtoms.cpp(247,10) ]
+      remark #25084: Preprocess Loopnests: Moving Out Store    [ initAtoms.cpp(248,10) ]
+      remark #25084: Preprocess Loopnests: Moving Out Store    [ initAtoms.cpp(249,10) ]
+      remark #25084: Preprocess Loopnests: Moving Out Store    [ initAtoms.cpp(252,10) ]
+      remark #15389: vectorization support: reference Ua_V->atoms->iSpecies[iOff] has unaligned access   [ initAtoms.cpp(251,25) ]
+      remark #15389: vectorization support: reference Ua_V->atoms->iSpecies[iOff] has unaligned access   [ initAtoms.cpp(251,25) ]
+      remark #15381: vectorization support: unaligned access used inside loop body
+      remark #15415: vectorization support: non-unit strided load was generated for the variable <Ua_V->atoms->p[iOff][0]>, stride is 3   [ initAtoms.cpp(247,16) ]
+      remark #15415: vectorization support: non-unit strided load was generated for the variable <Ua_V->atoms->p[iOff][1]>, stride is 3   [ initAtoms.cpp(248,16) ]
+      remark #15415: vectorization support: non-unit strided load was generated for the variable <Ua_V->atoms->p[iOff][2]>, stride is 3   [ initAtoms.cpp(249,16) ]
+      remark #15415: vectorization support: irregularly indexed load was generated for the variable <Ua_V->species->mass[*(Ua_V->atoms->iSpecies+iOff*4)]>, part of index is read from memory   [ initAtoms.cpp(252,16) ]
+      remark #15305: vectorization support: vector length 8
+      remark #15309: vectorization support: normalized vectorization overhead 1.467
+      remark #15300: LOOP WAS VECTORIZED
+      remark #15442: entire loop may be executed in remainder
+      remark #15450: unmasked unaligned unit stride loads: 1 
+      remark #15452: unmasked strided loads: 3 
+      remark #15462: unmasked indexed (or gather) loads: 1 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 22 
+      remark #15477: vector cost: 9.370 
+      remark #15478: estimated potential speedup: 2.070 
+      remark #15488: --- end vector cost summary ---
+   LOOP END
+
+   LOOP BEGIN at initAtoms.cpp(245,7) inlined into initAtoms.cpp(193,4)
+   <Remainder loop for vectorization>
+      remark #15389: vectorization support: reference Ua_V->atoms->iSpecies[iOff] has unaligned access   [ initAtoms.cpp(251,25) ]
+      remark #15389: vectorization support: reference Ua_V->atoms->iSpecies[iOff] has unaligned access   [ initAtoms.cpp(251,25) ]
+      remark #15381: vectorization support: unaligned access used inside loop body
+      remark #15305: vectorization support: vector length 8
+      remark #15309: vectorization support: normalized vectorization overhead 1.168
+      remark #15301: REMAINDER LOOP WAS VECTORIZED
+   LOOP END
+LOOP END
+
+LOOP BEGIN at initAtoms.cpp(148,4) inlined into initAtoms.cpp(193,4)
+   remark #15541: outer loop was not auto-vectorized: consider using SIMD directive
+
+   LOOP BEGIN at initAtoms.cpp(150,7) inlined into initAtoms.cpp(193,4)
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization
+      remark #15346: vector dependence: assumed ANTI dependence between U2_V->species->mass[*(U2_V->atoms->iSpecies+iOff*4)] (153:24) and U2_V->atoms->p[iOff][2] (157:10)
+      remark #15346: vector dependence: assumed FLOW dependence between U2_V->atoms->p[iOff][2] (157:10) and U2_V->species->mass[*(U2_V->atoms->iSpecies+iOff*4)] (153:24)
+   LOOP END
+LOOP END
+
+LOOP BEGIN at initAtoms.cpp(199,4)
+   remark #25096: Loop Interchange not done due to: Imperfect Loop Nest (Either at Source or due to other Compiler Transformations)
+   remark #25452: Original Order found to be proper, but by a close margin
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at initAtoms.cpp(201,7)
+      remark #15416: vectorization support: non-unit strided store was generated for the variable <s->atoms->p[iOff][0]>, stride is 3   [ initAtoms.cpp(203,10) ]
+      remark #15415: vectorization support: non-unit strided load was generated for the variable <s->atoms->p[iOff][0]>, stride is 3   [ initAtoms.cpp(203,10) ]
+      remark #15416: vectorization support: non-unit strided store was generated for the variable <s->atoms->p[iOff][1]>, stride is 3   [ initAtoms.cpp(204,10) ]
+      remark #15415: vectorization support: non-unit strided load was generated for the variable <s->atoms->p[iOff][1]>, stride is 3   [ initAtoms.cpp(204,10) ]
+      remark #15416: vectorization support: non-unit strided store was generated for the variable <s->atoms->p[iOff][2]>, stride is 3   [ initAtoms.cpp(205,10) ]
+      remark #15415: vectorization support: non-unit strided load was generated for the variable <s->atoms->p[iOff][2]>, stride is 3   [ initAtoms.cpp(205,10) ]
+      remark #15305: vectorization support: vector length 8
+      remark #15399: vectorization support: unroll factor set to 2
+      remark #15309: vectorization support: normalized vectorization overhead 0.014
+      remark #15300: LOOP WAS VECTORIZED
+      remark #15452: unmasked strided loads: 3 
+      remark #15453: unmasked strided stores: 3 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 17 
+      remark #15477: vector cost: 13.500 
+      remark #15478: estimated potential speedup: 1.170 
+      remark #15488: --- end vector cost summary ---
+   LOOP END
+
+   LOOP BEGIN at initAtoms.cpp(201,7)
+   <Remainder loop for vectorization>
+      remark #15335: remainder loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      remark #15305: vectorization support: vector length 2
+      remark #15309: vectorization support: normalized vectorization overhead 0.065
+   LOOP END
+LOOP END
+
+LOOP BEGIN at initAtoms.cpp(242,4) inlined into initAtoms.cpp(193,4)
+   remark #15389: vectorization support: reference at (242:4) has unaligned access
+   remark #15389: vectorization support: reference at (242:4) has unaligned access
+   remark #15389: vectorization support: reference at (242:4) has unaligned access
+   remark #15381: vectorization support: unaligned access used inside loop body
+   remark #15305: vectorization support: vector length 4
+   remark #15427: loop was completely unrolled
+   remark #15309: vectorization support: normalized vectorization overhead 1.000
+   remark #15301: MATERIALIZED LOOP WAS VECTORIZED
+   remark #15450: unmasked unaligned unit stride loads: 2 
+   remark #15451: unmasked unaligned unit stride stores: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 8 
+   remark #15477: vector cost: 2.250 
+   remark #15478: estimated potential speedup: 1.770 
+   remark #15488: --- end vector cost summary ---
+LOOP END
+
+
+Non-optimizable loops:
+
+
+LOOP BEGIN at initAtoms.cpp(176,4)
+   remark #15543: loop was not vectorized: loop with function call not considered an optimization candidate.
+
+   LOOP BEGIN at initAtoms.cpp(178,7)
+      remark #15523: loop was not vectorized: loop control variable ii was found, but loop iteration count cannot be computed before executing the loop
+   LOOP END
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+initAtoms.cpp(247,16):remark #34030: adjacent sparse (strided) loads optimized for speed. Details: stride { 24 }, types { F64-V512, F64-V512, F64-V512 }, number of elements { 8 }, select mask { 0x000000007 }.
+initAtoms.cpp(192,20):remark #34000: call to memset implemented inline with stores with proven (alignment, offset): (64, 0)
+initAtoms.cpp(234,23):remark #34000: call to memset implemented inline with stores with proven (alignment, offset): (64, 0)
+initAtoms.cpp(235,21):remark #34000: call to memset implemented inline with stores with proven (alignment, offset): (64, 0)
+initAtoms.cpp(173,1):remark #34051: REGISTER ALLOCATION : [_Z14setTemperatureP9SimFlatStd] initAtoms.cpp:173
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   53[ rax rdx rcx rbx rsi rdi r8-r15 zmm0-zmm31 k0-k6]
+        
+    Routine temporaries
+        Total         :     846
+            Global    :     178
+            Local     :     668
+        Regenerable   :     217
+        Spilled       :      30
+        
+    Routine stack
+        Variables     :     292 bytes*
+            Reads     :      50 [2.05e+01 ~ 0.3%]
+            Writes    :      46 [1.27e+02 ~ 2.1%]
+        Spills        :     272 bytes*
+            Reads     :      72 [2.53e+02 ~ 4.1%]
+            Writes    :      59 [1.30e+02 ~ 2.1%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: randomDisplacements(SimFlat *, real_t)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (randomDisplacements(SimFlat *, real_t)) [5/10=50.0%] initAtoms.cpp(217,1)
+  -> EXTERN: (223,26) mkSeed(uint32_t, uint32_t)
+  -> EXTERN: (224,38) lcg61(uint64_t *)
+  -> EXTERN: (225,38) lcg61(uint64_t *)
+  -> EXTERN: (226,38) lcg61(uint64_t *)
+
+
+    Report from: OpenMP optimizations [openmp]
+
+initAtoms.cpp(218:4-218:4):OMP:_Z19randomDisplacementsP9SimFlatStd:  OpenMP DEFINED LOOP WAS PARALLELIZED
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+
+Non-optimizable loops:
+
+
+LOOP BEGIN at initAtoms.cpp(219,4)
+   remark #15543: loop was not vectorized: loop with function call not considered an optimization candidate.
+
+   LOOP BEGIN at initAtoms.cpp(221,7)
+      remark #15523: loop was not vectorized: loop control variable ii was found, but loop iteration count cannot be computed before executing the loop
+   LOOP END
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+initAtoms.cpp(217,1):remark #34051: REGISTER ALLOCATION : [_Z19randomDisplacementsP9SimFlatStd] initAtoms.cpp:217
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   16[ rax rdx rcx rbx rbp rsi rdi r8-r9 r12-r15 zmm0-zmm2]
+        
+    Routine temporaries
+        Total         :     127
+            Global    :      32
+            Local     :      95
+        Regenerable   :      44
+        Spilled       :       4
+        
+    Routine stack
+        Variables     :      44 bytes*
+            Reads     :       4 [0.00e+00 ~ 0.0%]
+            Writes    :       8 [4.80e+01 ~ 4.0%]
+        Spills        :      80 bytes*
+            Reads     :      21 [1.62e+02 ~ 13.5%]
+            Writes    :      16 [2.29e+01 ~ 1.9%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: computeVcm(SimFlat *, real_t *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (computeVcm(SimFlat *, real_t *)) initAtoms.cpp(233,1)
+
+===========================================================================
+
+Begin optimization report for: initAtoms(LinkCell *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (initAtoms(LinkCell *)) [7/10=70.0%] initAtoms.cpp(24,1)
+  -> INLINE: (25,28) comdMalloc(size_t) (isz = 2) (sz = 9)
+    -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+  -> INLINE: (29,31) comdMalloc(size_t) (isz = 2) (sz = 9)
+    -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+  -> INLINE: (30,31) comdMalloc(size_t) (isz = 2) (sz = 9)
+    -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+  -> INLINE: (32,31) comdMalloc(size_t) (isz = 2) (sz = 9)
+    -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+  -> INLINE: (34,34) comdMalloc(size_t) (isz = 2) (sz = 9)
+    -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+  -> INLINE: (35,34) comdMalloc(size_t) (isz = 2) (sz = 9)
+    -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+  -> INLINE: (36,34) comdMalloc(size_t) (isz = 2) (sz = 9)
+    -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+  -> INLINE: (38,34) comdMalloc(size_t) (isz = 2) (sz = 9)
+    -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+  -> INLINE: (39,34) comdMalloc(size_t) (isz = 2) (sz = 9)
+    -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+  -> INLINE: (40,34) comdMalloc(size_t) (isz = 2) (sz = 9)
+    -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+  -> INLINE: (42,31) comdMalloc(size_t) (isz = 2) (sz = 9)
+    -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+  -> INLINE: (56,7) zeroReal3(real_t *) (isz = 6) (sz = 11)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at initAtoms.cpp(47,4)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization
+   remark #15346: vector dependence: assumed OUTPUT dependence between atoms->gid[iOff] (49:7) and atoms (62:7)
+   remark #15346: vector dependence: assumed OUTPUT dependence between atoms (62:7) and atoms->gid[iOff] (49:7)
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+initAtoms.cpp(24,1):remark #34051: REGISTER ALLOCATION : [_Z9initAtomsP10LinkCellSt] initAtoms.cpp:24
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   16[ rax rdx rcx rbx rbp rsi rdi r8-r15 zmm0]
+        
+    Routine temporaries
+        Total         :      72
+            Global    :      46
+            Local     :      26
+        Regenerable   :      14
+        Spilled       :       6
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :      48 bytes*
+            Reads     :       6 [6.00e+00 ~ 4.9%]
+            Writes    :       6 [6.00e+00 ~ 4.9%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: comdFree(void *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (comdFree(void *)) memUtils.h(36,1)
+
+===========================================================================
+
+Begin optimization report for: comdMalloc(size_t)
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (comdMalloc(size_t)) memUtils.h(17,1)
+
+===========================================================================
+
+Begin optimization report for: zeroReal3..xN2v(real_t *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (zeroReal3..xN2v(real_t *)) mytype.h(20,1)
+
+===========================================================================
+
+Begin optimization report for: zeroReal3..xM2v(real_t *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (zeroReal3..xM2v(real_t *)) mytype.h(20,1)
+
+===========================================================================
+
+Begin optimization report for: zeroReal3(real_t *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (zeroReal3(real_t *)) mytype.h(20,1)
+
+===========================================================================

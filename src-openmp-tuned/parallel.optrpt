@@ -1,0 +1,840 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+Intel(R) C++ Intel(R) 64 Compiler for applications running on Intel(R) 64, Version 17.0.2.174 Build 20170213
+
+Compiler options: -I/opt/cray/pe/libsci/16.11.1/INTEL/15.0/mic_knl/include -I/opt/cray/pe/mpt/7.5.5/gni/mpich-intel/16.0/include -I/opt/cray/rca/2.1.8_g6cd9a1b-3.1/include -I/opt/cray/alps/6.3.4-2.21/include -I/opt/cray/xpmem/2.1.1_gf9c9084-2.38/include -I/opt/cray/gni-headers/5.0.11-2.2/include -I/opt/cray/pe/pmi/5.0.11/include -I/opt/cray/ugni/6.0.15-2.2/include -I/opt/cray/udreg/2.3.2-7.54/include -I/opt/cray/wlm_detect/1.2.1-3.10/include -I/opt/cray/krca/2.1.3_g923f58b-2.244/include -I/opt/cray-hss-devel/8.0.0/include -xmic-avx512 -static -D__CRAYXC -D__CRAY_MIC_KNL -D__CRAYXT_COMPUTE_LINUX_TARGET -std=c++11 -qopenmp -xmic-avx512 -qopt-report=5 -c -o parallel.o -Wl,-T/opt/cray/pe/craype/2.5.9/bin/2.25.0.craype.ld
+
+    Report from: Interprocedural optimizations [ipo]
+
+  WHOLE PROGRAM (SAFE) [EITHER METHOD]: false
+  WHOLE PROGRAM (SEEN) [TABLE METHOD]: false
+  WHOLE PROGRAM (READ) [OBJECT READER METHOD]: false
+
+INLINING OPTION VALUES:
+  -inline-factor: 100
+  -inline-min-size: 30
+  -inline-max-size: 230
+  -inline-max-total-size: 2000
+  -inline-max-per-routine: 10000
+  -inline-max-per-compile: 500000
+
+In the inlining report below:
+   "sz" refers to the "size" of the routine. The smaller a routine's size,
+      the more likely it is to be inlined.
+   "isz" refers to the "inlined size" of the routine. This is the amount
+      the calling routine will grow if the called routine is inlined into it.
+      The compiler generally limits the amount a routine can grow by having
+      routines inlined into it.
+
+Begin optimization report for: getNRanks()
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (getNRanks()) [1/16=6.2%] parallel.cpp(32,1)
+
+
+    Report from: Code generation optimizations [cg]
+
+parallel.cpp(32,1):remark #34051: REGISTER ALLOCATION : [_Z9getNRanksv] parallel.cpp:32
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :    1[ rax]
+        
+    Routine temporaries
+        Total         :       8
+            Global    :       0
+            Local     :       8
+        Regenerable   :       2
+        Spilled       :       0
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: getMyRank()
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (getMyRank()) [2/16=12.5%] parallel.cpp(37,1)
+
+
+    Report from: Code generation optimizations [cg]
+
+parallel.cpp(37,1):remark #34051: REGISTER ALLOCATION : [_Z9getMyRankv] parallel.cpp:37
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :    1[ rax]
+        
+    Routine temporaries
+        Total         :       8
+            Global    :       0
+            Local     :       8
+        Regenerable   :       2
+        Spilled       :       0
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: printRank()
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (printRank()) [3/16=18.8%] parallel.cpp(46,1)
+
+
+    Report from: Code generation optimizations [cg]
+
+parallel.cpp(46,1):remark #34051: REGISTER ALLOCATION : [_Z9printRankv] parallel.cpp:46
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :    1[ rax]
+        
+    Routine temporaries
+        Total         :       7
+            Global    :       0
+            Local     :       7
+        Regenerable   :       1
+        Spilled       :       0
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: timestampBarrier(const char *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (timestampBarrier(const char *)) [4/16=25.0%] parallel.cpp(52,1)
+  -> DELETED: (53,4) barrierParallel() (isz = 0) (sz = 2)
+  -> INLINE: (54,10) printRank() (isz = 2) (sz = 8)
+  -> EXTERN: (56,14) time(time_t *)
+  -> EXTERN: (57,23) ctime(const time_t *)
+  -> EXTERN: (59,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (60,4) fflush(FILE *)
+
+
+    Report from: Code generation optimizations [cg]
+
+parallel.cpp(52,1):remark #34051: REGISTER ALLOCATION : [_Z16timestampBarrierPKc] parallel.cpp:52
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :    6[ rax rdx rcx rsi rdi r15]
+        
+    Routine temporaries
+        Total         :      24
+            Global    :      10
+            Local     :      14
+        Regenerable   :       6
+        Spilled       :       1
+        
+    Routine stack
+        Variables     :       8 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       1 [2.20e-01 ~ 1.3%]
+        Spills        :       8 bytes*
+            Reads     :       1 [2.20e-01 ~ 1.3%]
+            Writes    :       1 [1.00e+00 ~ 5.7%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: barrierParallel()
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (barrierParallel()) [5/16=31.2%] parallel.cpp(80,1)
+
+
+    Report from: Code generation optimizations [cg]
+
+parallel.cpp(80,1):remark #34051: REGISTER ALLOCATION : [_Z15barrierParallelv] parallel.cpp:80
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :    0[ reg_null]
+        
+    Routine temporaries
+        Total         :       6
+            Global    :       0
+            Local     :       6
+        Regenerable   :       0
+        Spilled       :       0
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: destroyParallel()
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (destroyParallel()) [6/16=37.5%] parallel.cpp(73,1)
+
+
+    Report from: Code generation optimizations [cg]
+
+parallel.cpp(73,1):remark #34051: REGISTER ALLOCATION : [_Z15destroyParallelv] parallel.cpp:73
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :    0[ reg_null]
+        
+    Routine temporaries
+        Total         :       6
+            Global    :       0
+            Local     :       6
+        Regenerable   :       0
+        Spilled       :       0
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: sendReceiveParallel(void *, int, int, void *, int, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (sendReceiveParallel(void *, int, int, void *, int, int)) [7/16=43.8%] parallel.cpp(95,1)
+  -> EXTERN: (106,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+  -> EXTERN: (107,4) memcpy(void *, const void *, size_t)
+
+
+    Report from: Code generation optimizations [cg]
+
+parallel.cpp(107,4):remark #34014: optimization advice for memcpy: increase the destination's alignment to 16 (and use __assume_aligned) to speed up library implementation
+parallel.cpp(107,4):remark #34014: optimization advice for memcpy: increase the source's alignment to 16 (and use __assume_aligned) to speed up library implementation
+parallel.cpp(107,4):remark #34026: call to memcpy implemented as a call to optimized library version
+parallel.cpp(95,1):remark #34051: REGISTER ALLOCATION : [_Z19sendReceiveParallelPviiS_ii] parallel.cpp:95
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :    8[ rax rdx rcx rsi rdi r8-r9 r15]
+        
+    Routine temporaries
+        Total         :      29
+            Global    :       9
+            Local     :      20
+        Regenerable   :       7
+        Spilled       :       1
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :       8 bytes*
+            Reads     :       1 [9.95e-01 ~ 3.4%]
+            Writes    :       1 [1.00e+00 ~ 3.5%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: addIntParallel(int *, int *, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (addIntParallel(int *, int *, int)) [8/16=50.0%] parallel.cpp(114,1)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at parallel.cpp(118,4)
+   remark #25401: memcopy(with guard) generated
+   remark #15541: outer loop was not auto-vectorized: consider using SIMD directive
+
+   LOOP BEGIN at parallel.cpp(118,4)
+   <Multiversioned v2>
+      remark #15304: loop was not vectorized: non-vectorizable loop instance from multiversioning
+      remark #25439: unrolled with remainder by 2  
+   LOOP END
+
+   LOOP BEGIN at parallel.cpp(118,4)
+   <Remainder, Multiversioned v2>
+   LOOP END
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+parallel.cpp(119,7):remark #34014: optimization advice for memcpy: increase the destination's alignment to 16 (and use __assume_aligned) to speed up library implementation
+parallel.cpp(119,7):remark #34014: optimization advice for memcpy: increase the source's alignment to 16 (and use __assume_aligned) to speed up library implementation
+parallel.cpp(119,7):remark #34026: call to memcpy implemented as a call to optimized library version
+parallel.cpp(114,1):remark #34051: REGISTER ALLOCATION : [_Z14addIntParallelPiS_i] parallel.cpp:114
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :    9[ rax rdx rcx rsi rdi r8-r11]
+        
+    Routine temporaries
+        Total         :      36
+            Global    :      15
+            Local     :      21
+        Regenerable   :       2
+        Spilled       :       0
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: addRealParallel(real_t *, real_t *, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (addRealParallel(real_t *, real_t *, int)) [9/16=56.2%] parallel.cpp(124,1)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at parallel.cpp(128,4)
+   remark #25401: memcopy(with guard) generated
+   remark #15541: outer loop was not auto-vectorized: consider using SIMD directive
+
+   LOOP BEGIN at parallel.cpp(128,4)
+   <Multiversioned v2>
+      remark #15304: loop was not vectorized: non-vectorizable loop instance from multiversioning
+      remark #25439: unrolled with remainder by 2  
+   LOOP END
+
+   LOOP BEGIN at parallel.cpp(128,4)
+   <Remainder, Multiversioned v2>
+   LOOP END
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+parallel.cpp(129,7):remark #34014: optimization advice for memcpy: increase the destination's alignment to 16 (and use __assume_aligned) to speed up library implementation
+parallel.cpp(129,7):remark #34014: optimization advice for memcpy: increase the source's alignment to 16 (and use __assume_aligned) to speed up library implementation
+parallel.cpp(129,7):remark #34026: call to memcpy implemented as a call to optimized library version
+parallel.cpp(124,1):remark #34051: REGISTER ALLOCATION : [_Z15addRealParallelPdS_i] parallel.cpp:124
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :    9[ rax rdx rcx rsi rdi r8-r11]
+        
+    Routine temporaries
+        Total         :      36
+            Global    :      15
+            Local     :      21
+        Regenerable   :       2
+        Spilled       :       0
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: addDoubleParallel(double *, double *, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (addDoubleParallel(double *, double *, int)) [10/16=62.5%] parallel.cpp(134,1)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at parallel.cpp(138,4)
+   remark #25401: memcopy(with guard) generated
+   remark #15541: outer loop was not auto-vectorized: consider using SIMD directive
+
+   LOOP BEGIN at parallel.cpp(138,4)
+   <Multiversioned v2>
+      remark #15304: loop was not vectorized: non-vectorizable loop instance from multiversioning
+      remark #25439: unrolled with remainder by 2  
+   LOOP END
+
+   LOOP BEGIN at parallel.cpp(138,4)
+   <Remainder, Multiversioned v2>
+   LOOP END
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+parallel.cpp(139,7):remark #34014: optimization advice for memcpy: increase the destination's alignment to 16 (and use __assume_aligned) to speed up library implementation
+parallel.cpp(139,7):remark #34014: optimization advice for memcpy: increase the source's alignment to 16 (and use __assume_aligned) to speed up library implementation
+parallel.cpp(139,7):remark #34026: call to memcpy implemented as a call to optimized library version
+parallel.cpp(134,1):remark #34051: REGISTER ALLOCATION : [_Z17addDoubleParallelPdS_i] parallel.cpp:134
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :    9[ rax rdx rcx rsi rdi r8-r11]
+        
+    Routine temporaries
+        Total         :      36
+            Global    :      15
+            Local     :      21
+        Regenerable   :       2
+        Spilled       :       0
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: maxIntParallel(int *, int *, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (maxIntParallel(int *, int *, int)) [11/16=68.8%] parallel.cpp(144,1)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at parallel.cpp(148,4)
+   remark #25401: memcopy(with guard) generated
+   remark #15541: outer loop was not auto-vectorized: consider using SIMD directive
+
+   LOOP BEGIN at parallel.cpp(148,4)
+   <Multiversioned v2>
+      remark #15304: loop was not vectorized: non-vectorizable loop instance from multiversioning
+      remark #25439: unrolled with remainder by 2  
+   LOOP END
+
+   LOOP BEGIN at parallel.cpp(148,4)
+   <Remainder, Multiversioned v2>
+   LOOP END
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+parallel.cpp(149,7):remark #34014: optimization advice for memcpy: increase the destination's alignment to 16 (and use __assume_aligned) to speed up library implementation
+parallel.cpp(149,7):remark #34014: optimization advice for memcpy: increase the source's alignment to 16 (and use __assume_aligned) to speed up library implementation
+parallel.cpp(149,7):remark #34026: call to memcpy implemented as a call to optimized library version
+parallel.cpp(144,1):remark #34051: REGISTER ALLOCATION : [_Z14maxIntParallelPiS_i] parallel.cpp:144
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :    9[ rax rdx rcx rsi rdi r8-r11]
+        
+    Routine temporaries
+        Total         :      36
+            Global    :      15
+            Local     :      21
+        Regenerable   :       2
+        Spilled       :       0
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: minRankDoubleParallel(RankReduceData *, RankReduceData *, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (minRankDoubleParallel(RankReduceData *, RankReduceData *, int)) [12/16=75.0%] parallel.cpp(155,1)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at parallel.cpp(159,4)
+<Multiversioned v1>
+   remark #25228: Loop multiversioned for Data Dependence
+   remark #15416: vectorization support: non-unit strided store was generated for the variable <recvBuf->val[ii]>, stride is 2   [ parallel.cpp(161,7) ]
+   remark #15415: vectorization support: non-unit strided load was generated for the variable <sendBuf->val[ii]>, stride is 2   [ parallel.cpp(161,25) ]
+   remark #15416: vectorization support: non-unit strided store was generated for the variable <recvBuf->rank[ii]>, stride is 4   [ parallel.cpp(162,7) ]
+   remark #15415: vectorization support: non-unit strided load was generated for the variable <sendBuf->rank[ii]>, stride is 4   [ parallel.cpp(162,26) ]
+   remark #15305: vectorization support: vector length 16
+   remark #15300: LOOP WAS VECTORIZED
+   remark #15452: unmasked strided loads: 2 
+   remark #15453: unmasked strided stores: 2 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 9 
+   remark #15477: vector cost: 7.060 
+   remark #15478: estimated potential speedup: 1.190 
+   remark #15488: --- end vector cost summary ---
+LOOP END
+
+LOOP BEGIN at parallel.cpp(159,4)
+<Remainder loop for vectorization, Multiversioned v1>
+   remark #15335: remainder loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   remark #15305: vectorization support: vector length 2
+   remark #15309: vectorization support: normalized vectorization overhead 0.085
+LOOP END
+
+LOOP BEGIN at parallel.cpp(159,4)
+<Multiversioned v2>
+   remark #15304: loop was not vectorized: non-vectorizable loop instance from multiversioning
+   remark #25439: unrolled with remainder by 2  
+LOOP END
+
+LOOP BEGIN at parallel.cpp(159,4)
+<Remainder, Multiversioned v2>
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+parallel.cpp(155,1):remark #34051: REGISTER ALLOCATION : [_Z21minRankDoubleParallelP16RankReduceDataStS0_i] parallel.cpp:155
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   24[ rax rdx rcx rsi rdi r8-r11 zmm0-zmm11 k1-k3]
+        
+    Routine temporaries
+        Total         :      79
+            Global    :      32
+            Local     :      47
+        Regenerable   :       7
+        Spilled       :       0
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: maxRankDoubleParallel(RankReduceData *, RankReduceData *, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (maxRankDoubleParallel(RankReduceData *, RankReduceData *, int)) [13/16=81.2%] parallel.cpp(168,1)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at parallel.cpp(172,4)
+<Multiversioned v1>
+   remark #25228: Loop multiversioned for Data Dependence
+   remark #15416: vectorization support: non-unit strided store was generated for the variable <recvBuf->val[ii]>, stride is 2   [ parallel.cpp(174,7) ]
+   remark #15415: vectorization support: non-unit strided load was generated for the variable <sendBuf->val[ii]>, stride is 2   [ parallel.cpp(174,25) ]
+   remark #15416: vectorization support: non-unit strided store was generated for the variable <recvBuf->rank[ii]>, stride is 4   [ parallel.cpp(175,7) ]
+   remark #15415: vectorization support: non-unit strided load was generated for the variable <sendBuf->rank[ii]>, stride is 4   [ parallel.cpp(175,26) ]
+   remark #15305: vectorization support: vector length 16
+   remark #15300: LOOP WAS VECTORIZED
+   remark #15452: unmasked strided loads: 2 
+   remark #15453: unmasked strided stores: 2 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 9 
+   remark #15477: vector cost: 7.060 
+   remark #15478: estimated potential speedup: 1.190 
+   remark #15488: --- end vector cost summary ---
+LOOP END
+
+LOOP BEGIN at parallel.cpp(172,4)
+<Remainder loop for vectorization, Multiversioned v1>
+   remark #15335: remainder loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   remark #15305: vectorization support: vector length 2
+   remark #15309: vectorization support: normalized vectorization overhead 0.085
+LOOP END
+
+LOOP BEGIN at parallel.cpp(172,4)
+<Multiversioned v2>
+   remark #15304: loop was not vectorized: non-vectorizable loop instance from multiversioning
+   remark #25439: unrolled with remainder by 2  
+LOOP END
+
+LOOP BEGIN at parallel.cpp(172,4)
+<Remainder, Multiversioned v2>
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+parallel.cpp(168,1):remark #34051: REGISTER ALLOCATION : [_Z21maxRankDoubleParallelP16RankReduceDataStS0_i] parallel.cpp:168
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   24[ rax rdx rcx rsi rdi r8-r11 zmm0-zmm11 k1-k3]
+        
+    Routine temporaries
+        Total         :      79
+            Global    :      32
+            Local     :      47
+        Regenerable   :       7
+        Spilled       :       0
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: bcastParallel(void *, int, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (bcastParallel(void *, int, int)) [14/16=87.5%] parallel.cpp(182,1)
+
+
+    Report from: Code generation optimizations [cg]
+
+parallel.cpp(182,1):remark #34051: REGISTER ALLOCATION : [_Z13bcastParallelPvii] parallel.cpp:182
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :    3[ rdx rsi rdi]
+        
+    Routine temporaries
+        Total         :       9
+            Global    :       0
+            Local     :       9
+        Regenerable   :       0
+        Spilled       :       0
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: builtWithMpi()
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (builtWithMpi()) [15/16=93.8%] parallel.cpp(189,1)
+
+
+    Report from: Code generation optimizations [cg]
+
+parallel.cpp(189,1):remark #34051: REGISTER ALLOCATION : [_Z12builtWithMpiv] parallel.cpp:189
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :    1[ rax]
+        
+    Routine temporaries
+        Total         :       7
+            Global    :       0
+            Local     :       7
+        Regenerable   :       1
+        Spilled       :       0
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: initParallel(int *, char ***)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (initParallel(int *, char ***)) [16/16=100.0%] parallel.cpp(64,1)
+
+
+    Report from: Code generation optimizations [cg]
+
+parallel.cpp(64,1):remark #34051: REGISTER ALLOCATION : [_Z12initParallelPiPPPc] parallel.cpp:64
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :    2[ rsi rdi]
+        
+    Routine temporaries
+        Total         :       8
+            Global    :       0
+            Local     :       8
+        Regenerable   :       0
+        Spilled       :       0
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================

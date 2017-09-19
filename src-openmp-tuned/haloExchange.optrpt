@@ -1,0 +1,1064 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+Intel(R) C++ Intel(R) 64 Compiler for applications running on Intel(R) 64, Version 17.0.2.174 Build 20170213
+
+Compiler options: -I/opt/cray/pe/libsci/16.11.1/INTEL/15.0/mic_knl/include -I/opt/cray/pe/mpt/7.5.5/gni/mpich-intel/16.0/include -I/opt/cray/rca/2.1.8_g6cd9a1b-3.1/include -I/opt/cray/alps/6.3.4-2.21/include -I/opt/cray/xpmem/2.1.1_gf9c9084-2.38/include -I/opt/cray/gni-headers/5.0.11-2.2/include -I/opt/cray/pe/pmi/5.0.11/include -I/opt/cray/ugni/6.0.15-2.2/include -I/opt/cray/udreg/2.3.2-7.54/include -I/opt/cray/wlm_detect/1.2.1-3.10/include -I/opt/cray/krca/2.1.3_g923f58b-2.244/include -I/opt/cray-hss-devel/8.0.0/include -xmic-avx512 -static -D__CRAYXC -D__CRAY_MIC_KNL -D__CRAYXT_COMPUTE_LINUX_TARGET -std=c++11 -qopenmp -xmic-avx512 -qopt-report=5 -c -o haloExchange.o -Wl,-T/opt/cray/pe/craype/2.5.9/bin/2.25.0.craype.ld
+
+    Report from: Interprocedural optimizations [ipo]
+
+  WHOLE PROGRAM (SAFE) [EITHER METHOD]: false
+  WHOLE PROGRAM (SEEN) [TABLE METHOD]: false
+  WHOLE PROGRAM (READ) [OBJECT READER METHOD]: false
+
+INLINING OPTION VALUES:
+  -inline-factor: 100
+  -inline-min-size: 30
+  -inline-max-size: 230
+  -inline-max-total-size: 2000
+  -inline-max-per-routine: 10000
+  -inline-max-per-compile: 500000
+
+In the inlining report below:
+   "sz" refers to the "size" of the routine. The smaller a routine's size,
+      the more likely it is to be inlined.
+   "isz" refers to the "inlined size" of the routine. This is the amount
+      the calling routine will grow if the called routine is inlined into it.
+      The compiler generally limits the amount a routine can grow by having
+      routines inlined into it.
+
+Begin optimization report for: comdMalloc(size_t)
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (comdMalloc(size_t)) memUtils.h(17,1)
+
+===========================================================================
+
+Begin optimization report for: comdFree(void *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (comdFree(void *)) memUtils.h(36,1)
+
+===========================================================================
+
+Begin optimization report for: destroyHaloExchange(HaloExchange **)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (destroyHaloExchange(HaloExchange **)) [3/19=15.8%] haloExchange.cpp(248,1)
+  -> INDIRECT-: (249,4)  (*((P64.HaloExchangeSt_R_V$6*) haloExchange_425_V$51.0.5))->destroy_V$33
+     [[ Unable to inline indirect callsite  <1>]]
+  -> INLINE: (250,4) comdFree(void *) (isz = 0) (sz = 5)
+    -> EXTERN: memUtils.h:(38,2) _mm_free(void *)
+  -> INLINE: (251,4) comdFree(void *) (isz = 0) (sz = 5)
+    -> EXTERN: memUtils.h:(38,2) _mm_free(void *)
+
+
+    Report from: Code generation optimizations [cg]
+
+haloExchange.cpp(248,1):remark #34051: REGISTER ALLOCATION : [_Z19destroyHaloExchangePP14HaloExchangeSt] haloExchange.cpp:248
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :    3[ rax rdi r12]
+        
+    Routine temporaries
+        Total         :      16
+            Global    :       7
+            Local     :       9
+        Regenerable   :       0
+        Spilled       :       1
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :       8 bytes*
+            Reads     :       1 [1.00e+00 ~ 4.0%]
+            Writes    :       1 [1.00e+00 ~ 4.0%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: haloExchange(HaloExchange *, void *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (haloExchange(HaloExchange *, void *)) [4/19=21.1%] haloExchange.cpp(256,1)
+  -> INLINE: (258,7) exchangeData(HaloExchange *, void *, int) (isz = 119) (sz = 128)
+    -> INLINE: (304,29) comdMalloc(size_t) (isz = 2) (sz = 9)
+      -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+    -> INLINE: (305,29) comdMalloc(size_t) (isz = 2) (sz = 9)
+      -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+    -> INLINE: (306,29) comdMalloc(size_t) (isz = 2) (sz = 9)
+      -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+    -> INLINE: (307,29) comdMalloc(size_t) (isz = 2) (sz = 9)
+      -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+    -> INDIRECT-: (309,17)  haloExchange_430_V$57.0.8.57->loadBuffer_V$31
+       [[ Unable to inline indirect callsite  <1>]]
+    -> INDIRECT-: (310,17)  haloExchange_430_V$57.0.8.57->loadBuffer_V$31
+       [[ Unable to inline indirect callsite  <1>]]
+    -> EXTERN: (317,4) profileStart(TimerHandle)
+    -> EXTERN: (318,13) sendReceiveParallel(void *, int, int, void *, int, int)
+    -> EXTERN: (319,13) sendReceiveParallel(void *, int, int, void *, int, int)
+    -> EXTERN: (320,4) profileStop(TimerHandle)
+    -> INDIRECT-: (322,4)  haloExchange_430_V$57.0.8.57->unloadBuffer_V$32
+       [[ Unable to inline indirect callsite  <1>]]
+    -> INDIRECT-: (323,4)  haloExchange_430_V$57.0.8.57->unloadBuffer_V$32
+       [[ Unable to inline indirect callsite  <1>]]
+    -> INLINE: (324,4) comdFree(void *) (isz = 0) (sz = 5)
+      -> EXTERN: memUtils.h:(38,2) _mm_free(void *)
+    -> INLINE: (325,4) comdFree(void *) (isz = 0) (sz = 5)
+      -> EXTERN: memUtils.h:(38,2) _mm_free(void *)
+    -> INLINE: (326,4) comdFree(void *) (isz = 0) (sz = 5)
+      -> EXTERN: memUtils.h:(38,2) _mm_free(void *)
+    -> INLINE: (327,4) comdFree(void *) (isz = 0) (sz = 5)
+      -> EXTERN: memUtils.h:(38,2) _mm_free(void *)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+
+Non-optimizable loops:
+
+
+LOOP BEGIN at haloExchange.cpp(257,4)
+   remark #15532: loop was not vectorized: compile time constraints prevent loop optimization. Consider using -O3.
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+haloExchange.cpp(256,1):remark #34051: REGISTER ALLOCATION : [_Z12haloExchangeP14HaloExchangeStPv] haloExchange.cpp:256
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   13[ rax rdx rcx rbx rbp rsi rdi r8-r9 r12-r15]
+        
+    Routine temporaries
+        Total         :      91
+            Global    :      29
+            Local     :      62
+        Regenerable   :       8
+        Spilled       :      15
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :     120 bytes*
+            Reads     :      24 [6.00e+01 ~ 20.7%]
+            Writes    :      15 [3.10e+01 ~ 10.7%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: exchangeData(HaloExchange *, void *, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (exchangeData(HaloExchange *, void *, int)) haloExchange.cpp(287,1)
+
+===========================================================================
+
+Begin optimization report for: mkAtomCellList(LinkCell *, HaloFaceOrder, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (mkAtomCellList(LinkCell *, HaloFaceOrder, int)) haloExchange.cpp(350,1)
+
+===========================================================================
+
+Begin optimization report for: loadAtomsBuffer(void *, void *, int, char *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (loadAtomsBuffer(void *, void *, int, char *)) [7/19=36.8%] haloExchange.cpp(383,1)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+
+Non-optimizable loops:
+
+
+LOOP BEGIN at haloExchange.cpp(397,4)
+   remark #15536: loop was not vectorized: inner loop throttling prevents vectorization of this outer loop. Refer to inner loop message for more details.   [ haloExchange.cpp(401,7) ]
+
+   LOOP BEGIN at haloExchange.cpp(401,7)
+      remark #15523: loop was not vectorized: loop control variable ii was found, but loop iteration count cannot be computed before executing the loop
+   LOOP END
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+haloExchange.cpp(383,1):remark #34051: REGISTER ALLOCATION : [_ZN38_INTERNAL_16_haloExchange_cpp_95f8d53215loadAtomsBufferEPvS0_iPc] haloExchange.cpp:383
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   24[ rax rdx rcx rbx rbp rsi rdi r8-r15 zmm0-zmm8]
+        
+    Routine temporaries
+        Total         :      61
+            Global    :      29
+            Local     :      32
+        Regenerable   :       0
+        Spilled       :      11
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :      88 bytes*
+            Reads     :      12 [2.88e+01 ~ 3.3%]
+            Writes    :      13 [2.97e+01 ~ 3.4%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: unloadAtomsBuffer(void *, void *, int, int, char *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (unloadAtomsBuffer(void *, void *, int, int, char *)) [8/19=42.1%] haloExchange.cpp(428,1)
+  -> EXTERN: (433,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+  -> EXTERN: (445,7) putAtomInBox(LinkCell *, AtomsSt *, int, int, real_t, real_t, real_t, real_t, real_t, real_t)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+
+Non-optimizable loops:
+
+
+LOOP BEGIN at haloExchange.cpp(435,4)
+   remark #15543: loop was not vectorized: loop with function call not considered an optimization candidate.
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+haloExchange.cpp(428,1):remark #34051: REGISTER ALLOCATION : [_ZN38_INTERNAL_16_haloExchange_cpp_95f8d53217unloadAtomsBufferEPvS0_iiPc] haloExchange.cpp:428
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   20[ rax rdx rcx rbx rsi rdi r8-r15 zmm0-zmm5]
+        
+    Routine temporaries
+        Total         :      55
+            Global    :      11
+            Local     :      44
+        Regenerable   :       8
+        Spilled       :       5
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :      40 bytes*
+            Reads     :       5 [4.48e+00 ~ 3.6%]
+            Writes    :       5 [4.48e+00 ~ 3.6%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: destroyAtomsExchange(void *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (destroyAtomsExchange(void *)) [9/19=47.4%] haloExchange.cpp(450,1)
+  -> INLINE: (455,7) comdFree(void *) (isz = 0) (sz = 5)
+    -> EXTERN: memUtils.h:(38,2) _mm_free(void *)
+  -> INLINE: (456,7) comdFree(void *) (isz = 0) (sz = 5)
+    -> EXTERN: memUtils.h:(38,2) _mm_free(void *)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at haloExchange.cpp(453,15)
+   remark #15382: vectorization support: call to function _mm_free(void *) cannot be vectorized   [ memUtils.h(38,2) ]
+   remark #15382: vectorization support: call to function _mm_free(void *) cannot be vectorized   [ memUtils.h(38,2) ]
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization
+   remark #15346: vector dependence: assumed OUTPUT dependence between call:_mm_free(void *) (38:2) and call:_mm_free(void *) (38:2)
+   remark #15346: vector dependence: assumed OUTPUT dependence between call:_mm_free(void *) (38:2) and call:_mm_free(void *) (38:2)
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+haloExchange.cpp(450,1):remark #34051: REGISTER ALLOCATION : [_ZN38_INTERNAL_16_haloExchange_cpp_95f8d53220destroyAtomsExchangeEPv] haloExchange.cpp:450
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :    4[ rax rdi r12-r13]
+        
+    Routine temporaries
+        Total         :      13
+            Global    :       8
+            Local     :       5
+        Regenerable   :       0
+        Spilled       :       2
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :      16 bytes*
+            Reads     :       2 [2.00e+00 ~ 3.2%]
+            Writes    :       2 [2.00e+00 ~ 3.2%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: mkForceSendCellList(LinkCell *, int, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (mkForceSendCellList(LinkCell *, int, int)) haloExchange.cpp(468,1)
+
+===========================================================================
+
+Begin optimization report for: mkForceRecvCellList(LinkCell *, int, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (mkForceRecvCellList(LinkCell *, int, int)) haloExchange.cpp(517,1)
+
+===========================================================================
+
+Begin optimization report for: loadForceBuffer(void *, void *, int, char *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (loadForceBuffer(void *, void *, int, char *)) [12/19=63.2%] haloExchange.cpp(565,1)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at haloExchange.cpp(573,4)
+   remark #25096: Loop Interchange not done due to: Imperfect Loop Nest (Either at Source or due to other Compiler Transformations)
+   remark #25452: Original Order found to be proper, but by a close margin
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+   remark #25015: Estimate of max trip count of loop=6
+
+   LOOP BEGIN at haloExchange.cpp(577,7)
+   <Peeled loop for vectorization>
+      remark #15389: vectorization support: reference charBuf->dfEmbed[nBuf] has unaligned access   [ haloExchange.cpp(579,10) ]
+      remark #15389: vectorization support: reference vdata->dfEmbed[ii] has unaligned access   [ haloExchange.cpp(579,30) ]
+      remark #15381: vectorization support: unaligned access used inside loop body
+      remark #15305: vectorization support: vector length 8
+      remark #15309: vectorization support: normalized vectorization overhead 1.812
+      remark #15301: PEEL LOOP WAS VECTORIZED
+      remark #25015: Estimate of max trip count of loop=1
+   LOOP END
+
+   LOOP BEGIN at haloExchange.cpp(577,7)
+      remark #15389: vectorization support: reference charBuf->dfEmbed[nBuf] has unaligned access   [ haloExchange.cpp(579,10) ]
+      remark #15389: vectorization support: reference vdata->dfEmbed[ii] has unaligned access   [ haloExchange.cpp(579,30) ]
+      remark #15381: vectorization support: unaligned access used inside loop body
+      remark #15305: vectorization support: vector length 16
+      remark #15309: vectorization support: normalized vectorization overhead 1.750
+      remark #15300: LOOP WAS VECTORIZED
+      remark #15450: unmasked unaligned unit stride loads: 1 
+      remark #15451: unmasked unaligned unit stride stores: 1 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 6 
+      remark #15477: vector cost: 0.500 
+      remark #15478: estimated potential speedup: 9.470 
+      remark #15488: --- end vector cost summary ---
+   LOOP END
+
+   LOOP BEGIN at haloExchange.cpp(577,7)
+   <Remainder loop for vectorization>
+      remark #15389: vectorization support: reference charBuf->dfEmbed[nBuf] has unaligned access   [ haloExchange.cpp(579,10) ]
+      remark #15389: vectorization support: reference vdata->dfEmbed[ii] has unaligned access   [ haloExchange.cpp(579,30) ]
+      remark #15381: vectorization support: unaligned access used inside loop body
+      remark #15305: vectorization support: vector length 8
+      remark #15309: vectorization support: normalized vectorization overhead 1.812
+      remark #15301: REMAINDER LOOP WAS VECTORIZED
+   LOOP END
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+haloExchange.cpp(565,1):remark #34051: REGISTER ALLOCATION : [_ZN38_INTERNAL_16_haloExchange_cpp_95f8d53215loadForceBufferEPvS0_iPc] haloExchange.cpp:565
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   21[ rax rdx rcx rbx rsi rdi r8-r15 zmm0-zmm4 k1-k2]
+        
+    Routine temporaries
+        Total         :      89
+            Global    :      43
+            Local     :      46
+        Regenerable   :       6
+        Spilled       :       9
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :      72 bytes*
+            Reads     :       9 [2.40e+01 ~ 2.3%]
+            Writes    :       9 [8.10e+00 ~ 0.8%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: unloadForceBuffer(void *, void *, int, int, char *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (unloadForceBuffer(void *, void *, int, int, char *)) [13/19=68.4%] haloExchange.cpp(593,1)
+  -> EXTERN: (597,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+  -> EXTERN: (612,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at haloExchange.cpp(602,4)
+   remark #25096: Loop Interchange not done due to: Imperfect Loop Nest (Either at Source or due to other Compiler Transformations)
+   remark #25452: Original Order found to be proper, but by a close margin
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+   remark #25015: Estimate of max trip count of loop=6
+
+   LOOP BEGIN at haloExchange.cpp(606,7)
+   <Peeled loop for vectorization>
+      remark #15389: vectorization support: reference vdata->dfEmbed[ii] has unaligned access   [ haloExchange.cpp(608,10) ]
+      remark #15389: vectorization support: reference charBuf->dfEmbed[iBuf] has unaligned access   [ haloExchange.cpp(608,30) ]
+      remark #15381: vectorization support: unaligned access used inside loop body
+      remark #15305: vectorization support: vector length 8
+      remark #15309: vectorization support: normalized vectorization overhead 1.812
+      remark #15301: PEEL LOOP WAS VECTORIZED
+      remark #25015: Estimate of max trip count of loop=1
+   LOOP END
+
+   LOOP BEGIN at haloExchange.cpp(606,7)
+      remark #15389: vectorization support: reference vdata->dfEmbed[ii] has unaligned access   [ haloExchange.cpp(608,10) ]
+      remark #15389: vectorization support: reference charBuf->dfEmbed[iBuf] has unaligned access   [ haloExchange.cpp(608,30) ]
+      remark #15381: vectorization support: unaligned access used inside loop body
+      remark #15305: vectorization support: vector length 16
+      remark #15309: vectorization support: normalized vectorization overhead 1.750
+      remark #15300: LOOP WAS VECTORIZED
+      remark #15442: entire loop may be executed in remainder
+      remark #15450: unmasked unaligned unit stride loads: 1 
+      remark #15451: unmasked unaligned unit stride stores: 1 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 6 
+      remark #15477: vector cost: 0.500 
+      remark #15478: estimated potential speedup: 9.470 
+      remark #15488: --- end vector cost summary ---
+   LOOP END
+
+   LOOP BEGIN at haloExchange.cpp(606,7)
+   <Remainder loop for vectorization>
+      remark #15389: vectorization support: reference vdata->dfEmbed[ii] has unaligned access   [ haloExchange.cpp(608,10) ]
+      remark #15389: vectorization support: reference charBuf->dfEmbed[iBuf] has unaligned access   [ haloExchange.cpp(608,30) ]
+      remark #15381: vectorization support: unaligned access used inside loop body
+      remark #15305: vectorization support: vector length 8
+      remark #15309: vectorization support: normalized vectorization overhead 1.812
+      remark #15301: REMAINDER LOOP WAS VECTORIZED
+   LOOP END
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+haloExchange.cpp(593,1):remark #34051: REGISTER ALLOCATION : [_ZN38_INTERNAL_16_haloExchange_cpp_95f8d53217unloadForceBufferEPvS0_iiPc] haloExchange.cpp:593
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   21[ rax rdx rcx rbx rsi rdi r8-r15 zmm0-zmm4 k1-k2]
+        
+    Routine temporaries
+        Total         :     106
+            Global    :      46
+            Local     :      60
+        Regenerable   :      20
+        Spilled       :      10
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :      80 bytes*
+            Reads     :      10 [2.48e+01 ~ 2.4%]
+            Writes    :      10 [8.96e+00 ~ 0.9%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: destroyForceExchange(void *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (destroyForceExchange(void *)) [14/19=73.7%] haloExchange.cpp(616,1)
+  -> INLINE: (621,7) comdFree(void *) (isz = 0) (sz = 5)
+    -> EXTERN: memUtils.h:(38,2) _mm_free(void *)
+  -> INLINE: (622,7) comdFree(void *) (isz = 0) (sz = 5)
+    -> EXTERN: memUtils.h:(38,2) _mm_free(void *)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at haloExchange.cpp(619,15)
+   remark #15382: vectorization support: call to function _mm_free(void *) cannot be vectorized   [ memUtils.h(38,2) ]
+   remark #15382: vectorization support: call to function _mm_free(void *) cannot be vectorized   [ memUtils.h(38,2) ]
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization
+   remark #15346: vector dependence: assumed OUTPUT dependence between call:_mm_free(void *) (38:2) and call:_mm_free(void *) (38:2)
+   remark #15346: vector dependence: assumed OUTPUT dependence between call:_mm_free(void *) (38:2) and call:_mm_free(void *) (38:2)
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+haloExchange.cpp(616,1):remark #34051: REGISTER ALLOCATION : [_ZN38_INTERNAL_16_haloExchange_cpp_95f8d53220destroyForceExchangeEPv] haloExchange.cpp:616
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :    4[ rax rdi r12-r13]
+        
+    Routine temporaries
+        Total         :      13
+            Global    :       8
+            Local     :       5
+        Regenerable   :       0
+        Spilled       :       2
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :      16 bytes*
+            Reads     :       2 [2.00e+00 ~ 3.2%]
+            Writes    :       2 [2.00e+00 ~ 3.2%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: sortAtomsInCell(Atoms *, LinkCell *, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (sortAtomsInCell(Atoms *, LinkCell *, int)) [15/19=78.9%] haloExchange.cpp(635,1)
+  -> EXTERN: (638,12) _vla_alloc(long)
+  -> EXTERN: (653,4) qsort(void *, size_t, size_t, __compar_fn_t)
+  -> EXTERN: (664,4) _vla_free(void *, long)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at haloExchange.cpp(642,4)
+<Peeled loop for vectorization>
+   remark #15389: vectorization support: reference atoms->gid[ii] has unaligned access   [ haloExchange.cpp(644,24) ]
+   remark #15389: vectorization support: reference atoms->iSpecies[ii] has unaligned access   [ haloExchange.cpp(645,24) ]
+   remark #15389: vectorization support: reference atoms->r_0[ii] has unaligned access   [ haloExchange.cpp(646,24) ]
+   remark #15389: vectorization support: reference atoms->r_1[ii] has unaligned access   [ haloExchange.cpp(647,24) ]
+   remark #15389: vectorization support: reference atoms->r_2[ii] has unaligned access   [ haloExchange.cpp(648,24) ]
+   remark #15381: vectorization support: unaligned access used inside loop body
+   remark #15335: peel loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   remark #15305: vectorization support: vector length 2
+   remark #15309: vectorization support: normalized vectorization overhead 0.062
+   remark #25015: Estimate of max trip count of loop=15
+LOOP END
+
+LOOP BEGIN at haloExchange.cpp(642,4)
+   remark #15389: vectorization support: reference atoms->gid[ii] has unaligned access   [ haloExchange.cpp(644,24) ]
+   remark #15389: vectorization support: reference atoms->iSpecies[ii] has unaligned access   [ haloExchange.cpp(645,24) ]
+   remark #15389: vectorization support: reference atoms->r_0[ii] has unaligned access   [ haloExchange.cpp(646,24) ]
+   remark #15389: vectorization support: reference atoms->r_1[ii] has unaligned access   [ haloExchange.cpp(647,24) ]
+   remark #15388: vectorization support: reference atoms->r_2[ii] has aligned access   [ haloExchange.cpp(648,24) ]
+   remark #15381: vectorization support: unaligned access used inside loop body
+   remark #15416: vectorization support: non-unit strided store was generated for the variable <tmp[iTmp]>, stride is 14   [ haloExchange.cpp(644,7) ]
+   remark #15416: vectorization support: non-unit strided store was generated for the variable <tmp[iTmp]>, stride is 14   [ haloExchange.cpp(645,7) ]
+   remark #15416: vectorization support: non-unit strided store was generated for the variable <tmp[iTmp]>, stride is 7   [ haloExchange.cpp(646,7) ]
+   remark #15416: vectorization support: non-unit strided store was generated for the variable <tmp[iTmp]>, stride is 7   [ haloExchange.cpp(647,7) ]
+   remark #15416: vectorization support: non-unit strided store was generated for the variable <tmp[iTmp]>, stride is 7   [ haloExchange.cpp(648,7) ]
+   remark #15416: vectorization support: non-unit strided store was generated for the variable <tmp[iTmp]>, stride is 7   [ haloExchange.cpp(649,7) ]
+   remark #15415: vectorization support: non-unit strided load was generated for the variable <atoms->p[ii][0]>, stride is 3   [ haloExchange.cpp(649,24) ]
+   remark #15416: vectorization support: non-unit strided store was generated for the variable <tmp[iTmp]>, stride is 7   [ haloExchange.cpp(650,7) ]
+   remark #15415: vectorization support: non-unit strided load was generated for the variable <atoms->p[ii][1]>, stride is 3   [ haloExchange.cpp(650,24) ]
+   remark #15416: vectorization support: non-unit strided store was generated for the variable <tmp[iTmp]>, stride is 7   [ haloExchange.cpp(651,7) ]
+   remark #15415: vectorization support: non-unit strided load was generated for the variable <atoms->p[ii][2]>, stride is 3   [ haloExchange.cpp(651,24) ]
+   remark #15305: vectorization support: vector length 16
+   remark #15309: vectorization support: normalized vectorization overhead 0.055
+   remark #15300: LOOP WAS VECTORIZED
+   remark #15442: entire loop may be executed in remainder
+   remark #15448: unmasked aligned unit stride loads: 1 
+   remark #15450: unmasked unaligned unit stride loads: 4 
+   remark #15452: unmasked strided loads: 3 
+   remark #15453: unmasked strided stores: 8 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 32 
+   remark #15477: vector cost: 25.120 
+   remark #15478: estimated potential speedup: 1.080 
+   remark #15488: --- end vector cost summary ---
+LOOP END
+
+LOOP BEGIN at haloExchange.cpp(642,4)
+<Remainder loop for vectorization>
+   remark #15389: vectorization support: reference atoms->gid[ii] has unaligned access   [ haloExchange.cpp(644,24) ]
+   remark #15389: vectorization support: reference atoms->iSpecies[ii] has unaligned access   [ haloExchange.cpp(645,24) ]
+   remark #15389: vectorization support: reference atoms->r_0[ii] has unaligned access   [ haloExchange.cpp(646,24) ]
+   remark #15389: vectorization support: reference atoms->r_1[ii] has unaligned access   [ haloExchange.cpp(647,24) ]
+   remark #15389: vectorization support: reference atoms->r_2[ii] has unaligned access   [ haloExchange.cpp(648,24) ]
+   remark #15381: vectorization support: unaligned access used inside loop body
+   remark #15335: remainder loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   remark #15305: vectorization support: vector length 2
+   remark #15309: vectorization support: normalized vectorization overhead 0.062
+LOOP END
+
+LOOP BEGIN at haloExchange.cpp(654,4)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization
+   remark #15346: vector dependence: assumed OUTPUT dependence between atoms->gid[ii] (656:7) and atoms->iSpecies[ii] (657:7)
+   remark #15346: vector dependence: assumed OUTPUT dependence between atoms->iSpecies[ii] (657:7) and atoms->gid[ii] (656:7)
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+haloExchange.cpp(645,7):remark #34033: adjacent sparse (strided) stores are not optimized. Details: stride { 56 }, types { SI32-V512, SI32-V512 }, number of elements { 16 }, select mask { 0x000000003 }.
+haloExchange.cpp(649,24):remark #34030: adjacent sparse (strided) loads optimized for speed. Details: stride { 24 }, types { F64-V512, F64-V512, F64-V512 }, number of elements { 8 }, select mask { 0x000000007 }.
+haloExchange.cpp(649,24):remark #34030: adjacent sparse (strided) loads optimized for speed. Details: stride { 24 }, types { F64-V512, F64-V512, F64-V512 }, number of elements { 8 }, select mask { 0x000000007 }.
+haloExchange.cpp(635,1):remark #34051: REGISTER ALLOCATION : [_Z15sortAtomsInCellP7AtomsStP10LinkCellSti] haloExchange.cpp:635
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   42[ rax rdx rcx rsi rdi r8-r15 zmm0-zmm21 k1-k7]
+        
+    Routine temporaries
+        Total         :     171
+            Global    :      66
+            Local     :     105
+        Regenerable   :      13
+        Spilled       :      31
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :     240 bytes*
+            Reads     :      45 [4.11e+01 ~ 4.3%]
+            Writes    :      39 [3.65e+01 ~ 3.8%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: sortAtomsById(const void *, const void *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (sortAtomsById(const void *, const void *)) [16/19=84.2%] haloExchange.cpp(674,1)
+  -> EXTERN: (677,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+
+
+    Report from: Code generation optimizations [cg]
+
+haloExchange.cpp(674,1):remark #34051: REGISTER ALLOCATION : [_ZN38_INTERNAL_16_haloExchange_cpp_95f8d53213sortAtomsByIdEPKvS1_] haloExchange.cpp:674
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :    5[ rax rdx rcx rsi rdi]
+        
+    Routine temporaries
+        Total         :      22
+            Global    :       6
+            Local     :      16
+        Regenerable   :       9
+        Spilled       :       0
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: initHaloExchange(Domain *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (initHaloExchange(Domain *)) haloExchange.cpp(263,1)
+
+===========================================================================
+
+Begin optimization report for: initForceHaloExchange(Domain *, LinkCell *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (initForceHaloExchange(Domain *, LinkCell *)) [18/19=94.7%] haloExchange.cpp(214,1)
+  -> INLINE: (215,23) initHaloExchange(Domain *) (isz = 61) (sz = 68)
+    -> INLINE: (264,39) comdMalloc(size_t) (isz = 2) (sz = 9)
+      -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+    -> EXTERN: (267,32) processorNum(Domain *, int, int, int)
+    -> EXTERN: (268,32) processorNum(Domain *, int, int, int)
+    -> EXTERN: (269,32) processorNum(Domain *, int, int, int)
+    -> EXTERN: (270,32) processorNum(Domain *, int, int, int)
+    -> EXTERN: (271,32) processorNum(Domain *, int, int, int)
+    -> EXTERN: (272,32) processorNum(Domain *, int, int, int)
+  -> INLINE: (228,54) comdMalloc(size_t) (isz = 2) (sz = 9)
+    -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+  -> INLINE: (239,30) mkForceSendCellList(LinkCell *, int, int) (isz = 178) (sz = 189)
+    -> INLINE: (469,23) comdMalloc(size_t) (isz = 2) (sz = 9)
+      -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+    -> EXTERN: (496,7) __assert_fail(const char *, const char *, unsigned int, const char *)
+    -> EXTERN: (503,29) getBoxFromTuple(LinkCell *, int, int, int)
+    -> EXTERN: (505,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+  -> INLINE: (240,30) mkForceRecvCellList(LinkCell *, int, int) (isz = 178) (sz = 189)
+    -> INLINE: (518,23) comdMalloc(size_t) (isz = 2) (sz = 9)
+      -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+    -> EXTERN: (545,7) __assert_fail(const char *, const char *, unsigned int, const char *)
+    -> EXTERN: (552,29) getBoxFromTuple(LinkCell *, int, int, int)
+    -> EXTERN: (554,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+
+Non-optimizable loops:
+
+
+LOOP BEGIN at haloExchange.cpp(237,4)
+   remark #15522: loop was not vectorized: loop control flow is too complex. Try using canonical loop form from OpenMP specification
+
+   LOOP BEGIN at haloExchange.cpp(500,4) inlined into haloExchange.cpp(239,30)
+      remark #15543: loop was not vectorized: loop with function call not considered an optimization candidate.
+
+      LOOP BEGIN at haloExchange.cpp(501,7) inlined into haloExchange.cpp(239,30)
+         remark #15543: loop was not vectorized: loop with function call not considered an optimization candidate.
+
+         LOOP BEGIN at haloExchange.cpp(502,10) inlined into haloExchange.cpp(239,30)
+            remark #15543: loop was not vectorized: loop with function call not considered an optimization candidate.
+         LOOP END
+      LOOP END
+   LOOP END
+
+   LOOP BEGIN at haloExchange.cpp(549,4) inlined into haloExchange.cpp(240,30)
+      remark #15543: loop was not vectorized: loop with function call not considered an optimization candidate.
+
+      LOOP BEGIN at haloExchange.cpp(550,7) inlined into haloExchange.cpp(240,30)
+         remark #15543: loop was not vectorized: loop with function call not considered an optimization candidate.
+
+         LOOP BEGIN at haloExchange.cpp(551,10) inlined into haloExchange.cpp(240,30)
+            remark #15543: loop was not vectorized: loop with function call not considered an optimization candidate.
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+haloExchange.cpp(214,1):remark #34051: REGISTER ALLOCATION : [_Z21initForceHaloExchangeP8DomainStP10LinkCellSt] haloExchange.cpp:214
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   13[ rax rdx rcx rbx rbp rsi rdi r8-r9 r12-r15]
+        
+    Routine temporaries
+        Total         :     148
+            Global    :      56
+            Local     :      92
+        Regenerable   :      53
+        Spilled       :      21
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :     168 bytes*
+            Reads     :      27 [2.10e+03 ~ 11.6%]
+            Writes    :      25 [6.74e+02 ~ 3.7%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: initAtomHaloExchange(Domain *, LinkCell *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (initAtomHaloExchange(Domain *, LinkCell *)) [19/19=100.0%] haloExchange.cpp(145,1)
+  -> INLINE: (146,23) initHaloExchange(Domain *) (isz = 61) (sz = 68)
+    -> INLINE: (264,39) comdMalloc(size_t) (isz = 2) (sz = 9)
+      -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+    -> EXTERN: (267,32) processorNum(Domain *, int, int, int)
+    -> EXTERN: (268,32) processorNum(Domain *, int, int, int)
+    -> EXTERN: (269,32) processorNum(Domain *, int, int, int)
+    -> EXTERN: (270,32) processorNum(Domain *, int, int, int)
+    -> EXTERN: (271,32) processorNum(Domain *, int, int, int)
+    -> EXTERN: (272,32) processorNum(Domain *, int, int, int)
+  -> INLINE: (159,52) comdMalloc(size_t) (isz = 2) (sz = 9)
+    -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+  -> INLINE: (170,25) mkAtomCellList(LinkCell *, HaloFaceOrder, int) (isz = 107) (sz = 118)
+    -> INLINE: (351,23) comdMalloc(size_t) (isz = 2) (sz = 9)
+      -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+    -> EXTERN: (370,29) getBoxFromTuple(LinkCell *, int, int, int)
+    -> EXTERN: (371,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+  -> INLINE: (171,25) mkAtomCellList(LinkCell *, HaloFaceOrder, int) (isz = 107) (sz = 118)
+    -> INLINE: (351,23) comdMalloc(size_t) (isz = 2) (sz = 9)
+      -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+    -> EXTERN: (370,29) getBoxFromTuple(LinkCell *, int, int, int)
+    -> EXTERN: (371,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+  -> INLINE: (172,25) mkAtomCellList(LinkCell *, HaloFaceOrder, int) (isz = 107) (sz = 118)
+    -> INLINE: (351,23) comdMalloc(size_t) (isz = 2) (sz = 9)
+      -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+    -> EXTERN: (370,29) getBoxFromTuple(LinkCell *, int, int, int)
+    -> EXTERN: (371,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+  -> INLINE: (173,25) mkAtomCellList(LinkCell *, HaloFaceOrder, int) (isz = 107) (sz = 118)
+    -> INLINE: (351,23) comdMalloc(size_t) (isz = 2) (sz = 9)
+      -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+    -> EXTERN: (370,29) getBoxFromTuple(LinkCell *, int, int, int)
+    -> EXTERN: (371,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+  -> INLINE: (174,25) mkAtomCellList(LinkCell *, HaloFaceOrder, int) (isz = 107) (sz = 118)
+    -> INLINE: (351,23) comdMalloc(size_t) (isz = 2) (sz = 9)
+      -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+    -> EXTERN: (370,29) getBoxFromTuple(LinkCell *, int, int, int)
+    -> EXTERN: (371,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+  -> INLINE: (175,25) mkAtomCellList(LinkCell *, HaloFaceOrder, int) (isz = 107) (sz = 118)
+    -> INLINE: (351,23) comdMalloc(size_t) (isz = 2) (sz = 9)
+      -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+    -> EXTERN: (370,29) getBoxFromTuple(LinkCell *, int, int, int)
+    -> EXTERN: (371,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+  -> INLINE: (181,40) comdMalloc(size_t) (isz = 2) (sz = 9)
+    -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at haloExchange.cpp(368,7) inlined into haloExchange.cpp(172,25)
+   remark #15541: outer loop was not auto-vectorized: consider using SIMD directive
+
+   LOOP BEGIN at haloExchange.cpp(369,10) inlined into haloExchange.cpp(172,25)
+      remark #15382: vectorization support: call to function getBoxFromTuple(LinkCell *, int, int, int) cannot be vectorized   [ haloExchange.cpp(370,29) ]
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization
+      remark #25456: Number of Array Refs Scalar Replaced In Loop: 1
+   LOOP END
+LOOP END
+
+LOOP BEGIN at haloExchange.cpp(369,10) inlined into haloExchange.cpp(174,25)
+   remark #15382: vectorization support: call to function getBoxFromTuple(LinkCell *, int, int, int) cannot be vectorized   [ haloExchange.cpp(370,29) ]
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization
+   remark #25456: Number of Array Refs Scalar Replaced In Loop: 1
+LOOP END
+
+LOOP BEGIN at haloExchange.cpp(179,15)
+   remark #25096: Loop Interchange not done due to: Imperfect Loop Nest (Either at Source or due to other Compiler Transformations)
+   remark #25451: Advice: Loop Interchange, if possible, might help loopnest. Suggested Permutation : ( 1 2 ) --> ( 2 1 ) 
+   remark #15541: outer loop was not auto-vectorized: consider using SIMD directive
+   remark #25436: completely unrolled by 6  
+
+   LOOP BEGIN at haloExchange.cpp(182,7)
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization
+      remark #15346: vector dependence: assumed FLOW dependence between parms->pbcFactor[ii][jj] (183:10) and parms->pbcFactor[ii] (183:10)
+      remark #15346: vector dependence: assumed ANTI dependence between parms->pbcFactor[ii] (183:10) and parms->pbcFactor[ii][jj] (183:10)
+      remark #25436: completely unrolled by 3  
+   LOOP END
+
+   LOOP BEGIN at haloExchange.cpp(182,7)
+   LOOP END
+
+   LOOP BEGIN at haloExchange.cpp(182,7)
+   LOOP END
+
+   LOOP BEGIN at haloExchange.cpp(182,7)
+   LOOP END
+
+   LOOP BEGIN at haloExchange.cpp(182,7)
+   LOOP END
+
+   LOOP BEGIN at haloExchange.cpp(182,7)
+   LOOP END
+LOOP END
+
+
+Non-optimizable loops:
+
+
+LOOP BEGIN at haloExchange.cpp(367,4) inlined into haloExchange.cpp(170,25)
+   remark #15532: loop was not vectorized: compile time constraints prevent loop optimization. Consider using -O3.
+
+   LOOP BEGIN at haloExchange.cpp(368,7) inlined into haloExchange.cpp(170,25)
+      remark #15543: loop was not vectorized: loop with function call not considered an optimization candidate.
+
+      LOOP BEGIN at haloExchange.cpp(369,10) inlined into haloExchange.cpp(170,25)
+         remark #15543: loop was not vectorized: loop with function call not considered an optimization candidate.
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at haloExchange.cpp(367,4) inlined into haloExchange.cpp(171,25)
+   remark #15543: loop was not vectorized: loop with function call not considered an optimization candidate.
+
+   LOOP BEGIN at haloExchange.cpp(368,7) inlined into haloExchange.cpp(171,25)
+      remark #15543: loop was not vectorized: loop with function call not considered an optimization candidate.
+
+      LOOP BEGIN at haloExchange.cpp(369,10) inlined into haloExchange.cpp(171,25)
+         remark #15543: loop was not vectorized: loop with function call not considered an optimization candidate.
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at haloExchange.cpp(367,4) inlined into haloExchange.cpp(172,25)
+   remark #15543: loop was not vectorized: loop with function call not considered an optimization candidate.
+LOOP END
+
+LOOP BEGIN at haloExchange.cpp(367,4) inlined into haloExchange.cpp(173,25)
+   remark #15543: loop was not vectorized: loop with function call not considered an optimization candidate.
+
+   LOOP BEGIN at haloExchange.cpp(368,7) inlined into haloExchange.cpp(173,25)
+      remark #15543: loop was not vectorized: loop with function call not considered an optimization candidate.
+
+      LOOP BEGIN at haloExchange.cpp(369,10) inlined into haloExchange.cpp(173,25)
+         remark #15543: loop was not vectorized: loop with function call not considered an optimization candidate.
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at haloExchange.cpp(367,4) inlined into haloExchange.cpp(174,25)
+   remark #15543: loop was not vectorized: loop with function call not considered an optimization candidate.
+
+   LOOP BEGIN at haloExchange.cpp(368,7) inlined into haloExchange.cpp(174,25)
+      remark #15543: loop was not vectorized: loop with function call not considered an optimization candidate.
+   LOOP END
+LOOP END
+
+LOOP BEGIN at haloExchange.cpp(367,4) inlined into haloExchange.cpp(175,25)
+   remark #15543: loop was not vectorized: loop with function call not considered an optimization candidate.
+
+   LOOP BEGIN at haloExchange.cpp(368,7) inlined into haloExchange.cpp(175,25)
+      remark #15543: loop was not vectorized: loop with function call not considered an optimization candidate.
+
+      LOOP BEGIN at haloExchange.cpp(369,10) inlined into haloExchange.cpp(175,25)
+         remark #15543: loop was not vectorized: loop with function call not considered an optimization candidate.
+      LOOP END
+   LOOP END
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+haloExchange.cpp(145,1):remark #34051: REGISTER ALLOCATION : [_Z20initAtomHaloExchangeP8DomainStP10LinkCellSt] haloExchange.cpp:145
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   14[ rax rdx rcx rbx rbp rsi rdi r8-r9 r12-r15 zmm0]
+        
+    Routine temporaries
+        Total         :     299
+            Global    :     117
+            Local     :     182
+        Regenerable   :      91
+        Spilled       :      28
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :     224 bytes*
+            Reads     :      56 [8.26e+02 ~ 9.0%]
+            Writes    :      52 [1.93e+02 ~ 2.1%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINING FOOTNOTES:
+
+<1> The indirectly called function must be resolved to its targets before it 
+can be inlined.  Consider compiling with -ipo or -prof-gen followed by 
+-prof-use.
+

@@ -1,0 +1,695 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+Intel(R) C++ Intel(R) 64 Compiler for applications running on Intel(R) 64, Version 17.0.2.174 Build 20170213
+
+Compiler options: -I/opt/cray/pe/libsci/16.11.1/INTEL/15.0/mic_knl/include -I/opt/cray/pe/mpt/7.5.5/gni/mpich-intel/16.0/include -I/opt/cray/rca/2.1.8_g6cd9a1b-3.1/include -I/opt/cray/alps/6.3.4-2.21/include -I/opt/cray/xpmem/2.1.1_gf9c9084-2.38/include -I/opt/cray/gni-headers/5.0.11-2.2/include -I/opt/cray/pe/pmi/5.0.11/include -I/opt/cray/ugni/6.0.15-2.2/include -I/opt/cray/udreg/2.3.2-7.54/include -I/opt/cray/wlm_detect/1.2.1-3.10/include -I/opt/cray/krca/2.1.3_g923f58b-2.244/include -I/opt/cray-hss-devel/8.0.0/include -xmic-avx512 -static -D__CRAYXC -D__CRAY_MIC_KNL -D__CRAYXT_COMPUTE_LINUX_TARGET -std=c++11 -qopenmp -xmic-avx512 -qopt-report=5 -c -o linkCells.o -Wl,-T/opt/cray/pe/craype/2.5.9/bin/2.25.0.craype.ld
+
+    Report from: Interprocedural optimizations [ipo]
+
+  WHOLE PROGRAM (SAFE) [EITHER METHOD]: false
+  WHOLE PROGRAM (SEEN) [TABLE METHOD]: false
+  WHOLE PROGRAM (READ) [OBJECT READER METHOD]: false
+
+INLINING OPTION VALUES:
+  -inline-factor: 100
+  -inline-min-size: 30
+  -inline-max-size: 230
+  -inline-max-total-size: 2000
+  -inline-max-per-routine: 10000
+  -inline-max-per-compile: 500000
+
+In the inlining report below:
+   "sz" refers to the "size" of the routine. The smaller a routine's size,
+      the more likely it is to be inlined.
+   "isz" refers to the "inlined size" of the routine. This is the amount
+      the calling routine will grow if the called routine is inlined into it.
+      The compiler generally limits the amount a routine can grow by having
+      routines inlined into it.
+
+Begin optimization report for: comdMalloc(size_t)
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (comdMalloc(size_t)) memUtils.h(17,1)
+
+===========================================================================
+
+Begin optimization report for: comdFree(void *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (comdFree(void *)) memUtils.h(36,1)
+
+===========================================================================
+
+Begin optimization report for: destroyLinkCells(LinkCell **)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (destroyLinkCells(LinkCell **)) [3/14=21.4%] linkCells.cpp(127,1)
+  -> INLINE: (131,4) comdFree(void *) (isz = 0) (sz = 5)
+    -> EXTERN: memUtils.h:(38,2) _mm_free(void *)
+  -> INLINE: (132,4) comdFree(void *) (isz = 0) (sz = 5)
+    -> EXTERN: memUtils.h:(38,2) _mm_free(void *)
+
+
+    Report from: Code generation optimizations [cg]
+
+linkCells.cpp(127,1):remark #34051: REGISTER ALLOCATION : [_Z16destroyLinkCellsPP10LinkCellSt] linkCells.cpp:127
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :    3[ rax rdi r13]
+        
+    Routine temporaries
+        Total         :      13
+            Global    :       8
+            Local     :       5
+        Regenerable   :       0
+        Spilled       :       1
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :       8 bytes*
+            Reads     :       3 [1.00e+00 ~ 4.2%]
+            Writes    :       1 [1.00e+00 ~ 4.2%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: getNeighborBoxes(LinkCell *, int, int *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (getNeighborBoxes(LinkCell *, int, int *)) [4/14=28.6%] linkCells.cpp(145,1)
+  -> INLINE: (147,4) getTuple(LinkCell *, int, int *, int *, int *) (isz = 158) (sz = 171)
+  -> INLINE: (153,33) getBoxFromTuple(LinkCell *, int, int, int) (isz = 158) (sz = 171)
+    -> EXTERN: (246,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+    -> EXTERN: (247,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at linkCells.cpp(152,10)
+   remark #15520: loop was not vectorized: loop with multiple exits cannot be vectorized unless it meets search loop idiom criteria   [ linkCells.cpp(246,4) ]
+LOOP END
+
+
+Non-optimizable loops:
+
+
+LOOP BEGIN at linkCells.cpp(150,4)
+   remark #15532: loop was not vectorized: compile time constraints prevent loop optimization. Consider using -O3.
+
+   LOOP BEGIN at linkCells.cpp(151,7)
+      remark #15532: loop was not vectorized: compile time constraints prevent loop optimization. Consider using -O3.
+   LOOP END
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+linkCells.cpp(145,1):remark #34051: REGISTER ALLOCATION : [_Z16getNeighborBoxesP10LinkCellStiPi] linkCells.cpp:145
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   15[ rax rdx rcx rbx rbp rsi rdi r8-r15]
+        
+    Routine temporaries
+        Total         :     146
+            Global    :      39
+            Local     :     107
+        Regenerable   :      16
+        Spilled       :       8
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :      64 bytes*
+            Reads     :       8 [1.44e+01 ~ 0.4%]
+            Writes    :       8 [1.44e+01 ~ 0.4%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: putAtomInBox(LinkCell *, Atoms *, int, int, real_t, real_t, real_t, real_t, real_t, real_t)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (putAtomInBox(LinkCell *, Atoms *, int, int, real_t, real_t, real_t, real_t, real_t, real_t)) [5/14=35.7%] linkCells.cpp(173,1)
+  -> INLINE: (177,15) getBoxFromCoord(LinkCell *, real_t *) (isz = 95) (sz = 104)
+    -> EXTERN: (365,19) floor(double)
+    -> EXTERN: (366,19) floor(double)
+    -> EXTERN: (367,19) floor(double)
+    -> INLINE: (391,11) getBoxFromTuple(LinkCell *, int, int, int) (isz = 158) (sz = 171)
+      -> EXTERN: (246,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+      -> EXTERN: (247,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+
+
+    Report from: Code generation optimizations [cg]
+
+linkCells.cpp(173,1):remark #34051: REGISTER ALLOCATION : [_Z12putAtomInBoxP10LinkCellStP7AtomsStiidddddd] linkCells.cpp:173
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   28[ rax rdx rcx rsi rdi r8-r12 r15 zmm0-zmm12 zmm16-zmm18 k0]
+        
+    Routine temporaries
+        Total         :     118
+            Global    :      29
+            Local     :      89
+        Regenerable   :      14
+        Spilled       :       2
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :      16 bytes*
+            Reads     :       2 [2.00e+00 ~ 2.0%]
+            Writes    :       2 [2.00e+00 ~ 2.0%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: moveAtom(LinkCell *, Atoms *, int, int, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (moveAtom(LinkCell *, Atoms *, int, int, int)) [6/14=42.9%] linkCells.cpp(257,1)
+  -> INLINE: (259,4) copyAtom(LinkCell *, Atoms *, int, int, int, int) (isz = 113) (sz = 128)
+    -> EXTERN: (337,4) memcpy(void *, const void *, size_t)
+    -> EXTERN: (338,4) memcpy(void *, const void *, size_t)
+    -> EXTERN: (339,4) memcpy(void *, const void *, size_t)
+    -> EXTERN: (341,4) memcpy(void *, const void *, size_t)
+    -> EXTERN: (343,4) memcpy(void *, const void *, size_t)
+    -> EXTERN: (344,4) memcpy(void *, const void *, size_t)
+    -> EXTERN: (345,4) memcpy(void *, const void *, size_t)
+    -> EXTERN: (347,4) memcpy(void *, const void *, size_t)
+  -> EXTERN: (262,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+  -> INLINE: (266,12) copyAtom(LinkCell *, Atoms *, int, int, int, int) (isz = 113) (sz = 128)
+    -> EXTERN: (337,4) memcpy(void *, const void *, size_t)
+    -> EXTERN: (338,4) memcpy(void *, const void *, size_t)
+    -> EXTERN: (339,4) memcpy(void *, const void *, size_t)
+    -> EXTERN: (341,4) memcpy(void *, const void *, size_t)
+    -> EXTERN: (343,4) memcpy(void *, const void *, size_t)
+    -> EXTERN: (344,4) memcpy(void *, const void *, size_t)
+    -> EXTERN: (345,4) memcpy(void *, const void *, size_t)
+    -> EXTERN: (347,4) memcpy(void *, const void *, size_t)
+
+
+    Report from: Code generation optimizations [cg]
+
+linkCells.cpp(337,4):remark #34000: call to memcpy implemented inline with loads and stores with proven source (alignment, offset): (1, 0), and destination (alignment, offset): (1, 0)
+linkCells.cpp(338,4):remark #34000: call to memcpy implemented inline with loads and stores with proven source (alignment, offset): (1, 0), and destination (alignment, offset): (1, 0)
+linkCells.cpp(339,4):remark #34000: call to memcpy implemented inline with loads and stores with proven source (alignment, offset): (1, 0), and destination (alignment, offset): (1, 0)
+linkCells.cpp(341,4):remark #34000: call to memcpy implemented inline with loads and stores with proven source (alignment, offset): (1, 0), and destination (alignment, offset): (1, 0)
+linkCells.cpp(343,4):remark #34000: call to memcpy implemented inline with loads and stores with proven source (alignment, offset): (1, 0), and destination (alignment, offset): (1, 0)
+linkCells.cpp(344,4):remark #34000: call to memcpy implemented inline with loads and stores with proven source (alignment, offset): (1, 0), and destination (alignment, offset): (1, 0)
+linkCells.cpp(345,4):remark #34000: call to memcpy implemented inline with loads and stores with proven source (alignment, offset): (1, 0), and destination (alignment, offset): (1, 0)
+linkCells.cpp(347,4):remark #34000: call to memcpy implemented inline with loads and stores with proven source (alignment, offset): (1, 0), and destination (alignment, offset): (1, 0)
+linkCells.cpp(337,4):remark #34000: call to memcpy implemented inline with loads and stores with proven source (alignment, offset): (1, 0), and destination (alignment, offset): (1, 0)
+linkCells.cpp(338,4):remark #34000: call to memcpy implemented inline with loads and stores with proven source (alignment, offset): (1, 0), and destination (alignment, offset): (1, 0)
+linkCells.cpp(339,4):remark #34000: call to memcpy implemented inline with loads and stores with proven source (alignment, offset): (1, 0), and destination (alignment, offset): (1, 0)
+linkCells.cpp(341,4):remark #34000: call to memcpy implemented inline with loads and stores with proven source (alignment, offset): (1, 0), and destination (alignment, offset): (1, 0)
+linkCells.cpp(343,4):remark #34000: call to memcpy implemented inline with loads and stores with proven source (alignment, offset): (1, 0), and destination (alignment, offset): (1, 0)
+linkCells.cpp(344,4):remark #34000: call to memcpy implemented inline with loads and stores with proven source (alignment, offset): (1, 0), and destination (alignment, offset): (1, 0)
+linkCells.cpp(345,4):remark #34000: call to memcpy implemented inline with loads and stores with proven source (alignment, offset): (1, 0), and destination (alignment, offset): (1, 0)
+linkCells.cpp(347,4):remark #34000: call to memcpy implemented inline with loads and stores with proven source (alignment, offset): (1, 0), and destination (alignment, offset): (1, 0)
+linkCells.cpp(257,1):remark #34051: REGISTER ALLOCATION : [_Z8moveAtomP10LinkCellStP7AtomsStiii] linkCells.cpp:257
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   12[ rax rdx rcx rsi rdi r8-r12 r15 zmm0]
+        
+    Routine temporaries
+        Total         :      85
+            Global    :      17
+            Local     :      68
+        Regenerable   :       7
+        Spilled       :       2
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :      16 bytes*
+            Reads     :       2 [1.99e+00 ~ 2.2%]
+            Writes    :       2 [2.00e+00 ~ 2.2%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: updateLinkCells(LinkCell *, Atoms *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (updateLinkCells(LinkCell *, Atoms *)) [7/14=50.0%] linkCells.cpp(288,1)
+  -> INLINE: (291,4) emptyHaloCells(LinkCell *) (isz = 19) (sz = 24)
+  -> INLINE: (302,21) getBoxFromCoord(LinkCell *, real_t *) (isz = 95) (sz = 104)
+    -> EXTERN: (365,19) floor(double)
+    -> EXTERN: (366,19) floor(double)
+    -> EXTERN: (367,19) floor(double)
+    -> INLINE: (391,11) getBoxFromTuple(LinkCell *, int, int, int) (isz = 158) (sz = 171)
+      -> EXTERN: (246,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+      -> EXTERN: (247,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+  -> INLINE: (304,13) moveAtom(LinkCell *, Atoms *, int, int, int) (isz = 288) (sz = 301)
+    -> INLINE: (259,4) copyAtom(LinkCell *, Atoms *, int, int, int, int) (isz = 113) (sz = 128)
+      -> EXTERN: (337,4) memcpy(void *, const void *, size_t)
+      -> EXTERN: (338,4) memcpy(void *, const void *, size_t)
+      -> EXTERN: (339,4) memcpy(void *, const void *, size_t)
+      -> EXTERN: (341,4) memcpy(void *, const void *, size_t)
+      -> EXTERN: (343,4) memcpy(void *, const void *, size_t)
+      -> EXTERN: (344,4) memcpy(void *, const void *, size_t)
+      -> EXTERN: (345,4) memcpy(void *, const void *, size_t)
+      -> EXTERN: (347,4) memcpy(void *, const void *, size_t)
+    -> EXTERN: (262,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+    -> INLINE: (266,12) copyAtom(LinkCell *, Atoms *, int, int, int, int) (isz = 113) (sz = 128)
+      -> EXTERN: (337,4) memcpy(void *, const void *, size_t)
+      -> EXTERN: (338,4) memcpy(void *, const void *, size_t)
+      -> EXTERN: (339,4) memcpy(void *, const void *, size_t)
+      -> EXTERN: (341,4) memcpy(void *, const void *, size_t)
+      -> EXTERN: (343,4) memcpy(void *, const void *, size_t)
+      -> EXTERN: (344,4) memcpy(void *, const void *, size_t)
+      -> EXTERN: (345,4) memcpy(void *, const void *, size_t)
+      -> EXTERN: (347,4) memcpy(void *, const void *, size_t)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+
+Non-optimizable loops:
+
+
+LOOP BEGIN at linkCells.cpp(397,4) inlined into linkCells.cpp(291,4)
+   remark #15523: loop was not vectorized: loop control variable ii was found, but loop iteration count cannot be computed before executing the loop
+LOOP END
+
+LOOP BEGIN at linkCells.cpp(293,4)
+   remark #15532: loop was not vectorized: compile time constraints prevent loop optimization. Consider using -O3.
+
+   LOOP BEGIN at linkCells.cpp(297,7)
+      remark #15521: loop was not vectorized: loop control variable was not identified. Explicitly compute the iteration count before executing the loop or try using canonical loop form from OpenMP specification
+   LOOP END
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+linkCells.cpp(337,4):remark #34000: call to memcpy implemented inline with loads and stores with proven source (alignment, offset): (1, 0), and destination (alignment, offset): (1, 0)
+linkCells.cpp(338,4):remark #34000: call to memcpy implemented inline with loads and stores with proven source (alignment, offset): (1, 0), and destination (alignment, offset): (1, 0)
+linkCells.cpp(339,4):remark #34000: call to memcpy implemented inline with loads and stores with proven source (alignment, offset): (1, 0), and destination (alignment, offset): (1, 0)
+linkCells.cpp(341,4):remark #34000: call to memcpy implemented inline with loads and stores with proven source (alignment, offset): (1, 0), and destination (alignment, offset): (1, 0)
+linkCells.cpp(343,4):remark #34000: call to memcpy implemented inline with loads and stores with proven source (alignment, offset): (1, 0), and destination (alignment, offset): (1, 0)
+linkCells.cpp(344,4):remark #34000: call to memcpy implemented inline with loads and stores with proven source (alignment, offset): (1, 0), and destination (alignment, offset): (1, 0)
+linkCells.cpp(345,4):remark #34000: call to memcpy implemented inline with loads and stores with proven source (alignment, offset): (1, 0), and destination (alignment, offset): (1, 0)
+linkCells.cpp(347,4):remark #34000: call to memcpy implemented inline with loads and stores with proven source (alignment, offset): (1, 0), and destination (alignment, offset): (1, 0)
+linkCells.cpp(337,4):remark #34000: call to memcpy implemented inline with loads and stores with proven source (alignment, offset): (1, 0), and destination (alignment, offset): (1, 0)
+linkCells.cpp(338,4):remark #34000: call to memcpy implemented inline with loads and stores with proven source (alignment, offset): (1, 0), and destination (alignment, offset): (1, 0)
+linkCells.cpp(339,4):remark #34000: call to memcpy implemented inline with loads and stores with proven source (alignment, offset): (1, 0), and destination (alignment, offset): (1, 0)
+linkCells.cpp(341,4):remark #34000: call to memcpy implemented inline with loads and stores with proven source (alignment, offset): (1, 0), and destination (alignment, offset): (1, 0)
+linkCells.cpp(343,4):remark #34000: call to memcpy implemented inline with loads and stores with proven source (alignment, offset): (1, 0), and destination (alignment, offset): (1, 0)
+linkCells.cpp(344,4):remark #34000: call to memcpy implemented inline with loads and stores with proven source (alignment, offset): (1, 0), and destination (alignment, offset): (1, 0)
+linkCells.cpp(345,4):remark #34000: call to memcpy implemented inline with loads and stores with proven source (alignment, offset): (1, 0), and destination (alignment, offset): (1, 0)
+linkCells.cpp(347,4):remark #34000: call to memcpy implemented inline with loads and stores with proven source (alignment, offset): (1, 0), and destination (alignment, offset): (1, 0)
+linkCells.cpp(288,1):remark #34051: REGISTER ALLOCATION : [_Z15updateLinkCellsP10LinkCellStP7AtomsSt] linkCells.cpp:288
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   29[ rax rdx rcx rbx rbp rsi rdi r8-r15 zmm0-zmm9 zmm16-zmm18 k0]
+        
+    Routine temporaries
+        Total         :     174
+            Global    :      39
+            Local     :     135
+        Regenerable   :      22
+        Spilled       :       9
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :      72 bytes*
+            Reads     :      14 [6.03e+01 ~ 2.9%]
+            Writes    :       9 [1.89e+01 ~ 0.9%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: maxOccupancy(LinkCell *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (maxOccupancy(LinkCell *)) [8/14=57.1%] linkCells.cpp(313,1)
+  -> EXTERN: (320,4) profileStart(TimerHandle)
+  -> EXTERN: (321,4) maxIntParallel(int *, int *, int)
+  -> EXTERN: (322,4) profileStop(TimerHandle)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at linkCells.cpp(315,4)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization
+   remark #15346: vector dependence: assumed ANTI dependence between boxes->nAtoms[ii] (316:7) and localMax (316:7)
+   remark #15346: vector dependence: assumed FLOW dependence between localMax (316:7) and boxes->nAtoms[ii] (316:7)
+   remark #25439: unrolled with remainder by 2  
+LOOP END
+
+LOOP BEGIN at linkCells.cpp(315,4)
+<Remainder>
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+linkCells.cpp(313,1):remark #34051: REGISTER ALLOCATION : [_Z12maxOccupancyP10LinkCellSt] linkCells.cpp:313
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :    8[ rax rdx rcx rsi rdi r8-r10]
+        
+    Routine temporaries
+        Total         :      35
+            Global    :      14
+            Local     :      21
+        Regenerable   :       8
+        Spilled       :       0
+        
+    Routine stack
+        Variables     :       8 bytes*
+            Reads     :       1 [1.00e+00 ~ 1.3%]
+            Writes    :       4 [6.90e+00 ~ 9.0%]
+        Spills        :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: copyAtom(LinkCell *, Atoms *, int, int, int, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (copyAtom(LinkCell *, Atoms *, int, int, int, int)) linkCells.cpp(331,1)
+
+===========================================================================
+
+Begin optimization report for: getBoxFromCoord(LinkCell *, real_t *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (getBoxFromCoord(LinkCell *, real_t *)) linkCells.cpp(361,1)
+
+===========================================================================
+
+Begin optimization report for: getBoxFromTuple(LinkCell *, int, int, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (getBoxFromTuple(LinkCell *, int, int, int)) [11/14=78.6%] linkCells.cpp(204,1)
+  -> EXTERN: (246,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+  -> EXTERN: (247,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+
+
+    Report from: Code generation optimizations [cg]
+
+linkCells.cpp(204,1):remark #34051: REGISTER ALLOCATION : [_Z15getBoxFromTupleP10LinkCellStiii] linkCells.cpp:204
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :    7[ rax rdx rcx rsi rdi r8-r9]
+        
+    Routine temporaries
+        Total         :      78
+            Global    :      14
+            Local     :      64
+        Regenerable   :      14
+        Spilled       :       0
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: emptyHaloCells(LinkCell *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (emptyHaloCells(LinkCell *)) linkCells.cpp(396,1)
+
+===========================================================================
+
+Begin optimization report for: getTuple(LinkCell *, int, int *, int *, int *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (getTuple(LinkCell *, int, int *, int *, int *)) linkCells.cpp(410,1)
+
+===========================================================================
+
+Begin optimization report for: initLinkCells(const Domain *, real_t)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (initLinkCells(const Domain *, real_t)) [14/14=100.0%] linkCells.cpp(84,1)
+  -> EXTERN: (85,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+  -> INLINE: (86,31) comdMalloc(size_t) (isz = 2) (sz = 9)
+    -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+  -> INLINE: (105,24) comdMalloc(size_t) (isz = 2) (sz = 9)
+    -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+  -> EXTERN: (109,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+  -> INLINE: (112,27) comdMalloc(size_t) (isz = 2) (sz = 9)
+    -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+  -> INLINE: (115,35) comdMalloc(size_t) (isz = 2) (sz = 9)
+    -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+  -> INLINE: (120,23) getNeighborBoxes(LinkCell *, int, int *) (isz = 383) (sz = 394)
+    -> INLINE: (147,4) getTuple(LinkCell *, int, int *, int *, int *) (isz = 158) (sz = 171)
+    -> INLINE: (153,33) getBoxFromTuple(LinkCell *, int, int, int) (isz = 158) (sz = 171)
+      -> EXTERN: (246,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+      -> EXTERN: (247,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at linkCells.cpp(88,4)
+<Distributed chunk1>
+   remark #25426: Loop Distributed (4 way) 
+   remark #15388: vectorization support: reference ll->gridSize[i] has aligned access   [ linkCells.cpp(92,7) ]
+   remark #15389: vectorization support: reference domain->localExtent[i] has unaligned access   [ linkCells.cpp(92,25) ]
+   remark #15381: vectorization support: unaligned access used inside loop body
+   remark #15305: vectorization support: vector length 2
+   remark #15388: vectorization support: reference ll->gridSize[i] has aligned access   [ linkCells.cpp(92,7) ]
+   remark #15389: vectorization support: reference domain->localExtent[i] has unaligned access   [ linkCells.cpp(92,25) ]
+   remark #15381: vectorization support: unaligned access used inside loop body
+   remark #15305: vectorization support: vector length 4
+   remark #15427: loop was completely unrolled
+   remark #15309: vectorization support: normalized vectorization overhead 0.083
+   remark #15301: PARTIAL LOOP WAS VECTORIZED
+   remark #15455: masked aligned unit stride stores: 1 
+   remark #15456: masked unaligned unit stride loads: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 32 
+   remark #15477: vector cost: 12.000 
+   remark #15478: estimated potential speedup: 1.840 
+   remark #15486: divides: 1 
+   remark #15487: type converts: 1 
+   remark #15488: --- end vector cost summary ---
+LOOP END
+
+LOOP BEGIN at linkCells.cpp(88,4)
+<Distributed chunk2>
+   remark #15389: vectorization support: reference ll->localMin[i] has unaligned access   [ linkCells.cpp(90,7) ]
+   remark #15389: vectorization support: reference domain->localMin[i] has unaligned access   [ linkCells.cpp(90,25) ]
+   remark #15388: vectorization support: reference ll->localMax[i] has aligned access   [ linkCells.cpp(91,7) ]
+   remark #15389: vectorization support: reference domain->localMax[i] has unaligned access   [ linkCells.cpp(91,25) ]
+   remark #15381: vectorization support: unaligned access used inside loop body
+   remark #15305: vectorization support: vector length 2
+   remark #15389: vectorization support: reference ll->localMin[i] has unaligned access   [ linkCells.cpp(90,7) ]
+   remark #15389: vectorization support: reference domain->localMin[i] has unaligned access   [ linkCells.cpp(90,25) ]
+   remark #15389: vectorization support: reference ll->localMax[i] has unaligned access   [ linkCells.cpp(91,7) ]
+   remark #15389: vectorization support: reference domain->localMax[i] has unaligned access   [ linkCells.cpp(91,25) ]
+   remark #15381: vectorization support: unaligned access used inside loop body
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   remark #15305: vectorization support: vector length 4
+   remark #15427: loop was completely unrolled
+   remark #15309: vectorization support: normalized vectorization overhead 0.353
+   remark #15456: masked unaligned unit stride loads: 2 
+   remark #15457: masked unaligned unit stride stores: 2 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 7 
+   remark #15477: vector cost: 4.250 
+   remark #15478: estimated potential speedup: 0.910 
+   remark #15488: --- end vector cost summary ---
+   remark #25436: completely unrolled by 3  
+LOOP END
+
+LOOP BEGIN at linkCells.cpp(88,4)
+<Distributed chunk3>
+   remark #15389: vectorization support: reference ll->boxSize[i] has unaligned access   [ linkCells.cpp(93,7) ]
+   remark #15389: vectorization support: reference domain->localExtent[i] has unaligned access   [ linkCells.cpp(93,24) ]
+   remark #15388: vectorization support: reference ll->gridSize[i] has aligned access   [ linkCells.cpp(93,59) ]
+   remark #15381: vectorization support: unaligned access used inside loop body
+   remark #15305: vectorization support: vector length 2
+   remark #15389: vectorization support: reference ll->boxSize[i] has unaligned access   [ linkCells.cpp(93,7) ]
+   remark #15389: vectorization support: reference domain->localExtent[i] has unaligned access   [ linkCells.cpp(93,24) ]
+   remark #15388: vectorization support: reference ll->gridSize[i] has aligned access   [ linkCells.cpp(93,59) ]
+   remark #15381: vectorization support: unaligned access used inside loop body
+   remark #15305: vectorization support: vector length 4
+   remark #15427: loop was completely unrolled
+   remark #15309: vectorization support: normalized vectorization overhead 0.061
+   remark #15301: PARTIAL LOOP WAS VECTORIZED
+   remark #15454: masked aligned unit stride loads: 1 
+   remark #15456: masked unaligned unit stride loads: 1 
+   remark #15457: masked unaligned unit stride stores: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 33 
+   remark #15477: vector cost: 12.250 
+   remark #15478: estimated potential speedup: 1.900 
+   remark #15486: divides: 1 
+   remark #15487: type converts: 1 
+   remark #15488: --- end vector cost summary ---
+LOOP END
+
+LOOP BEGIN at linkCells.cpp(88,4)
+<Distributed chunk4>
+   remark #15388: vectorization support: reference ll->invBoxSize[i] has aligned access   [ linkCells.cpp(94,7) ]
+   remark #15389: vectorization support: reference ll->boxSize[i] has unaligned access   [ linkCells.cpp(94,31) ]
+   remark #15381: vectorization support: unaligned access used inside loop body
+   remark #15305: vectorization support: vector length 2
+   remark #15388: vectorization support: reference ll->invBoxSize[i] has aligned access   [ linkCells.cpp(94,7) ]
+   remark #15389: vectorization support: reference ll->boxSize[i] has unaligned access   [ linkCells.cpp(94,31) ]
+   remark #15381: vectorization support: unaligned access used inside loop body
+   remark #15305: vectorization support: vector length 4
+   remark #15427: loop was completely unrolled
+   remark #15301: PARTIAL LOOP WAS VECTORIZED
+   remark #15455: masked aligned unit stride stores: 1 
+   remark #15456: masked unaligned unit stride loads: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 30 
+   remark #15477: vector cost: 10.000 
+   remark #15478: estimated potential speedup: 2.250 
+   remark #15486: divides: 1 
+   remark #15488: --- end vector cost summary ---
+LOOP END
+
+LOOP BEGIN at linkCells.cpp(152,10) inlined into linkCells.cpp(120,23)
+   remark #15520: loop was not vectorized: loop with multiple exits cannot be vectorized unless it meets search loop idiom criteria   [ linkCells.cpp(246,4) ]
+LOOP END
+
+
+Non-optimizable loops:
+
+
+LOOP BEGIN at linkCells.cpp(106,4)
+   remark #15523: loop was not vectorized: loop control variable iBox was found, but loop iteration count cannot be computed before executing the loop
+LOOP END
+
+LOOP BEGIN at linkCells.cpp(113,4)
+   remark #15523: loop was not vectorized: loop control variable iBox was found, but loop iteration count cannot be computed before executing the loop
+LOOP END
+
+LOOP BEGIN at linkCells.cpp(118,4)
+   remark #15532: loop was not vectorized: compile time constraints prevent loop optimization. Consider using -O3.
+
+   LOOP BEGIN at linkCells.cpp(150,4) inlined into linkCells.cpp(120,23)
+      remark #15532: loop was not vectorized: compile time constraints prevent loop optimization. Consider using -O3.
+
+      LOOP BEGIN at linkCells.cpp(151,7) inlined into linkCells.cpp(120,23)
+         remark #15532: loop was not vectorized: compile time constraints prevent loop optimization. Consider using -O3.
+      LOOP END
+   LOOP END
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+linkCells.cpp(84,1):remark #34051: REGISTER ALLOCATION : [_Z13initLinkCellsPK8DomainStd] linkCells.cpp:84
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   29[ rax rdx rcx rbx rsi rdi r8-r15 zmm0-zmm10 zmm16 k1-k3]
+        
+    Routine temporaries
+        Total         :     180
+            Global    :      66
+            Local     :     114
+        Regenerable   :      39
+        Spilled       :      30
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :     240 bytes*
+            Reads     :      38 [2.35e+03 ~ 14.0%]
+            Writes    :      31 [1.32e+03 ~ 7.9%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================

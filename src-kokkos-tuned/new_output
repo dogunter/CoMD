@@ -1,0 +1,138 @@
+Intel(R) Parallel Studio XE 2017 Update 1 for Linux*
+Copyright (C) 2009-2016 Intel Corporation. All rights reserved.
+Tue Apr  4 16:14:55 2017: Starting Initialization
+
+
+Mini-Application Name    : CoMD-openmp-mpi
+Mini-Application Version : 1.1
+Platform:
+  hostname: darwin-fe1.lanl.gov
+  kernel name: 'Linux'
+  kernel release: '4.8.4-1.el7.elrepo.x86_64'
+  processor: 'x86_64'
+Build:
+  CC: '/projects/opt/intel/compilers_and_libraries_2017.1.132/linux/mpi/intel64/bin/mpiicc'
+  compiler version: 'icc (ICC) 17.0.1 20161005'
+  CFLAGS: '-std=c99 -qopenmp -xmic-avx512 -qopt-report=5 -DDOUBLE -DDO_MPI -g -O3   '
+  LDFLAGS: ' -lm '
+  using MPI: true
+  Threading: OpenMP (272 threads) 
+  Double Precision: true
+Run Date/Time: 2017-04-04, 16:14:55
+
+Command Line Parameters:
+  doeam: 0
+  potDir: pots
+  potName: Cu_u6.eam
+  potType: funcfl
+  nx: 20
+  ny: 20
+  nz: 20
+  xproc: 1
+  yproc: 1
+  zproc: 1
+  Lattice constant: -1 Angstroms
+  nSteps: 100
+  printRate: 10
+  Time step: 1 fs
+  Initial Temperature: 600 K
+  Initial Delta: 0 Angstroms
+
+Simulation data: 
+  Total atoms        : 32000
+  Min global bounds  : [   0.0000000000,   0.0000000000,   0.0000000000 ]
+  Max global bounds  : [  72.3000000000,  72.3000000000,  72.3000000000 ]
+
+Decomposition data: 
+  Processors         :      1,     1,     1
+  Local boxes        :     12,    12,    12 =     1728
+  Box size           : [   6.0250000000,   6.0250000000,   6.0250000000 ]
+  Box factor         : [   1.0410367171,   1.0410367171,   1.0410367171 ] 
+  Max Link Cell Occupancy: 32 of 64
+
+Potential data: 
+  Potential type   : Lennard-Jones
+  Species name     : Cu
+  Atomic number    : 29
+  Mass             : 63.55 amu
+  Lattice Type     : FCC
+  Lattice spacing  : 3.615 Angstroms
+  Cutoff           : 5.7875 Angstroms
+  Epsilon          : 0.167 eV
+  Sigma            : 2.315 Angstroms
+
+
+Initial energy : -1.166063303478, atom count : 32000 
+
+Tue Apr  4 16:14:55 2017: Initialization Finished
+
+Tue Apr  4 16:14:55 2017: Starting simulation
+
+#                                                                                         Performance
+#  Loop   Time(fs)       Total Energy   Potential Energy     Kinetic Energy  Temperature   (us/atom)     # Atoms
+      0       0.00    -1.166063303478    -1.243619295078     0.077555991600     600.0000     0.0000        32000
+     10      10.00    -1.166059622057    -1.233147893487     0.067088271429     519.0181     0.5744        32000
+     20      20.00    -1.166048357205    -1.208155342136     0.042106984931     325.7542     0.5675        32000
+     30      30.00    -1.166037484395    -1.186569167982     0.020531683586     158.8402     0.5673        32000
+     40      40.00    -1.166042037652    -1.183657586707     0.017615549056     136.2800     0.5663        32000
+     50      50.00    -1.166051645149    -1.193765243379     0.027713598229     214.4020     0.5675        32000
+     60      60.00    -1.166054560408    -1.202659094232     0.036604533825     283.1853     0.5721        32000
+     70      70.00    -1.166052020451    -1.204819516138     0.038767495687     299.9188     0.5674        32000
+     80      80.00    -1.166048627213    -1.203509900934     0.037461273722     289.8134     0.5668        32000
+     90      90.00    -1.166047863889    -1.203781018358     0.037733154469     291.9167     0.5666        32000
+    100     100.00    -1.166049767266    -1.206959996208     0.040910228943     316.4957     0.5664        32000
+Tue Apr  4 16:14:57 2017: Ending simulation
+
+
+
+Simulation Validation:
+  Initial energy  : -1.166063303478
+  Final energy    : -1.166049767266
+  eFinal/eInitial : 0.999988
+  Final atom count : 32000, no atoms lost
+
+
+Timings for Rank 0
+        Timer        # Calls    Avg/Call (s)   Total (s)    % Loop
+___________________________________________________________________
+total                      1       2.0875        2.0875      114.73
+loop                       1       1.8196        1.8196      100.00
+timestep                  10       0.1818        1.8184       99.93
+  position               100       0.0001        0.0104        0.57
+  velocity               200       0.0000        0.0060        0.33
+  redistribute           101       0.0161        1.6231       89.20
+    atomHalo             101       0.0118        1.1886       65.33
+  force                  101       0.0020        0.1986       10.91
+commHalo                 303       0.0006        0.1967       10.81
+commReduce                39       0.0000        0.0005        0.03
+
+Timing Statistics Across 1 Ranks:
+        Timer        Rank: Min(s)       Rank: Max(s)      Avg(s)    Stdev(s)
+_____________________________________________________________________________
+total                0:    2.0875       0:    2.0875      2.0875      0.0000
+loop                 0:    1.8196       0:    1.8196      1.8196      0.0000
+timestep             0:    1.8184       0:    1.8184      1.8184      0.0000
+  position           0:    0.0104       0:    0.0104      0.0104      0.0000
+  velocity           0:    0.0060       0:    0.0060      0.0060      0.0000
+  redistribute       0:    1.6231       0:    1.6231      1.6231      0.0000
+    atomHalo         0:    1.1886       0:    1.1886      1.1886      0.0000
+  force              0:    0.1986       0:    0.1986      0.1986      0.0000
+commHalo             0:    0.1967       0:    0.1967      0.1967      0.0000
+commReduce           0:    0.0005       0:    0.0005      0.0005      0.0000
+
+---------------------------------------------------
+ Average atom update rate:       0.57 us/atom/task
+---------------------------------------------------
+
+
+---------------------------------------------------
+ Average all atom update rate:   0.57 us/atom
+---------------------------------------------------
+
+
+---------------------------------------------------
+ Average atom rate:              1.76 atoms/us
+---------------------------------------------------
+
+Tue Apr  4 16:14:57 2017: CoMD Ending
+

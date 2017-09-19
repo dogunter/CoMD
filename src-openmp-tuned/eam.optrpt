@@ -1,0 +1,1205 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+Intel(R) C++ Intel(R) 64 Compiler for applications running on Intel(R) 64, Version 17.0.2.174 Build 20170213
+
+Compiler options: -I/opt/cray/pe/libsci/16.11.1/INTEL/15.0/mic_knl/include -I/opt/cray/pe/mpt/7.5.5/gni/mpich-intel/16.0/include -I/opt/cray/rca/2.1.8_g6cd9a1b-3.1/include -I/opt/cray/alps/6.3.4-2.21/include -I/opt/cray/xpmem/2.1.1_gf9c9084-2.38/include -I/opt/cray/gni-headers/5.0.11-2.2/include -I/opt/cray/pe/pmi/5.0.11/include -I/opt/cray/ugni/6.0.15-2.2/include -I/opt/cray/udreg/2.3.2-7.54/include -I/opt/cray/wlm_detect/1.2.1-3.10/include -I/opt/cray/krca/2.1.3_g923f58b-2.244/include -I/opt/cray-hss-devel/8.0.0/include -xmic-avx512 -static -D__CRAYXC -D__CRAY_MIC_KNL -D__CRAYXT_COMPUTE_LINUX_TARGET -std=c++11 -qopenmp -xmic-avx512 -qopt-report=5 -c -o eam.o -Wl,-T/opt/cray/pe/craype/2.5.9/bin/2.25.0.craype.ld
+
+    Report from: Interprocedural optimizations [ipo]
+
+  WHOLE PROGRAM (SAFE) [EITHER METHOD]: false
+  WHOLE PROGRAM (SEEN) [TABLE METHOD]: false
+  WHOLE PROGRAM (READ) [OBJECT READER METHOD]: false
+
+INLINING OPTION VALUES:
+  -inline-factor: 100
+  -inline-min-size: 30
+  -inline-max-size: 230
+  -inline-max-total-size: 2000
+  -inline-max-per-routine: 10000
+  -inline-max-per-compile: 500000
+
+In the inlining report below:
+   "sz" refers to the "size" of the routine. The smaller a routine's size,
+      the more likely it is to be inlined.
+   "isz" refers to the "inlined size" of the routine. This is the amount
+      the calling routine will grow if the called routine is inlined into it.
+      The compiler generally limits the amount a routine can grow by having
+      routines inlined into it.
+
+Begin optimization report for: comdMalloc(size_t)
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (comdMalloc(size_t)) memUtils.h(17,1)
+
+===========================================================================
+
+Begin optimization report for: comdFree(void *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (comdFree(void *)) memUtils.h(36,1)
+
+===========================================================================
+
+Begin optimization report for: eamForce(SimFlat *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (eamForce(SimFlat *)) [3/16=18.8%] eam.cpp(218,1)
+  -> EXTERN: (220,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+  -> INLINE: (226,32) comdMalloc(size_t) (isz = 2) (sz = 9)
+    -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+  -> INLINE: (227,32) comdMalloc(size_t) (isz = 2) (sz = 9)
+    -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+  -> EXTERN: (228,28) initForceHaloExchange(DomainSt *, LinkCellSt *)
+  -> INLINE: (229,53) comdMalloc(size_t) (isz = 2) (sz = 9)
+    -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+  -> INLINE: (319,19) interpolate(InterpolationObject *, real_t, real_t *, real_t *) (isz = 80) (sz = 91)
+    -> EXTERN: (592,18) floor(double)
+    -> EXTERN: (599,12) floor(double)
+  -> INLINE: (320,19) interpolate(InterpolationObject *, real_t, real_t *, real_t *) (isz = 80) (sz = 91)
+    -> EXTERN: (592,18) floor(double)
+    -> EXTERN: (599,12) floor(double)
+  -> INLINE: (364,10) interpolate(InterpolationObject *, real_t, real_t *, real_t *) (isz = 80) (sz = 91)
+    -> EXTERN: (592,18) floor(double)
+    -> EXTERN: (599,12) floor(double)
+  -> EXTERN: (372,4) profileStart(TimerHandle)
+  -> EXTERN: (373,4) haloExchange(HaloExchange *, void *)
+  -> EXTERN: (374,4) profileStop(TimerHandle)
+  -> INLINE: (416,19) interpolate(InterpolationObject *, real_t, real_t *, real_t *) (isz = 80) (sz = 91)
+    -> EXTERN: (592,18) floor(double)
+    -> EXTERN: (599,12) floor(double)
+
+
+    Report from: OpenMP optimizations [openmp]
+
+eam.cpp(254:4-254:4):OMP:_ZN28_INTERNAL_7_eam_cpp_99a33b138eamForceEP9SimFlatSt:  OpenMP DEFINED LOOP WAS PARALLELIZED
+eam.cpp(279:4-279:4):OMP:_ZN28_INTERNAL_7_eam_cpp_99a33b138eamForceEP9SimFlatSt:  OpenMP DEFINED LOOP WAS PARALLELIZED
+eam.cpp(354:4-354:4):OMP:_ZN28_INTERNAL_7_eam_cpp_99a33b138eamForceEP9SimFlatSt:  OpenMP DEFINED LOOP WAS PARALLELIZED
+eam.cpp(379:4-379:4):OMP:_ZN28_INTERNAL_7_eam_cpp_99a33b138eamForceEP9SimFlatSt:  OpenMP DEFINED LOOP WAS PARALLELIZED
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at eam.cpp(254,4)
+<Peeled loop for vectorization>
+   remark #15389: vectorization support: reference s->atoms->f_0[ii] has unaligned access   [ eam.cpp(257,7) ]
+   remark #15389: vectorization support: reference s->atoms->f_1[ii] has unaligned access   [ eam.cpp(258,7) ]
+   remark #15389: vectorization support: reference s->atoms->f_2[ii] has unaligned access   [ eam.cpp(259,7) ]
+   remark #15389: vectorization support: reference s->atoms->U[ii] has unaligned access   [ eam.cpp(260,7) ]
+   remark #15389: vectorization support: reference pot[ii] has unaligned access   [ eam.cpp(261,7) ]
+   remark #15389: vectorization support: reference pot[ii] has unaligned access   [ eam.cpp(262,7) ]
+   remark #15381: vectorization support: unaligned access used inside loop body
+   remark #15335: peel loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   remark #15305: vectorization support: vector length 2
+   remark #15309: vectorization support: normalized vectorization overhead 0.566
+   remark #25015: Estimate of max trip count of loop=7
+LOOP END
+
+LOOP BEGIN at eam.cpp(254,4)
+   remark #15388: vectorization support: reference s->atoms->f_0[ii] has aligned access   [ eam.cpp(257,7) ]
+   remark #15388: vectorization support: reference s->atoms->f_1[ii] has aligned access   [ eam.cpp(258,7) ]
+   remark #15388: vectorization support: reference s->atoms->f_2[ii] has aligned access   [ eam.cpp(259,7) ]
+   remark #15388: vectorization support: reference s->atoms->U[ii] has aligned access   [ eam.cpp(260,7) ]
+   remark #15388: vectorization support: reference pot[ii] has aligned access   [ eam.cpp(261,7) ]
+   remark #15388: vectorization support: reference pot[ii] has aligned access   [ eam.cpp(262,7) ]
+   remark #15305: vectorization support: vector length 8
+   remark #15399: vectorization support: unroll factor set to 2
+   remark #15309: vectorization support: normalized vectorization overhead 0.278
+   remark #15301: OpenMP SIMD LOOP WAS VECTORIZED
+   remark #15449: unmasked aligned unit stride stores: 6 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 21 
+   remark #15477: vector cost: 2.250 
+   remark #15478: estimated potential speedup: 8.630 
+   remark #15488: --- end vector cost summary ---
+LOOP END
+
+LOOP BEGIN at eam.cpp(254,4)
+<Remainder loop for vectorization>
+   remark #15388: vectorization support: reference s->atoms->f_0[ii] has aligned access   [ eam.cpp(257,7) ]
+   remark #15388: vectorization support: reference s->atoms->f_1[ii] has aligned access   [ eam.cpp(258,7) ]
+   remark #15388: vectorization support: reference s->atoms->f_2[ii] has aligned access   [ eam.cpp(259,7) ]
+   remark #15388: vectorization support: reference s->atoms->U[ii] has aligned access   [ eam.cpp(260,7) ]
+   remark #15388: vectorization support: reference pot[ii] has aligned access   [ eam.cpp(261,7) ]
+   remark #15388: vectorization support: reference pot[ii] has aligned access   [ eam.cpp(262,7) ]
+   remark #15305: vectorization support: vector length 8
+   remark #15309: vectorization support: normalized vectorization overhead 0.343
+   remark #15301: REMAINDER LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at eam.cpp(320,31)
+   remark #25096: Loop Interchange not done due to: Imperfect Loop Nest (Either at Source or due to other Compiler Transformations)
+   remark #25451: Advice: Loop Interchange, if possible, might help loopnest. Suggested Permutation : ( 1 2 3 4 ) --> ( 1 3 4 2 ) 
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at eam.cpp(285,7)
+      remark #25096: Loop Interchange not done due to: Imperfect Loop Nest (Either at Source or due to other Compiler Transformations)
+      remark #25451: Advice: Loop Interchange, if possible, might help loopnest. Suggested Permutation : ( 1 2 3 ) --> ( 2 3 1 ) 
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at eam.cpp(296,10)
+         remark #25096: Loop Interchange not done due to: Imperfect Loop Nest (Either at Source or due to other Compiler Transformations)
+         remark #25452: Original Order found to be proper, but by a close margin
+         remark #15542: loop was not vectorized: inner loop was already vectorized
+
+         LOOP BEGIN at eam.cpp(300,13)
+            remark #15388: vectorization support: reference s->atoms->r_0[jOff] has aligned access   [ eam.cpp(306,46) ]
+            remark #15388: vectorization support: reference s->atoms->r_1[jOff] has aligned access   [ eam.cpp(308,46) ]
+            remark #15388: vectorization support: reference s->atoms->r_2[jOff] has aligned access   [ eam.cpp(310,46) ]
+            remark #15415: vectorization support: irregularly indexed load was generated for the variable <*(norm_alias_2F64+(ii-1)*8)>, masked, part of index is result of call to function   [ eam.cpp(600,21) ]
+            remark #15415: vectorization support: irregularly indexed load was generated for the variable <*(norm_alias_2F64+ii*8)>, masked, part of index is result of call to function   [ eam.cpp(600,41) ]
+            remark #15415: vectorization support: irregularly indexed load was generated for the variable <*(norm_alias_2F64+(ii+1)*8)>, masked, part of index is result of call to function   [ eam.cpp(600,59) ]
+            remark #15415: vectorization support: irregularly indexed load was generated for the variable <*(norm_alias_2F64+(ii+2)*8)>, masked, part of index is result of call to function   [ eam.cpp(600,79) ]
+            remark #15415: vectorization support: irregularly indexed load was generated for the variable <*(norm_alias_2F64+(ii-1)*8)>, masked, part of index is result of call to function   [ eam.cpp(600,21) ]
+            remark #15415: vectorization support: irregularly indexed load was generated for the variable <*(norm_alias_2F64+ii*8)>, masked, part of index is result of call to function   [ eam.cpp(600,41) ]
+            remark #15415: vectorization support: irregularly indexed load was generated for the variable <*(norm_alias_2F64+(ii+1)*8)>, masked, part of index is result of call to function   [ eam.cpp(600,59) ]
+            remark #15305: vectorization support: vector length 8
+            remark #15309: vectorization support: normalized vectorization overhead 0.286
+            remark #15301: SIMD LOOP WAS VECTORIZED
+            remark #15448: unmasked aligned unit stride loads: 3 
+            remark #15458: masked indexed (or gather) loads: 7 
+            remark #15475: --- begin vector cost summary ---
+            remark #15476: scalar cost: 127 
+            remark #15477: vector cost: 101.000 
+            remark #15478: estimated potential speedup: 1.200 
+            remark #15482: vectorized math library calls: 2 
+            remark #15486: divides: 3 
+            remark #15487: type converts: 4 
+            remark #15488: --- end vector cost summary ---
+         LOOP END
+
+         LOOP BEGIN at eam.cpp(300,13)
+         <Remainder loop for vectorization>
+            remark #15388: vectorization support: reference s->atoms->r_0[jOff] has aligned access   [ eam.cpp(306,46) ]
+            remark #15388: vectorization support: reference s->atoms->r_1[jOff] has aligned access   [ eam.cpp(308,46) ]
+            remark #15388: vectorization support: reference s->atoms->r_2[jOff] has aligned access   [ eam.cpp(310,46) ]
+            remark #15335: remainder loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+            remark #15305: vectorization support: vector length 8
+            remark #15309: vectorization support: normalized vectorization overhead 0.289
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at eam.cpp(364,22)
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at eam.cpp(361,7)
+      remark #25084: Preprocess Loopnests: Moving Out Store    [ eam.cpp(367,10) ]
+      remark #15388: vectorization support: reference pot[iOff] has aligned access   [ eam.cpp(364,31) ]
+      remark #15388: vectorization support: reference pot[iOff] has aligned access   [ eam.cpp(365,10) ]
+      remark #15388: vectorization support: reference s->atoms->U[iOff] has aligned access   [ eam.cpp(366,10) ]
+      remark #15388: vectorization support: reference s->atoms->U[iOff] has aligned access   [ eam.cpp(366,10) ]
+      remark #15415: vectorization support: irregularly indexed load was generated for the variable <table[ii-1]>, part of index is result of call to function   [ eam.cpp(600,21) ]
+      remark #15415: vectorization support: irregularly indexed load was generated for the variable <table[ii]>, part of index is result of call to function   [ eam.cpp(600,41) ]
+      remark #15415: vectorization support: irregularly indexed load was generated for the variable <table[ii+1]>, part of index is result of call to function   [ eam.cpp(600,59) ]
+      remark #15415: vectorization support: irregularly indexed load was generated for the variable <table[ii+2]>, part of index is result of call to function   [ eam.cpp(600,79) ]
+      remark #15305: vectorization support: vector length 8
+      remark #15309: vectorization support: normalized vectorization overhead 0.199
+      remark #15301: SIMD LOOP WAS VECTORIZED
+      remark #15448: unmasked aligned unit stride loads: 2 
+      remark #15449: unmasked aligned unit stride stores: 2 
+      remark #15462: unmasked indexed (or gather) loads: 4 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 291 
+      remark #15477: vector cost: 38.370 
+      remark #15478: estimated potential speedup: 7.250 
+      remark #15482: vectorized math library calls: 1 
+      remark #15486: divides: 1 
+      remark #15487: type converts: 1 
+      remark #15488: --- end vector cost summary ---
+   LOOP END
+
+   LOOP BEGIN at eam.cpp(361,7)
+   <Remainder loop for vectorization>
+      remark #15388: vectorization support: reference pot[iOff] has aligned access   [ eam.cpp(364,31) ]
+      remark #15388: vectorization support: reference pot[iOff] has aligned access   [ eam.cpp(365,10) ]
+      remark #15388: vectorization support: reference s->atoms->U[iOff] has aligned access   [ eam.cpp(366,10) ]
+      remark #15388: vectorization support: reference s->atoms->U[iOff] has aligned access   [ eam.cpp(366,10) ]
+      remark #15305: vectorization support: vector length 8
+      remark #15309: vectorization support: normalized vectorization overhead 0.192
+      remark #15301: REMAINDER LOOP WAS VECTORIZED
+   LOOP END
+LOOP END
+
+LOOP BEGIN at eam.cpp(268,21)
+   remark #25096: Loop Interchange not done due to: Imperfect Loop Nest (Either at Source or due to other Compiler Transformations)
+   remark #25451: Advice: Loop Interchange, if possible, might help loopnest. Suggested Permutation : ( 1 2 3 4 ) --> ( 1 3 4 2 ) 
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at eam.cpp(385,7)
+      remark #25096: Loop Interchange not done due to: Imperfect Loop Nest (Either at Source or due to other Compiler Transformations)
+      remark #25451: Advice: Loop Interchange, if possible, might help loopnest. Suggested Permutation : ( 1 2 3 ) --> ( 2 3 1 ) 
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at eam.cpp(393,10)
+         remark #25096: Loop Interchange not done due to: Imperfect Loop Nest (Either at Source or due to other Compiler Transformations)
+         remark #25452: Original Order found to be proper, but by a close margin
+         remark #15542: loop was not vectorized: inner loop was already vectorized
+
+         LOOP BEGIN at eam.cpp(397,13)
+            remark #15388: vectorization support: reference s->atoms->r_0[jOff] has aligned access   [ eam.cpp(403,46) ]
+            remark #15388: vectorization support: reference s->atoms->r_1[jOff] has aligned access   [ eam.cpp(405,46) ]
+            remark #15388: vectorization support: reference s->atoms->r_2[jOff] has aligned access   [ eam.cpp(407,46) ]
+            remark #15388: vectorization support: reference pot[jOff] has aligned access   [ eam.cpp(419,50) ]
+            remark #15388: vectorization support: reference pot[jOff] has aligned access   [ eam.cpp(420,50) ]
+            remark #15388: vectorization support: reference pot[jOff] has aligned access   [ eam.cpp(421,50) ]
+            remark #15415: vectorization support: irregularly indexed load was generated for the variable <*(norm_alias_2F64+(ii-1)*8)>, masked, part of index is result of call to function   [ eam.cpp(600,21) ]
+            remark #15415: vectorization support: irregularly indexed load was generated for the variable <*(norm_alias_2F64+ii*8)>, masked, part of index is result of call to function   [ eam.cpp(600,41) ]
+            remark #15415: vectorization support: irregularly indexed load was generated for the variable <*(norm_alias_2F64+(ii+1)*8)>, masked, part of index is result of call to function   [ eam.cpp(600,59) ]
+            remark #15415: vectorization support: irregularly indexed load was generated for the variable <*(norm_alias_2F64+(ii+2)*8)>, masked, part of index is result of call to function   [ eam.cpp(600,79) ]
+            remark #15305: vectorization support: vector length 8
+            remark #15309: vectorization support: normalized vectorization overhead 0.257
+            remark #15301: OpenMP SIMD LOOP WAS VECTORIZED
+            remark #15448: unmasked aligned unit stride loads: 3 
+            remark #15454: masked aligned unit stride loads: 3 
+            remark #15458: masked indexed (or gather) loads: 4 
+            remark #15475: --- begin vector cost summary ---
+            remark #15476: scalar cost: 91 
+            remark #15477: vector cost: 60.250 
+            remark #15478: estimated potential speedup: 1.440 
+            remark #15482: vectorized math library calls: 1 
+            remark #15486: divides: 2 
+            remark #15487: type converts: 2 
+            remark #15488: --- end vector cost summary ---
+         LOOP END
+
+         LOOP BEGIN at eam.cpp(397,13)
+         <Remainder loop for vectorization>
+            remark #15388: vectorization support: reference s->atoms->r_0[jOff] has aligned access   [ eam.cpp(403,46) ]
+            remark #15388: vectorization support: reference s->atoms->r_1[jOff] has aligned access   [ eam.cpp(405,46) ]
+            remark #15388: vectorization support: reference s->atoms->r_2[jOff] has aligned access   [ eam.cpp(407,46) ]
+            remark #15388: vectorization support: reference pot[jOff] has aligned access   [ eam.cpp(419,50) ]
+            remark #15388: vectorization support: reference pot[jOff] has aligned access   [ eam.cpp(420,50) ]
+            remark #15388: vectorization support: reference pot[jOff] has aligned access   [ eam.cpp(421,50) ]
+            remark #15335: remainder loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+            remark #15305: vectorization support: vector length 8
+            remark #15309: vectorization support: normalized vectorization overhead 0.264
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+eam.cpp(600,21):remark #34071: optimization of adjacent sparse (masked, indexed) loads seems unprofitable. Details: types { F64-V512, F64-V512, F64-V512, F64-V512 }, number of elements { 8 }, select mask { 0x00000000F }.
+eam.cpp(600,21):remark #34071: optimization of adjacent sparse (masked, indexed) loads seems unprofitable. Details: types { F64-V512, F64-V512, F64-V512 }, number of elements { 8 }, select mask { 0x000000007 }.
+eam.cpp(600,41):remark #34072: optimization of adjacent sparse (indexed) loads seems unprofitable. Details: types { F64-V512, F64-V512, F64-V512 }, number of elements { 8 }, select mask { 0x000000007 }.
+eam.cpp(600,41):remark #34071: optimization of adjacent sparse (masked, indexed) loads seems unprofitable. Details: types { F64-V512, F64-V512, F64-V512 }, number of elements { 8 }, select mask { 0x000000007 }.
+eam.cpp(600,21):remark #34071: optimization of adjacent sparse (masked, indexed) loads seems unprofitable. Details: types { F64-V512, F64-V512, F64-V512, F64-V512 }, number of elements { 8 }, select mask { 0x00000000F }.
+eam.cpp(218,1):remark #34051: REGISTER ALLOCATION : [_ZN28_INTERNAL_7_eam_cpp_99a33b138eamForceEP9SimFlatSt] eam.cpp:218
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   53[ rax rdx rcx rbx rsi rdi r8-r15 zmm0-zmm31 k0-k6]
+        
+    Routine temporaries
+        Total         :    1506
+            Global    :     426
+            Local     :    1080
+        Regenerable   :     269
+        Spilled       :     120
+        
+    Routine stack
+        Variables     :     148 bytes*
+            Reads     :      33 [1.30e+02 ~ 0.1%]
+            Writes    :      30 [2.08e+02 ~ 0.1%]
+        Spills        :    1256 bytes*
+            Reads     :     201 [5.66e+03 ~ 3.4%]
+            Writes    :     163 [1.81e+03 ~ 1.1%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: eamPrint(FILE *, BasePotential *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (eamPrint(FILE *, BasePotential *)) [4/16=25.0%] eam.cpp(440,1)
+  -> EXTERN: (442,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (443,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (444,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (445,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (446,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (447,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (448,4) fprintf(FILE *, const char *, ...)
+
+
+    Report from: Code generation optimizations [cg]
+
+eam.cpp(440,1):remark #34051: REGISTER ALLOCATION : [_ZN28_INTERNAL_7_eam_cpp_99a33b138eamPrintEP8_IO_FILEP15BasePotentialSt] eam.cpp:440
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   15[ rax rdx rbp rsi rdi r12 zmm0 zmm16-zmm23]
+        
+    Routine temporaries
+        Total         :      61
+            Global    :       8
+            Local     :      53
+        Regenerable   :      22
+        Spilled       :       2
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :      16 bytes*
+            Reads     :       2 [2.00e+00 ~ 3.1%]
+            Writes    :       2 [2.00e+00 ~ 3.1%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: eamDestroy(BasePotential **)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (eamDestroy(BasePotential **)) [5/16=31.2%] eam.cpp(452,1)
+  -> INLINE: (456,4) destroyInterpolationObject(InterpolationObject **) (isz = 22) (sz = 29)
+    -> INLINE: (551,7) comdFree(void *) (isz = 0) (sz = 5)
+      -> EXTERN: memUtils.h:(38,2) _mm_free(void *)
+    -> INLINE: (553,4) comdFree(void *) (isz = 0) (sz = 5)
+      -> EXTERN: memUtils.h:(38,2) _mm_free(void *)
+  -> INLINE: (457,4) destroyInterpolationObject(InterpolationObject **) (isz = 22) (sz = 29)
+    -> INLINE: (551,7) comdFree(void *) (isz = 0) (sz = 5)
+      -> EXTERN: memUtils.h:(38,2) _mm_free(void *)
+    -> INLINE: (553,4) comdFree(void *) (isz = 0) (sz = 5)
+      -> EXTERN: memUtils.h:(38,2) _mm_free(void *)
+  -> INLINE: (458,4) destroyInterpolationObject(InterpolationObject **) (isz = 22) (sz = 29)
+    -> INLINE: (551,7) comdFree(void *) (isz = 0) (sz = 5)
+      -> EXTERN: memUtils.h:(38,2) _mm_free(void *)
+    -> INLINE: (553,4) comdFree(void *) (isz = 0) (sz = 5)
+      -> EXTERN: memUtils.h:(38,2) _mm_free(void *)
+  -> EXTERN: (459,4) destroyHaloExchange(HaloExchange **)
+  -> INLINE: (460,4) comdFree(void *) (isz = 0) (sz = 5)
+    -> EXTERN: memUtils.h:(38,2) _mm_free(void *)
+
+
+    Report from: Code generation optimizations [cg]
+
+eam.cpp(452,1):remark #34051: REGISTER ALLOCATION : [_ZN28_INTERNAL_7_eam_cpp_99a33b1310eamDestroyEPP15BasePotentialSt] eam.cpp:452
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :    5[ rax rdi r12-r14]
+        
+    Routine temporaries
+        Total         :      36
+            Global    :      17
+            Local     :      19
+        Regenerable   :       0
+        Spilled       :       3
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :      24 bytes*
+            Reads     :       6 [2.59e+00 ~ 4.6%]
+            Writes    :       3 [3.00e+00 ~ 5.3%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: eamBcastPotential(EamPotential *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (eamBcastPotential(EamPotential *)) eam.cpp(470,1)
+
+===========================================================================
+
+Begin optimization report for: bcastInterpolationObject(InterpolationObject **)
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (bcastInterpolationObject(InterpolationObject **)) eam.cpp(619,1)
+
+===========================================================================
+
+Begin optimization report for: destroyInterpolationObject(InterpolationObject **)
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (destroyInterpolationObject(InterpolationObject **)) eam.cpp(545,1)
+
+===========================================================================
+
+Begin optimization report for: interpolate..xM2va64vvv(InterpolationObject *, real_t, real_t *, real_t *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (interpolate..xM2va64vvv(InterpolationObject *, real_t, real_t *, real_t *)) eam.cpp(586,1)
+
+===========================================================================
+
+Begin optimization report for: interpolate(InterpolationObject *, real_t, real_t *, real_t *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (interpolate(InterpolationObject *, real_t, real_t *, real_t *)) eam.cpp(586,1)
+
+===========================================================================
+
+Begin optimization report for: fileNotFound(const char *, const char *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (fileNotFound(const char *, const char *)) eam.cpp(902,1)
+
+===========================================================================
+
+Begin optimization report for: notAlloyReady(const char *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (notAlloyReady(const char *)) eam.cpp(909,1)
+
+===========================================================================
+
+Begin optimization report for: typeNotSupported(const char *, const char *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (typeNotSupported(const char *, const char *)) eam.cpp(917,1)
+
+===========================================================================
+
+Begin optimization report for: eamReadSetfl(EamPotential *, const char *, const char *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (eamReadSetfl(EamPotential *, const char *, const char *)) [13/16=81.2%] eam.cpp(709,1)
+  -> EXTERN: (711,4) sprintf(char *, const char *, ...)
+  -> EXTERN: (713,20) fopen(const char *, const char *)
+  -> INLINE: (715,7) fileNotFound(const char *, const char *) (isz = 6) (sz = 12)
+    -> EXTERN: (903,4) fprintf(FILE *, const char *, ...)
+    -> EXTERN: (905,4) exit(int)
+  -> EXTERN: (718,4) fgets(char *, int, FILE *)
+  -> EXTERN: (719,4) fgets(char *, int, FILE *)
+  -> EXTERN: (720,4) fgets(char *, int, FILE *)
+  -> EXTERN: (723,4) fgets(char *, int, FILE *)
+  -> EXTERN: (725,4) sscanf(const char *, const char *, ...)
+  -> INLINE: (727,7) notAlloyReady(const char *) (isz = 6) (sz = 10)
+    -> EXTERN: (910,4) fprintf(FILE *, const char *, ...)
+    -> EXTERN: (913,4) exit(int)
+  -> EXTERN: (733,4) fgets(char *, int, FILE *)
+  -> EXTERN: (734,4) sscanf(const char *, const char *, ...)
+  -> EXTERN: (739,4) fgets(char *, int, FILE *)
+  -> EXTERN: (743,4) sscanf(const char *, const char *, ...)
+  -> EXTERN: (747,4) strcpy(char *, const char *)
+  -> INLINE: (751,28) comdMalloc(size_t) (isz = 2) (sz = 9)
+    -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+  -> EXTERN: (760,7) fscanf(FILE *, const char *, ...)
+  -> INLINE: (761,13) initInterpolationObject(int, real_t, real_t, real_t *) (isz = 115) (sz = 128)
+    -> INLINE: (518,30) comdMalloc(size_t) (isz = 2) (sz = 9)
+      -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+    -> EXTERN: (519,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+    -> INLINE: (521,29) comdMalloc(size_t) (isz = 2) (sz = 9)
+      -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+    -> EXTERN: (522,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+  -> EXTERN: (765,7) fscanf(FILE *, const char *, ...)
+  -> INLINE: (766,15) initInterpolationObject(int, real_t, real_t, real_t *) (isz = 115) (sz = 128)
+    -> INLINE: (518,30) comdMalloc(size_t) (isz = 2) (sz = 9)
+      -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+    -> EXTERN: (519,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+    -> INLINE: (521,29) comdMalloc(size_t) (isz = 2) (sz = 9)
+      -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+    -> EXTERN: (522,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+  -> EXTERN: (770,7) fscanf(FILE *, const char *, ...)
+  -> INLINE: (777,15) initInterpolationObject(int, real_t, real_t, real_t *) (isz = 115) (sz = 128)
+    -> INLINE: (518,30) comdMalloc(size_t) (isz = 2) (sz = 9)
+      -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+    -> EXTERN: (519,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+    -> INLINE: (521,29) comdMalloc(size_t) (isz = 2) (sz = 9)
+      -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+    -> EXTERN: (522,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+  -> INLINE: (779,4) comdFree(void *) (isz = 0) (sz = 5)
+    -> EXTERN: memUtils.h:(38,2) _mm_free(void *)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at eam.cpp(524,4) inlined into eam.cpp(761,13)
+   remark #15388: vectorization support: reference table has aligned access   [ eam.cpp(524,31) ]
+   remark #15305: vectorization support: vector length 8
+   remark #15399: vectorization support: unroll factor set to 2
+   remark #15300: LOOP WAS VECTORIZED
+   remark #15449: unmasked aligned unit stride stores: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 4 
+   remark #15477: vector cost: 0.370 
+   remark #15478: estimated potential speedup: 10.000 
+   remark #15488: --- end vector cost summary ---
+LOOP END
+
+LOOP BEGIN at eam.cpp(524,4) inlined into eam.cpp(761,13)
+<Remainder loop for vectorization>
+   remark #15388: vectorization support: reference table has aligned access   [ eam.cpp(524,31) ]
+   remark #15305: vectorization support: vector length 8
+   remark #15309: vectorization support: normalized vectorization overhead 1.200
+   remark #15301: REMAINDER LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at eam.cpp(535,4) inlined into eam.cpp(761,13)
+   remark #25399: memcopy generated
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at eam.cpp(535,4) inlined into eam.cpp(761,13)
+      remark #15388: vectorization support: reference table->values[ii] has aligned access   [ eam.cpp(536,7) ]
+      remark #15388: vectorization support: reference buf[ii] has aligned access   [ eam.cpp(536,27) ]
+      remark #15305: vectorization support: vector length 8
+      remark #15300: LOOP WAS VECTORIZED
+      remark #15448: unmasked aligned unit stride loads: 1 
+      remark #15449: unmasked aligned unit stride stores: 1 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 5 
+      remark #15477: vector cost: 0.370 
+      remark #15478: estimated potential speedup: 6.660 
+      remark #15488: --- end vector cost summary ---
+      remark #25015: Estimate of max trip count of loop=1
+   LOOP END
+
+   LOOP BEGIN at eam.cpp(535,4) inlined into eam.cpp(761,13)
+   <Remainder loop for vectorization>
+      remark #15388: vectorization support: reference table->values[ii] has aligned access   [ eam.cpp(536,7) ]
+      remark #15388: vectorization support: reference buf[ii] has aligned access   [ eam.cpp(536,27) ]
+      remark #15305: vectorization support: vector length 8
+      remark #15309: vectorization support: normalized vectorization overhead 1.000
+      remark #15301: REMAINDER LOOP WAS VECTORIZED
+      remark #25015: Estimate of max trip count of loop=1
+   LOOP END
+LOOP END
+
+LOOP BEGIN at eam.cpp(524,4) inlined into eam.cpp(766,15)
+   remark #15388: vectorization support: reference table has aligned access   [ eam.cpp(524,31) ]
+   remark #15305: vectorization support: vector length 8
+   remark #15399: vectorization support: unroll factor set to 2
+   remark #15300: LOOP WAS VECTORIZED
+   remark #15449: unmasked aligned unit stride stores: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 4 
+   remark #15477: vector cost: 0.370 
+   remark #15478: estimated potential speedup: 10.000 
+   remark #15488: --- end vector cost summary ---
+LOOP END
+
+LOOP BEGIN at eam.cpp(524,4) inlined into eam.cpp(766,15)
+<Remainder loop for vectorization>
+   remark #15388: vectorization support: reference table has aligned access   [ eam.cpp(524,31) ]
+   remark #15305: vectorization support: vector length 8
+   remark #15309: vectorization support: normalized vectorization overhead 1.200
+   remark #15301: REMAINDER LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at eam.cpp(535,4) inlined into eam.cpp(766,15)
+   remark #25399: memcopy generated
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at eam.cpp(535,4) inlined into eam.cpp(766,15)
+      remark #15388: vectorization support: reference table->values[ii] has aligned access   [ eam.cpp(536,7) ]
+      remark #15388: vectorization support: reference buf[ii] has aligned access   [ eam.cpp(536,27) ]
+      remark #15305: vectorization support: vector length 8
+      remark #15300: LOOP WAS VECTORIZED
+      remark #15448: unmasked aligned unit stride loads: 1 
+      remark #15449: unmasked aligned unit stride stores: 1 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 5 
+      remark #15477: vector cost: 0.370 
+      remark #15478: estimated potential speedup: 6.660 
+      remark #15488: --- end vector cost summary ---
+      remark #25015: Estimate of max trip count of loop=1
+   LOOP END
+
+   LOOP BEGIN at eam.cpp(535,4) inlined into eam.cpp(766,15)
+   <Remainder loop for vectorization>
+      remark #15388: vectorization support: reference table->values[ii] has aligned access   [ eam.cpp(536,7) ]
+      remark #15388: vectorization support: reference buf[ii] has aligned access   [ eam.cpp(536,27) ]
+      remark #15305: vectorization support: vector length 8
+      remark #15309: vectorization support: normalized vectorization overhead 1.000
+      remark #15301: REMAINDER LOOP WAS VECTORIZED
+      remark #25015: Estimate of max trip count of loop=1
+   LOOP END
+LOOP END
+
+LOOP BEGIN at eam.cpp(771,4)
+<Peeled loop for vectorization>
+   remark #15389: vectorization support: reference buf[ii] has unaligned access   [ eam.cpp(774,7) ]
+   remark #15389: vectorization support: reference buf[ii] has unaligned access   [ eam.cpp(774,7) ]
+   remark #15381: vectorization support: unaligned access used inside loop body
+   remark #15305: vectorization support: vector length 8
+   remark #15427: loop was completely unrolled
+   remark #15309: vectorization support: normalized vectorization overhead 0.357
+   remark #15301: PEEL LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at eam.cpp(771,4)
+   remark #15388: vectorization support: reference buf[ii] has aligned access   [ eam.cpp(774,7) ]
+   remark #15388: vectorization support: reference buf[ii] has aligned access   [ eam.cpp(774,7) ]
+   remark #15305: vectorization support: vector length 8
+   remark #15399: vectorization support: unroll factor set to 2
+   remark #15309: vectorization support: normalized vectorization overhead 0.026
+   remark #15300: LOOP WAS VECTORIZED
+   remark #15450: unmasked unaligned unit stride loads: 1 
+   remark #15451: unmasked unaligned unit stride stores: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 34 
+   remark #15477: vector cost: 4.750 
+   remark #15478: estimated potential speedup: 6.700 
+   remark #15486: divides: 1 
+   remark #15487: type converts: 1 
+   remark #15488: --- end vector cost summary ---
+LOOP END
+
+LOOP BEGIN at eam.cpp(771,4)
+<Remainder loop for vectorization>
+   remark #15388: vectorization support: reference buf[ii] has aligned access   [ eam.cpp(774,7) ]
+   remark #15388: vectorization support: reference buf[ii] has aligned access   [ eam.cpp(774,7) ]
+   remark #15305: vectorization support: vector length 8
+   remark #15309: vectorization support: normalized vectorization overhead 0.264
+   remark #15301: REMAINDER LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at eam.cpp(524,4) inlined into eam.cpp(777,15)
+   remark #15388: vectorization support: reference table has aligned access   [ eam.cpp(524,31) ]
+   remark #15305: vectorization support: vector length 8
+   remark #15399: vectorization support: unroll factor set to 2
+   remark #15300: LOOP WAS VECTORIZED
+   remark #15449: unmasked aligned unit stride stores: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 4 
+   remark #15477: vector cost: 0.370 
+   remark #15478: estimated potential speedup: 10.000 
+   remark #15488: --- end vector cost summary ---
+LOOP END
+
+LOOP BEGIN at eam.cpp(524,4) inlined into eam.cpp(777,15)
+<Remainder loop for vectorization>
+   remark #15388: vectorization support: reference table has aligned access   [ eam.cpp(524,31) ]
+   remark #15305: vectorization support: vector length 8
+   remark #15309: vectorization support: normalized vectorization overhead 1.200
+   remark #15301: REMAINDER LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at eam.cpp(535,4) inlined into eam.cpp(777,15)
+   remark #25399: memcopy generated
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at eam.cpp(535,4) inlined into eam.cpp(777,15)
+      remark #15388: vectorization support: reference table->values[ii] has aligned access   [ eam.cpp(536,7) ]
+      remark #15388: vectorization support: reference buf[ii] has aligned access   [ eam.cpp(536,27) ]
+      remark #15305: vectorization support: vector length 8
+      remark #15300: LOOP WAS VECTORIZED
+      remark #15448: unmasked aligned unit stride loads: 1 
+      remark #15449: unmasked aligned unit stride stores: 1 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 5 
+      remark #15477: vector cost: 0.370 
+      remark #15478: estimated potential speedup: 6.660 
+      remark #15488: --- end vector cost summary ---
+      remark #25015: Estimate of max trip count of loop=1
+   LOOP END
+
+   LOOP BEGIN at eam.cpp(535,4) inlined into eam.cpp(777,15)
+   <Remainder loop for vectorization>
+      remark #15388: vectorization support: reference table->values[ii] has aligned access   [ eam.cpp(536,7) ]
+      remark #15388: vectorization support: reference buf[ii] has aligned access   [ eam.cpp(536,27) ]
+      remark #15305: vectorization support: vector length 8
+      remark #15309: vectorization support: normalized vectorization overhead 1.000
+      remark #15301: REMAINDER LOOP WAS VECTORIZED
+      remark #25015: Estimate of max trip count of loop=1
+   LOOP END
+LOOP END
+
+
+Non-optimizable loops:
+
+
+LOOP BEGIN at eam.cpp(759,4)
+   remark #15523: loop was not vectorized: loop control variable ii was found, but loop iteration count cannot be computed before executing the loop
+LOOP END
+
+LOOP BEGIN at eam.cpp(764,4)
+   remark #15523: loop was not vectorized: loop control variable ii was found, but loop iteration count cannot be computed before executing the loop
+LOOP END
+
+LOOP BEGIN at eam.cpp(769,4)
+   remark #15523: loop was not vectorized: loop control variable ii was found, but loop iteration count cannot be computed before executing the loop
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+eam.cpp(536,7):remark #34026: call to memcpy implemented as a call to optimized library version
+eam.cpp(536,7):remark #34026: call to memcpy implemented as a call to optimized library version
+eam.cpp(536,7):remark #34026: call to memcpy implemented as a call to optimized library version
+eam.cpp(709,1):remark #34051: REGISTER ALLOCATION : [_ZN28_INTERNAL_7_eam_cpp_99a33b1312eamReadSetflEP14EamPotentialStPKcS3_] eam.cpp:709
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   28[ rax rdx rcx rbx rsi rdi r8-r15 zmm0-zmm10 k1-k3]
+        
+    Routine temporaries
+        Total         :     519
+            Global    :     180
+            Local     :     339
+        Regenerable   :     155
+        Spilled       :      18
+        
+    Routine stack
+        Variables     :    4160 bytes*
+            Reads     :      17 [2.71e+01 ~ 1.9%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :     144 bytes*
+            Reads     :      23 [2.28e+01 ~ 1.6%]
+            Writes    :      19 [1.70e+01 ~ 1.2%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: eamReadFuncfl(EamPotential *, const char *, const char *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (eamReadFuncfl(EamPotential *, const char *, const char *)) [14/16=87.5%] eam.cpp(831,1)
+  -> EXTERN: (834,4) sprintf(char *, const char *, ...)
+  -> EXTERN: (835,20) fopen(const char *, const char *)
+  -> INLINE: (837,7) fileNotFound(const char *, const char *) (isz = 6) (sz = 12)
+    -> EXTERN: (903,4) fprintf(FILE *, const char *, ...)
+    -> EXTERN: (905,4) exit(int)
+  -> EXTERN: (840,4) fgets(char *, int, FILE *)
+  -> EXTERN: (842,4) sscanf(const char *, const char *, ...)
+  -> EXTERN: (843,4) strcpy(char *, const char *)
+  -> EXTERN: (849,4) fgets(char *, int, FILE *)
+  -> EXTERN: (850,4) sscanf(const char *, const char *, ...)
+  -> EXTERN: (854,4) strcpy(char *, const char *)
+  -> EXTERN: (859,4) fgets(char *, int, FILE *)
+  -> EXTERN: (860,4) sscanf(const char *, const char *, ...)
+  -> INLINE: (866,28) comdMalloc(size_t) (isz = 2) (sz = 9)
+    -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+  -> EXTERN: (874,7) fscanf(FILE *, const char *, ...)
+  -> INLINE: (875,13) initInterpolationObject(int, real_t, real_t, real_t *) (isz = 115) (sz = 128)
+    -> INLINE: (518,30) comdMalloc(size_t) (isz = 2) (sz = 9)
+      -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+    -> EXTERN: (519,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+    -> INLINE: (521,29) comdMalloc(size_t) (isz = 2) (sz = 9)
+      -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+    -> EXTERN: (522,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+  -> EXTERN: (879,7) fscanf(FILE *, const char *, ...)
+  -> INLINE: (887,15) initInterpolationObject(int, real_t, real_t, real_t *) (isz = 115) (sz = 128)
+    -> INLINE: (518,30) comdMalloc(size_t) (isz = 2) (sz = 9)
+      -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+    -> EXTERN: (519,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+    -> INLINE: (521,29) comdMalloc(size_t) (isz = 2) (sz = 9)
+      -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+    -> EXTERN: (522,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+  -> EXTERN: (891,7) fscanf(FILE *, const char *, ...)
+  -> INLINE: (892,15) initInterpolationObject(int, real_t, real_t, real_t *) (isz = 115) (sz = 128)
+    -> INLINE: (518,30) comdMalloc(size_t) (isz = 2) (sz = 9)
+      -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+    -> EXTERN: (519,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+    -> INLINE: (521,29) comdMalloc(size_t) (isz = 2) (sz = 9)
+      -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+    -> EXTERN: (522,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+  -> INLINE: (894,4) comdFree(void *) (isz = 0) (sz = 5)
+    -> EXTERN: memUtils.h:(38,2) _mm_free(void *)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at eam.cpp(524,4) inlined into eam.cpp(875,13)
+   remark #15388: vectorization support: reference table has aligned access   [ eam.cpp(524,31) ]
+   remark #15305: vectorization support: vector length 8
+   remark #15399: vectorization support: unroll factor set to 2
+   remark #15300: LOOP WAS VECTORIZED
+   remark #15449: unmasked aligned unit stride stores: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 4 
+   remark #15477: vector cost: 0.370 
+   remark #15478: estimated potential speedup: 10.000 
+   remark #15488: --- end vector cost summary ---
+LOOP END
+
+LOOP BEGIN at eam.cpp(524,4) inlined into eam.cpp(875,13)
+<Remainder loop for vectorization>
+   remark #15388: vectorization support: reference table has aligned access   [ eam.cpp(524,31) ]
+   remark #15305: vectorization support: vector length 8
+   remark #15309: vectorization support: normalized vectorization overhead 1.200
+   remark #15301: REMAINDER LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at eam.cpp(535,4) inlined into eam.cpp(875,13)
+   remark #25399: memcopy generated
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at eam.cpp(535,4) inlined into eam.cpp(875,13)
+      remark #15388: vectorization support: reference table->values[ii] has aligned access   [ eam.cpp(536,7) ]
+      remark #15388: vectorization support: reference buf[ii] has aligned access   [ eam.cpp(536,27) ]
+      remark #15305: vectorization support: vector length 8
+      remark #15300: LOOP WAS VECTORIZED
+      remark #15448: unmasked aligned unit stride loads: 1 
+      remark #15449: unmasked aligned unit stride stores: 1 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 5 
+      remark #15477: vector cost: 0.370 
+      remark #15478: estimated potential speedup: 6.660 
+      remark #15488: --- end vector cost summary ---
+      remark #25015: Estimate of max trip count of loop=1
+   LOOP END
+
+   LOOP BEGIN at eam.cpp(535,4) inlined into eam.cpp(875,13)
+   <Remainder loop for vectorization>
+      remark #15388: vectorization support: reference table->values[ii] has aligned access   [ eam.cpp(536,7) ]
+      remark #15388: vectorization support: reference buf[ii] has aligned access   [ eam.cpp(536,27) ]
+      remark #15305: vectorization support: vector length 8
+      remark #15309: vectorization support: normalized vectorization overhead 1.000
+      remark #15301: REMAINDER LOOP WAS VECTORIZED
+      remark #25015: Estimate of max trip count of loop=1
+   LOOP END
+LOOP END
+
+LOOP BEGIN at eam.cpp(880,4)
+<Peeled loop for vectorization>
+   remark #15389: vectorization support: reference buf[ii] has unaligned access   [ eam.cpp(883,7) ]
+   remark #15389: vectorization support: reference buf[ii] has unaligned access   [ eam.cpp(883,7) ]
+   remark #15389: vectorization support: reference buf[ii] has unaligned access   [ eam.cpp(883,18) ]
+   remark #15389: vectorization support: reference buf[ii] has unaligned access   [ eam.cpp(884,7) ]
+   remark #15389: vectorization support: reference buf[ii] has unaligned access   [ eam.cpp(884,7) ]
+   remark #15381: vectorization support: unaligned access used inside loop body
+   remark #15305: vectorization support: vector length 8
+   remark #15427: loop was completely unrolled
+   remark #15309: vectorization support: normalized vectorization overhead 0.185
+   remark #15301: PEEL LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at eam.cpp(880,4)
+   remark #15388: vectorization support: reference buf[ii] has aligned access   [ eam.cpp(883,7) ]
+   remark #15388: vectorization support: reference buf[ii] has aligned access   [ eam.cpp(883,7) ]
+   remark #15388: vectorization support: reference buf[ii] has aligned access   [ eam.cpp(883,18) ]
+   remark #15388: vectorization support: reference buf[ii] has aligned access   [ eam.cpp(884,7) ]
+   remark #15388: vectorization support: reference buf[ii] has aligned access   [ eam.cpp(884,7) ]
+   remark #15305: vectorization support: vector length 8
+   remark #15399: vectorization support: unroll factor set to 2
+   remark #15309: vectorization support: normalized vectorization overhead 0.022
+   remark #15300: LOOP WAS VECTORIZED
+   remark #15450: unmasked unaligned unit stride loads: 1 
+   remark #15451: unmasked unaligned unit stride stores: 2 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 43 
+   remark #15477: vector cost: 5.620 
+   remark #15478: estimated potential speedup: 7.150 
+   remark #15486: divides: 1 
+   remark #15487: type converts: 1 
+   remark #15488: --- end vector cost summary ---
+   remark #25456: Number of Array Refs Scalar Replaced In Loop: 4
+LOOP END
+
+LOOP BEGIN at eam.cpp(880,4)
+<Remainder loop for vectorization>
+   remark #15388: vectorization support: reference buf[ii] has aligned access   [ eam.cpp(883,7) ]
+   remark #15388: vectorization support: reference buf[ii] has aligned access   [ eam.cpp(883,7) ]
+   remark #15388: vectorization support: reference buf[ii] has aligned access   [ eam.cpp(883,18) ]
+   remark #15388: vectorization support: reference buf[ii] has aligned access   [ eam.cpp(884,7) ]
+   remark #15388: vectorization support: reference buf[ii] has aligned access   [ eam.cpp(884,7) ]
+   remark #15305: vectorization support: vector length 8
+   remark #15309: vectorization support: normalized vectorization overhead 0.200
+   remark #15301: REMAINDER LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at eam.cpp(524,4) inlined into eam.cpp(887,15)
+   remark #15388: vectorization support: reference table has aligned access   [ eam.cpp(524,31) ]
+   remark #15305: vectorization support: vector length 8
+   remark #15399: vectorization support: unroll factor set to 2
+   remark #15300: LOOP WAS VECTORIZED
+   remark #15449: unmasked aligned unit stride stores: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 4 
+   remark #15477: vector cost: 0.370 
+   remark #15478: estimated potential speedup: 10.000 
+   remark #15488: --- end vector cost summary ---
+LOOP END
+
+LOOP BEGIN at eam.cpp(524,4) inlined into eam.cpp(887,15)
+<Remainder loop for vectorization>
+   remark #15388: vectorization support: reference table has aligned access   [ eam.cpp(524,31) ]
+   remark #15305: vectorization support: vector length 8
+   remark #15309: vectorization support: normalized vectorization overhead 1.200
+   remark #15301: REMAINDER LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at eam.cpp(535,4) inlined into eam.cpp(887,15)
+   remark #25399: memcopy generated
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at eam.cpp(535,4) inlined into eam.cpp(887,15)
+      remark #15388: vectorization support: reference table->values[ii] has aligned access   [ eam.cpp(536,7) ]
+      remark #15388: vectorization support: reference buf[ii] has aligned access   [ eam.cpp(536,27) ]
+      remark #15305: vectorization support: vector length 8
+      remark #15300: LOOP WAS VECTORIZED
+      remark #15448: unmasked aligned unit stride loads: 1 
+      remark #15449: unmasked aligned unit stride stores: 1 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 5 
+      remark #15477: vector cost: 0.370 
+      remark #15478: estimated potential speedup: 6.660 
+      remark #15488: --- end vector cost summary ---
+      remark #25015: Estimate of max trip count of loop=1
+   LOOP END
+
+   LOOP BEGIN at eam.cpp(535,4) inlined into eam.cpp(887,15)
+   <Remainder loop for vectorization>
+      remark #15388: vectorization support: reference table->values[ii] has aligned access   [ eam.cpp(536,7) ]
+      remark #15388: vectorization support: reference buf[ii] has aligned access   [ eam.cpp(536,27) ]
+      remark #15305: vectorization support: vector length 8
+      remark #15309: vectorization support: normalized vectorization overhead 1.000
+      remark #15301: REMAINDER LOOP WAS VECTORIZED
+      remark #25015: Estimate of max trip count of loop=1
+   LOOP END
+LOOP END
+
+LOOP BEGIN at eam.cpp(524,4) inlined into eam.cpp(892,15)
+   remark #15388: vectorization support: reference table has aligned access   [ eam.cpp(524,31) ]
+   remark #15305: vectorization support: vector length 8
+   remark #15399: vectorization support: unroll factor set to 2
+   remark #15300: LOOP WAS VECTORIZED
+   remark #15449: unmasked aligned unit stride stores: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 4 
+   remark #15477: vector cost: 0.370 
+   remark #15478: estimated potential speedup: 10.000 
+   remark #15488: --- end vector cost summary ---
+LOOP END
+
+LOOP BEGIN at eam.cpp(524,4) inlined into eam.cpp(892,15)
+<Remainder loop for vectorization>
+   remark #15388: vectorization support: reference table has aligned access   [ eam.cpp(524,31) ]
+   remark #15305: vectorization support: vector length 8
+   remark #15309: vectorization support: normalized vectorization overhead 1.200
+   remark #15301: REMAINDER LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at eam.cpp(535,4) inlined into eam.cpp(892,15)
+   remark #25399: memcopy generated
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at eam.cpp(535,4) inlined into eam.cpp(892,15)
+      remark #15388: vectorization support: reference table->values[ii] has aligned access   [ eam.cpp(536,7) ]
+      remark #15388: vectorization support: reference buf[ii] has aligned access   [ eam.cpp(536,27) ]
+      remark #15305: vectorization support: vector length 8
+      remark #15300: LOOP WAS VECTORIZED
+      remark #15448: unmasked aligned unit stride loads: 1 
+      remark #15449: unmasked aligned unit stride stores: 1 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 5 
+      remark #15477: vector cost: 0.370 
+      remark #15478: estimated potential speedup: 6.660 
+      remark #15488: --- end vector cost summary ---
+      remark #25015: Estimate of max trip count of loop=1
+   LOOP END
+
+   LOOP BEGIN at eam.cpp(535,4) inlined into eam.cpp(892,15)
+   <Remainder loop for vectorization>
+      remark #15388: vectorization support: reference table->values[ii] has aligned access   [ eam.cpp(536,7) ]
+      remark #15388: vectorization support: reference buf[ii] has aligned access   [ eam.cpp(536,27) ]
+      remark #15305: vectorization support: vector length 8
+      remark #15309: vectorization support: normalized vectorization overhead 1.000
+      remark #15301: REMAINDER LOOP WAS VECTORIZED
+      remark #25015: Estimate of max trip count of loop=1
+   LOOP END
+LOOP END
+
+
+Non-optimizable loops:
+
+
+LOOP BEGIN at eam.cpp(873,4)
+   remark #15523: loop was not vectorized: loop control variable ii was found, but loop iteration count cannot be computed before executing the loop
+LOOP END
+
+LOOP BEGIN at eam.cpp(878,4)
+   remark #15523: loop was not vectorized: loop control variable ii was found, but loop iteration count cannot be computed before executing the loop
+LOOP END
+
+LOOP BEGIN at eam.cpp(890,4)
+   remark #15523: loop was not vectorized: loop control variable ii was found, but loop iteration count cannot be computed before executing the loop
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+eam.cpp(536,7):remark #34026: call to memcpy implemented as a call to optimized library version
+eam.cpp(536,7):remark #34026: call to memcpy implemented as a call to optimized library version
+eam.cpp(536,7):remark #34026: call to memcpy implemented as a call to optimized library version
+eam.cpp(831,1):remark #34051: REGISTER ALLOCATION : [_ZN28_INTERNAL_7_eam_cpp_99a33b1313eamReadFuncflEP14EamPotentialStPKcS3_] eam.cpp:831
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   30[ rax rdx rcx rbx rsi rdi r8-r15 zmm0-zmm12 k1-k3]
+        
+    Routine temporaries
+        Total         :     516
+            Global    :     182
+            Local     :     334
+        Regenerable   :     145
+        Spilled       :      17
+        
+    Routine stack
+        Variables     :    4159 bytes*
+            Reads     :      16 [2.61e+01 ~ 1.9%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :     136 bytes*
+            Reads     :      27 [2.65e+01 ~ 1.9%]
+            Writes    :      18 [1.60e+01 ~ 1.1%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: initInterpolationObject(int, real_t, real_t, real_t *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (initInterpolationObject(int, real_t, real_t, real_t *)) eam.cpp(516,1)
+
+===========================================================================
+
+Begin optimization report for: initEamPot(const char *, const char *, const char *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (initEamPot(const char *, const char *, const char *)) [16/16=100.0%] eam.cpp(174,1)
+  -> INLINE: (175,40) comdMalloc(size_t) (isz = 2) (sz = 9)
+    -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+  -> EXTERN: (176,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+  -> EXTERN: (192,8) getMyRank()
+  -> EXTERN: (194,11) strcmp(const char *, const char *)
+  -> (195,10) eamReadSetfl(EamPotential *, const char *, const char *) (isz = 630) (sz = 639)
+     [[ Inlining would exceed -inline-max-size value (639>253) <1>]]
+  -> EXTERN: (196,16) strcmp(const char *, const char *)
+  -> (197,10) eamReadFuncfl(EamPotential *, const char *, const char *) (isz = 616) (sz = 625)
+     [[ Inlining would exceed -inline-max-size value (625>253) <1>]]
+  -> INLINE: (199,10) typeNotSupported(const char *, const char *) (isz = 6) (sz = 12)
+    -> EXTERN: (918,4) fprintf(FILE *, const char *, ...)
+    -> EXTERN: (920,4) exit(int)
+  -> INLINE: (201,4) eamBcastPotential(EamPotential *) (isz = 75) (sz = 80)
+    -> EXTERN: (471,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+    -> EXTERN: (480,8) getMyRank()
+    -> EXTERN: (486,7) strcpy(char *, const char *)
+    -> EXTERN: (487,7) strcpy(char *, const char *)
+    -> EXTERN: (489,4) bcastParallel(void *, int, int)
+    -> EXTERN: (494,4) strcpy(char *, const char *)
+    -> EXTERN: (495,4) strcpy(char *, const char *)
+    -> INLINE: (497,4) bcastInterpolationObject(InterpolationObject **) (isz = 81) (sz = 86)
+      -> EXTERN: (626,8) getMyRank()
+      -> EXTERN: (632,4) bcastParallel(void *, int, int)
+      -> EXTERN: (634,8) getMyRank()
+      -> EXTERN: (636,7) __assert_fail(const char *, const char *, unsigned int, const char *)
+      -> INLINE: (637,39) comdMalloc(size_t) (isz = 2) (sz = 9)
+        -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+      -> INLINE: (641,36) comdMalloc(size_t) (isz = 2) (sz = 9)
+        -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+      -> EXTERN: (646,4) bcastParallel(void *, int, int)
+    -> INLINE: (498,4) bcastInterpolationObject(InterpolationObject **) (isz = 81) (sz = 86)
+      -> EXTERN: (626,8) getMyRank()
+      -> EXTERN: (632,4) bcastParallel(void *, int, int)
+      -> EXTERN: (634,8) getMyRank()
+      -> EXTERN: (636,7) __assert_fail(const char *, const char *, unsigned int, const char *)
+      -> INLINE: (637,39) comdMalloc(size_t) (isz = 2) (sz = 9)
+        -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+      -> INLINE: (641,36) comdMalloc(size_t) (isz = 2) (sz = 9)
+        -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+      -> EXTERN: (646,4) bcastParallel(void *, int, int)
+    -> INLINE: (499,4) bcastInterpolationObject(InterpolationObject **) (isz = 81) (sz = 86)
+      -> EXTERN: (626,8) getMyRank()
+      -> EXTERN: (632,4) bcastParallel(void *, int, int)
+      -> EXTERN: (634,8) getMyRank()
+      -> EXTERN: (636,7) __assert_fail(const char *, const char *, unsigned int, const char *)
+      -> INLINE: (637,39) comdMalloc(size_t) (isz = 2) (sz = 9)
+        -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+      -> INLINE: (641,36) comdMalloc(size_t) (isz = 2) (sz = 9)
+        -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+      -> EXTERN: (646,4) bcastParallel(void *, int, int)
+
+
+    Report from: Code generation optimizations [cg]
+
+eam.cpp(174,1):remark #34051: REGISTER ALLOCATION : [_Z10initEamPotPKcS0_S0_] eam.cpp:174
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   12[ rax rdx rcx rsi rdi r8-r10 r12-r15]
+        
+    Routine temporaries
+        Total         :     204
+            Global    :      45
+            Local     :     159
+        Regenerable   :      75
+        Spilled       :       4
+        
+    Routine stack
+        Variables     :     112 bytes*
+            Reads     :      16 [1.46e+01 ~ 7.5%]
+            Writes    :      13 [5.33e+00 ~ 2.7%]
+        Spills        :      32 bytes*
+            Reads     :       4 [3.98e+00 ~ 2.0%]
+            Writes    :       4 [4.00e+00 ~ 2.0%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINING FOOTNOTES:
+
+<1> The function is larger than the inliner would normally inline.  Use the
+    option -inline-max-size to increase the size of any function that would
+    normally be inlined, add "inline __attribute__((always_inline))" to the
+    declaration of the called function, or add "#pragma forceinline" before
+    the call site.
+

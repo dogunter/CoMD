@@ -1,0 +1,329 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+Intel(R) C++ Intel(R) 64 Compiler for applications running on Intel(R) 64, Version 17.0.2.174 Build 20170213
+
+Compiler options: -I/opt/cray/pe/libsci/16.11.1/INTEL/15.0/mic_knl/include -I/opt/cray/pe/mpt/7.5.5/gni/mpich-intel/16.0/include -I/opt/cray/rca/2.1.8_g6cd9a1b-3.1/include -I/opt/cray/alps/6.3.4-2.21/include -I/opt/cray/xpmem/2.1.1_gf9c9084-2.38/include -I/opt/cray/gni-headers/5.0.11-2.2/include -I/opt/cray/pe/pmi/5.0.11/include -I/opt/cray/ugni/6.0.15-2.2/include -I/opt/cray/udreg/2.3.2-7.54/include -I/opt/cray/wlm_detect/1.2.1-3.10/include -I/opt/cray/krca/2.1.3_g923f58b-2.244/include -I/opt/cray-hss-devel/8.0.0/include -xmic-avx512 -static -D__CRAYXC -D__CRAY_MIC_KNL -D__CRAYXT_COMPUTE_LINUX_TARGET -std=c++11 -qopenmp -xmic-avx512 -qopt-report=5 -c -o ljForce.o -Wl,-T/opt/cray/pe/craype/2.5.9/bin/2.25.0.craype.ld
+
+    Report from: Interprocedural optimizations [ipo]
+
+  WHOLE PROGRAM (SAFE) [EITHER METHOD]: false
+  WHOLE PROGRAM (SEEN) [TABLE METHOD]: false
+  WHOLE PROGRAM (READ) [OBJECT READER METHOD]: false
+
+INLINING OPTION VALUES:
+  -inline-factor: 100
+  -inline-min-size: 30
+  -inline-max-size: 230
+  -inline-max-total-size: 2000
+  -inline-max-per-routine: 10000
+  -inline-max-per-compile: 500000
+
+In the inlining report below:
+   "sz" refers to the "size" of the routine. The smaller a routine's size,
+      the more likely it is to be inlined.
+   "isz" refers to the "inlined size" of the routine. This is the amount
+      the calling routine will grow if the called routine is inlined into it.
+      The compiler generally limits the amount a routine can grow by having
+      routines inlined into it.
+
+Begin optimization report for: comdMalloc(size_t)
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (comdMalloc(size_t)) memUtils.h(17,1)
+
+===========================================================================
+
+Begin optimization report for: comdFree(void *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (comdFree(void *)) memUtils.h(36,1)
+
+===========================================================================
+
+Begin optimization report for: ljDestroy(BasePotential **)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (ljDestroy(BasePotential **)) [3/7=42.9%] ljForce.cpp(105,1)
+  -> INLINE: (109,4) comdFree(void *) (isz = 0) (sz = 5)
+    -> EXTERN: memUtils.h:(38,2) _mm_free(void *)
+
+
+    Report from: Code generation optimizations [cg]
+
+ljForce.cpp(105,1):remark #34051: REGISTER ALLOCATION : [_Z9ljDestroyPP15BasePotentialSt] ljForce.cpp:105
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :    2[ rdi r13]
+        
+    Routine temporaries
+        Total         :      10
+            Global    :       8
+            Local     :       2
+        Regenerable   :       0
+        Spilled       :       1
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :       8 bytes*
+            Reads     :       3 [1.00e+00 ~ 4.5%]
+            Writes    :       1 [1.00e+00 ~ 4.5%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: ljPrint(FILE *, BasePotential *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (ljPrint(FILE *, BasePotential *)) [4/7=57.1%] ljForce.cpp(137,1)
+  -> EXTERN: (139,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (140,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (141,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (142,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (143,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (144,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (145,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (146,4) fprintf(FILE *, const char *, ...)
+  -> EXTERN: (147,4) fprintf(FILE *, const char *, ...)
+
+
+    Report from: Code generation optimizations [cg]
+
+ljForce.cpp(137,1):remark #34051: REGISTER ALLOCATION : [_ZN33_INTERNAL_11_ljForce_cpp_9206c6667ljPrintEP8_IO_FILEP15BasePotentialSt] ljForce.cpp:137
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   15[ rax rdx rbx rsi rdi r15 zmm0 zmm16-zmm23]
+        
+    Routine temporaries
+        Total         :      73
+            Global    :       8
+            Local     :      65
+        Regenerable   :      28
+        Spilled       :       2
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :      16 bytes*
+            Reads     :       2 [2.00e+00 ~ 2.7%]
+            Writes    :       2 [2.00e+00 ~ 2.7%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: compute_Sum..xN2uuuuuuva64va64va64vvvvv(int, int, real_t, real_t, real_t, real_t, real_t *, real_t *, real_t *, real_t *, real_t *, real_t *, real_t *, real_t *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (compute_Sum..xN2uuuuuuva64va64va64vvvvv(int, int, real_t, real_t, real_t, real_t, real_t *, real_t *, real_t *, real_t *, real_t *, real_t *, real_t *, real_t *)) ljForce.cpp(169,1)
+
+===========================================================================
+
+Begin optimization report for: compute_Sum(int, int, real_t, real_t, real_t, real_t, real_t *, real_t *, real_t *, real_t *, real_t *, real_t *, real_t *, real_t *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (compute_Sum(int, int, real_t, real_t, real_t, real_t, real_t *, real_t *, real_t *, real_t *, real_t *, real_t *, real_t *, real_t *)) ljForce.cpp(169,1)
+
+===========================================================================
+
+Begin optimization report for: ljForce(SimFlat *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (ljForce(SimFlat *)) [6/7=85.7%] ljForce.cpp(206,1)
+  -> EXTERN: (257,10) __assert_fail(const char *, const char *, unsigned int, const char *)
+  -> INLINE: (273,6) compute_Sum(int, int, real_t, real_t, real_t, real_t, real_t *, real_t *, real_t *, real_t *, real_t *, real_t *, real_t *, real_t *) (isz = 68) (sz = 99)
+
+
+    Report from: OpenMP optimizations [openmp]
+
+ljForce.cpp(225:4-225:4):OMP:_ZN33_INTERNAL_11_ljForce_cpp_9206c6667ljForceEP9SimFlatSt:  OpenMP DEFINED LOOP WAS PARALLELIZED
+ljForce.cpp(247:4-247:4):OMP:_ZN33_INTERNAL_11_ljForce_cpp_9206c6667ljForceEP9SimFlatSt:  OpenMP DEFINED LOOP WAS PARALLELIZED
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at ljForce.cpp(225,4)
+<Peeled loop for vectorization>
+   remark #15389: vectorization support: reference s->atoms->f_0[ii] has unaligned access   [ ljForce.cpp(228,7) ]
+   remark #15389: vectorization support: reference s->atoms->f_1[ii] has unaligned access   [ ljForce.cpp(229,7) ]
+   remark #15389: vectorization support: reference s->atoms->f_2[ii] has unaligned access   [ ljForce.cpp(230,7) ]
+   remark #15389: vectorization support: reference s->atoms->U[ii] has unaligned access   [ ljForce.cpp(231,7) ]
+   remark #15381: vectorization support: unaligned access used inside loop body
+   remark #15335: peel loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   remark #15305: vectorization support: vector length 2
+   remark #15309: vectorization support: normalized vectorization overhead 0.649
+   remark #25015: Estimate of max trip count of loop=7
+LOOP END
+
+LOOP BEGIN at ljForce.cpp(225,4)
+   remark #15388: vectorization support: reference s->atoms->f_0[ii] has aligned access   [ ljForce.cpp(228,7) ]
+   remark #15388: vectorization support: reference s->atoms->f_1[ii] has aligned access   [ ljForce.cpp(229,7) ]
+   remark #15388: vectorization support: reference s->atoms->f_2[ii] has aligned access   [ ljForce.cpp(230,7) ]
+   remark #15388: vectorization support: reference s->atoms->U[ii] has aligned access   [ ljForce.cpp(231,7) ]
+   remark #15305: vectorization support: vector length 8
+   remark #15399: vectorization support: unroll factor set to 2
+   remark #15309: vectorization support: normalized vectorization overhead 0.417
+   remark #15301: OpenMP SIMD LOOP WAS VECTORIZED
+   remark #15449: unmasked aligned unit stride stores: 4 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 14 
+   remark #15477: vector cost: 1.500 
+   remark #15478: estimated potential speedup: 8.570 
+   remark #15488: --- end vector cost summary ---
+LOOP END
+
+LOOP BEGIN at ljForce.cpp(225,4)
+<Remainder loop for vectorization>
+   remark #15388: vectorization support: reference s->atoms->f_0[ii] has aligned access   [ ljForce.cpp(228,7) ]
+   remark #15388: vectorization support: reference s->atoms->f_1[ii] has aligned access   [ ljForce.cpp(229,7) ]
+   remark #15388: vectorization support: reference s->atoms->f_2[ii] has aligned access   [ ljForce.cpp(230,7) ]
+   remark #15388: vectorization support: reference s->atoms->U[ii] has aligned access   [ ljForce.cpp(231,7) ]
+   remark #15305: vectorization support: vector length 8
+   remark #15309: vectorization support: normalized vectorization overhead 0.480
+   remark #15301: REMAINDER LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at ljForce.cpp(266,10)
+   remark #25096: Loop Interchange not done due to: Imperfect Loop Nest (Either at Source or due to other Compiler Transformations)
+   remark #25451: Advice: Loop Interchange, if possible, might help loopnest. Suggested Permutation : ( 1 2 ) --> ( 2 1 ) 
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at ljForce.cpp(271,13)
+      remark #15388: vectorization support: reference s->atoms->r_0[jOff] has aligned access   [ ljForce.cpp(175,29) ]
+      remark #15388: vectorization support: reference s->atoms->r_1[jOff] has aligned access   [ ljForce.cpp(178,29) ]
+      remark #15388: vectorization support: reference s->atoms->r_2[jOff] has aligned access   [ ljForce.cpp(181,29) ]
+      remark #15305: vectorization support: vector length 8
+      remark #15309: vectorization support: normalized vectorization overhead 0.892
+      remark #15301: SIMD LOOP WAS VECTORIZED
+      remark #15448: unmasked aligned unit stride loads: 3 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 69 
+      remark #15477: vector cost: 22.000 
+      remark #15478: estimated potential speedup: 2.940 
+      remark #15486: divides: 1 
+      remark #15488: --- end vector cost summary ---
+   LOOP END
+
+   LOOP BEGIN at ljForce.cpp(271,13)
+   <Remainder loop for vectorization>
+      remark #15388: vectorization support: reference s->atoms->r_0[jOff] has aligned access   [ ljForce.cpp(175,29) ]
+      remark #15388: vectorization support: reference s->atoms->r_1[jOff] has aligned access   [ ljForce.cpp(178,29) ]
+      remark #15388: vectorization support: reference s->atoms->r_2[jOff] has aligned access   [ ljForce.cpp(181,29) ]
+      remark #15305: vectorization support: vector length 8
+      remark #15309: vectorization support: normalized vectorization overhead 0.809
+      remark #15301: REMAINDER LOOP WAS VECTORIZED
+   LOOP END
+LOOP END
+
+
+Non-optimizable loops:
+
+
+LOOP BEGIN at ljForce.cpp(248,4)
+   remark #15532: loop was not vectorized: compile time constraints prevent loop optimization. Consider using -O3.
+
+   LOOP BEGIN at ljForce.cpp(253,7)
+      remark #15532: loop was not vectorized: compile time constraints prevent loop optimization. Consider using -O3.
+   LOOP END
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+ljForce.cpp(206,1):remark #34051: REGISTER ALLOCATION : [_ZN33_INTERNAL_11_ljForce_cpp_9206c6667ljForceEP9SimFlatSt] ljForce.cpp:206
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   49[ rax rdx rcx rbx rsi rdi r8-r15 zmm0-zmm31 k1-k3]
+        
+    Routine temporaries
+        Total         :     545
+            Global    :     155
+            Local     :     390
+        Regenerable   :     129
+        Spilled       :      39
+        
+    Routine stack
+        Variables     :     100 bytes*
+            Reads     :      15 [1.16e+02 ~ 0.2%]
+            Writes    :      20 [1.64e+02 ~ 0.3%]
+        Spills        :     352 bytes*
+            Reads     :      68 [1.66e+03 ~ 2.6%]
+            Writes    :      60 [3.50e+02 ~ 0.5%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: initLjPot()
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (initLjPot()) [7/7=100.0%] ljForce.cpp(117,1)
+  -> INLINE: (118,37) comdMalloc(size_t) (isz = 2) (sz = 9)
+    -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+
+
+    Report from: Code generation optimizations [cg]
+
+ljForce.cpp(117,1):remark #34051: REGISTER ALLOCATION : [_Z9initLjPotv] ljForce.cpp:117
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :    8[ rax rdx rcx rsi rdi r8 zmm0-zmm1]
+        
+    Routine temporaries
+        Total         :      18
+            Global    :       8
+            Local     :      10
+        Regenerable   :       8
+        Spilled       :       0
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================

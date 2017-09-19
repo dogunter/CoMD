@@ -1,0 +1,198 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+Intel(R) C++ Intel(R) 64 Compiler for applications running on Intel(R) 64, Version 17.0.2.174 Build 20170213
+
+Compiler options: -I/opt/cray/pe/libsci/16.11.1/INTEL/15.0/mic_knl/include -I/opt/cray/pe/mpt/7.5.5/gni/mpich-intel/16.0/include -I/opt/cray/rca/2.1.8_g6cd9a1b-3.1/include -I/opt/cray/alps/6.3.4-2.21/include -I/opt/cray/xpmem/2.1.1_gf9c9084-2.38/include -I/opt/cray/gni-headers/5.0.11-2.2/include -I/opt/cray/pe/pmi/5.0.11/include -I/opt/cray/ugni/6.0.15-2.2/include -I/opt/cray/udreg/2.3.2-7.54/include -I/opt/cray/wlm_detect/1.2.1-3.10/include -I/opt/cray/krca/2.1.3_g923f58b-2.244/include -I/opt/cray-hss-devel/8.0.0/include -xmic-avx512 -static -D__CRAYXC -D__CRAY_MIC_KNL -D__CRAYXT_COMPUTE_LINUX_TARGET -std=c++11 -qopenmp -xmic-avx512 -qopt-report=5 -c -o decomposition.o -Wl,-T/opt/cray/pe/craype/2.5.9/bin/2.25.0.craype.ld
+
+    Report from: Interprocedural optimizations [ipo]
+
+  WHOLE PROGRAM (SAFE) [EITHER METHOD]: false
+  WHOLE PROGRAM (SEEN) [TABLE METHOD]: false
+  WHOLE PROGRAM (READ) [OBJECT READER METHOD]: false
+
+INLINING OPTION VALUES:
+  -inline-factor: 100
+  -inline-min-size: 30
+  -inline-max-size: 230
+  -inline-max-total-size: 2000
+  -inline-max-per-routine: 10000
+  -inline-max-per-compile: 500000
+
+In the inlining report below:
+   "sz" refers to the "size" of the routine. The smaller a routine's size,
+      the more likely it is to be inlined.
+   "isz" refers to the "inlined size" of the routine. This is the amount
+      the calling routine will grow if the called routine is inlined into it.
+      The compiler generally limits the amount a routine can grow by having
+      routines inlined into it.
+
+Begin optimization report for: comdMalloc(size_t)
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (comdMalloc(size_t)) memUtils.h(17,1)
+
+===========================================================================
+
+Begin optimization report for: processorNum(Domain *, int, int, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (processorNum(Domain *, int, int, int)) [2/3=66.7%] decomposition.cpp(58,1)
+
+
+    Report from: Code generation optimizations [cg]
+
+decomposition.cpp(58,1):remark #34051: REGISTER ALLOCATION : [_Z12processorNumP8DomainStiii] decomposition.cpp:58
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :    8[ rax rdx rcx rsi rdi r8-r10]
+        
+    Routine temporaries
+        Total         :      37
+            Global    :       0
+            Local     :      37
+        Regenerable   :       0
+        Spilled       :       0
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: initDecomposition(int, int, int, real_t *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (initDecomposition(int, int, int, real_t *)) [3/3=100.0%] decomposition.cpp(19,1)
+  -> EXTERN: (20,4) __assert_fail(const char *, const char *, unsigned int, const char *)
+  -> EXTERN: (20,4) getNRanks()
+  -> INLINE: (22,27) comdMalloc(size_t) (isz = 2) (sz = 9)
+    -> EXTERN: memUtils.h:(19,9) _mm_malloc(unsigned long long, unsigned long long)
+  -> EXTERN: (27,17) getMyRank()
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at decomposition.cpp(34,4)
+   remark #25427: Loop Statements Reordered
+   remark #15388: vectorization support: reference dd->globalMax[i] has aligned access   [ decomposition.cpp(37,7) ]
+   remark #15389: vectorization support: reference globalExtent[i] has unaligned access   [ decomposition.cpp(37,26) ]
+   remark #15389: vectorization support: reference dd->globalMin[i] has unaligned access   [ decomposition.cpp(36,7) ]
+   remark #15389: vectorization support: reference dd->globalExtent[i] has unaligned access   [ decomposition.cpp(38,7) ]
+   remark #15388: vectorization support: reference dd->globalMax[i] has aligned access   [ decomposition.cpp(38,29) ]
+   remark #15389: vectorization support: reference dd->globalMin[i] has unaligned access   [ decomposition.cpp(38,48) ]
+   remark #15381: vectorization support: unaligned access used inside loop body
+   remark #15305: vectorization support: vector length 2
+   remark #15389: vectorization support: reference dd->globalMax[i] has unaligned access   [ decomposition.cpp(37,7) ]
+   remark #15389: vectorization support: reference globalExtent[i] has unaligned access   [ decomposition.cpp(37,26) ]
+   remark #15389: vectorization support: reference dd->globalMin[i] has unaligned access   [ decomposition.cpp(36,7) ]
+   remark #15389: vectorization support: reference dd->globalExtent[i] has unaligned access   [ decomposition.cpp(38,7) ]
+   remark #15389: vectorization support: reference dd->globalMax[i] has unaligned access   [ decomposition.cpp(38,29) ]
+   remark #15389: vectorization support: reference dd->globalMin[i] has unaligned access   [ decomposition.cpp(38,48) ]
+   remark #15381: vectorization support: unaligned access used inside loop body
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   remark #15305: vectorization support: vector length 4
+   remark #15427: loop was completely unrolled
+   remark #15309: vectorization support: normalized vectorization overhead 0.028
+   remark #15456: masked unaligned unit stride loads: 3 
+   remark #15457: masked unaligned unit stride stores: 3 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 14 
+   remark #15477: vector cost: 27.000 
+   remark #15478: estimated potential speedup: 0.370 
+   remark #15488: --- end vector cost summary ---
+   remark #25436: completely unrolled by 3  
+LOOP END
+
+LOOP BEGIN at decomposition.cpp(42,4)
+   remark #15388: vectorization support: reference dd->localExtent[i] has aligned access   [ decomposition.cpp(44,7) ]
+   remark #15389: vectorization support: reference dd->globalExtent[i] has unaligned access   [ decomposition.cpp(44,28) ]
+   remark #15388: vectorization support: reference dd->procGrid[i] has aligned access   [ decomposition.cpp(44,50) ]
+   remark #15388: vectorization support: reference dd->localMin[i] has aligned access   [ decomposition.cpp(45,7) ]
+   remark #15389: vectorization support: reference dd->globalMin[i] has unaligned access   [ decomposition.cpp(45,25) ]
+   remark #15389: vectorization support: reference dd->procCoord[i] has unaligned access   [ decomposition.cpp(45,45) ]
+   remark #15388: vectorization support: reference dd->localExtent[i] has aligned access   [ decomposition.cpp(45,67) ]
+   remark #15389: vectorization support: reference dd->localMax[i] has unaligned access   [ decomposition.cpp(46,7) ]
+   remark #15389: vectorization support: reference dd->globalMin[i] has unaligned access   [ decomposition.cpp(46,25) ]
+   remark #15389: vectorization support: reference dd->procCoord[i] has unaligned access   [ decomposition.cpp(46,45) ]
+   remark #15388: vectorization support: reference dd->localExtent[i] has aligned access   [ decomposition.cpp(46,67) ]
+   remark #15381: vectorization support: unaligned access used inside loop body
+   remark #15305: vectorization support: vector length 2
+   remark #15389: vectorization support: reference dd->localExtent[i] has unaligned access   [ decomposition.cpp(44,7) ]
+   remark #15389: vectorization support: reference dd->globalExtent[i] has unaligned access   [ decomposition.cpp(44,28) ]
+   remark #15388: vectorization support: reference dd->procGrid[i] has aligned access   [ decomposition.cpp(44,50) ]
+   remark #15388: vectorization support: reference dd->localMin[i] has aligned access   [ decomposition.cpp(45,7) ]
+   remark #15389: vectorization support: reference dd->globalMin[i] has unaligned access   [ decomposition.cpp(45,25) ]
+   remark #15389: vectorization support: reference dd->procCoord[i] has unaligned access   [ decomposition.cpp(45,45) ]
+   remark #15389: vectorization support: reference dd->localExtent[i] has unaligned access   [ decomposition.cpp(45,67) ]
+   remark #15389: vectorization support: reference dd->localMax[i] has unaligned access   [ decomposition.cpp(46,7) ]
+   remark #15389: vectorization support: reference dd->globalMin[i] has unaligned access   [ decomposition.cpp(46,25) ]
+   remark #15389: vectorization support: reference dd->procCoord[i] has unaligned access   [ decomposition.cpp(46,45) ]
+   remark #15389: vectorization support: reference dd->localExtent[i] has unaligned access   [ decomposition.cpp(46,67) ]
+   remark #15381: vectorization support: unaligned access used inside loop body
+   remark #15305: vectorization support: vector length 4
+   remark #15427: loop was completely unrolled
+   remark #15300: LOOP WAS VECTORIZED
+   remark #15454: masked aligned unit stride loads: 1 
+   remark #15455: masked aligned unit stride stores: 1 
+   remark #15456: masked unaligned unit stride loads: 7 
+   remark #15457: masked unaligned unit stride stores: 2 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 56 
+   remark #15477: vector cost: 36.000 
+   remark #15478: estimated potential speedup: 1.160 
+   remark #15486: divides: 1 
+   remark #15487: type converts: 3 
+   remark #15488: --- end vector cost summary ---
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+decomposition.cpp(19,1):remark #34051: REGISTER ALLOCATION : [_Z17initDecompositioniiiPd] decomposition.cpp:19
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   63[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm31 k0-k7]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   23[ rax rdx rcx rbx rsi rdi r8 r12-r15 zmm0-zmm7 k1-k4]
+        
+    Routine temporaries
+        Total         :      82
+            Global    :      22
+            Local     :      60
+        Regenerable   :      13
+        Spilled       :       5
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :      40 bytes*
+            Reads     :       5 [4.97e+00 ~ 4.4%]
+            Writes    :       5 [5.00e+00 ~ 4.4%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
