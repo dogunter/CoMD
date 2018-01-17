@@ -1,0 +1,145 @@
+# Makefile for src-kokkos
+
+SHELL = /bin/bash
+
+### CoMD can be built in either double or single precision and with or
+### without MPI.  Select desired precision and MPI here.
+
+# double precision (ON/OFF)
+DOUBLE_PRECISION = ON
+# MPI for parallel (ON/OFF)
+DO_MPI = OFF
+
+# Kokkos - clean this up later
+KOKKOS_PATH=/ccs/home/csep04/kokkos
+
+KOKKOS_DEVICES = "Cuda"
+#KOKKOS_DEVICES = "OpenMP"
+# "HSW" = haswell, "KNL" = knights landing, "KNC" = knights corner, "BDW" = Broadwell
+# "SNB" = Sandybridge
+# "Power8" = IBM Power 8 GPU systems, etc.
+KOKKOS_ARCH = "Power8,Pascal60"
+KOKKOS_CUDA_OPTIONS = "enable_lambda"
+#KOKKOS_ARCH = "Power8"
+
+## Set executable name and add includes & libraries for MPI if needed.
+CoMD_VARIANT = CoMD-kokkos
+ifeq ($(DO_MPI), ON)
+CoMD_VARIANT = CoMD-kokkos-mpi
+INCLUDES += ${MPI_INCLUDE}
+CXXFLAGS += -DDO_MPI
+LDFLAGS += ${MPI_LIB}
+endif
+#CoMD_EXE = ${BIN_DIR}/${CoMD_VARIANT}
+CoMD_EXE = ${CoMD_VARIANT}
+
+# Intel flags are for Broadwell/Haswell CPUs
+ifneq (,$(findstring Cuda,$(KOKKOS_DEVICES)))
+CXX = ${KOKKOS_PATH}/bin/nvcc_wrapper
+CXXFLAGS += -O3 --expt-extended-lambda
+LINK = ${CXX}
+LINKFLAGS =
+EXE = $(CoMD_EXE).cuda
+KOKKOS_ARCH = "Power8,Pascal60"
+KOKKOS_CUDA_OPTIONS = "enable_lambda"
+else
+#CXX = mpiCC
+CXX = g++
+CXXFLAGS += -std=c++11 -fopenmp
+#OPTFLAGS = -g -O3 -xCORE-AVX2
+OPTFLAGS = -g -O3
+LINK = ${CXX}
+LINKFLAGS =
+EXE = $(CoMD_EXE).host
+KOKKOS_DEVICES = "OpenMP"
+KOKKOS_ARCH = "Power8"
+endif
+#$(error $(OPTFLAGS))
+
+include $(KOKKOS_PATH)/Makefile.kokkos
+#$(error $(KOKKOS_CPPFLAGS))
+#INCLUDES = -I$(KOKKOS_PATH)/core/src
+
+### If you need to specify include paths, library paths, or link flags
+### for MPI, put them here.  Put both -L and -l switches into MPI_LIB.
+MPI_LIB =
+MPI_INCLUDE =
+
+### A place to specify any other include or library switches your
+### platform requires.
+OTHER_LIB =
+OTHER_INCLUDE =
+
+
+#########################################
+### Below here, it is pitch black.  
+### You are likely to be eaten by a grue.
+##########################################
+
+# clear all suffixes
+.SUFFIXES:
+# list only those that we use 
+.SUFFIXES: .c .o
+
+.PHONY: DEFAULT clean distclean depend
+
+BIN_DIR=../bin
+
+# Check for double precision
+# Using -DDOUBLE will break things for compiling C++ code using MPICH, which
+# has a exter Datatype DOUBLE defined in a header file.
+# I'm changing DOUBLE to COMD_DOUBLE, SINGLE to COMD_SINGLE in the src files.
+# -dog
+ifeq ($(DOUBLE_PRECISION), ON)
+CFLAGS += -DCOMD_DOUBLE
+CXXFLAGS += -DCOMD_DOUBLE
+else
+CFLAGS += -DCOMD_SINGLE
+CXXFLAGS += -DCOMD_SINGLE
+endif
+
+LDFLAGS   += ${OTHER_LIB}
+CXXFLAGS  += ${OPTFLAGS} ${INCLUDES} ${OTHER_INCLUDE}
+
+SOURCES=$(wildcard *.cpp)
+OBJECTS=$(SOURCES:.cpp=.o)
+#$(error $(OBJECTS))
+
+DEFAULT: $(EXE)
+
+#include $(KOKKOS_PATH)/Makefile.kokkos
+
+%.o: %.cpp
+	${CXX} $(CXXFLAGS) $(KOKKOS_CPPFLAGS)  -c $< -o $@
+
+#${CoMD_EXE}: ${BIN_DIR} CoMD_info.h ${OBJECTS} 
+#	${CXX} ${CXXFLAGS} -o ${CoMD_EXE} ${OBJECTS} ${LDFLAGS}
+
+${EXE}: $(KOKKOS_LINK_DEPENDS) $(KOKKOS_CPP_DEPENDS) CoMD_info.h ${OBJECTS} 
+	$(LINK) $(KOKKOS_LDFLAGS) $(KOKKOS_CPPFLAGS) $(CXXFLAGS) -o $(EXE) $(OBJECTS) $(LDFLAGS) $(KOKKOS_LIBS) 
+	/usr/bin/mv -f $(EXE) ../bin/$(EXE)
+
+CoMD_info.h: Makefile
+	./generate_info_header ${CoMD_VARIANT} "$(CXX)" "$(CXXFLAGS)" "$(LDFLAGS)"
+
+${BIN_DIR}:
+	@if [ ! -d ${BIN_DIR} ]; then mkdir -p ${BIN_DIR} ; fi
+
+clean:
+	rm -f *.o CoMD_info.h .depend make.errors *.host *.cuda
+
+distclean: clean
+	rm -f ${CoMD_EXE} .depend.bak
+	rm -rf html latex
+
+.depend: $(SOURCES)
+	@touch .depend
+	@$(MAKE) --no-print-directory depend
+
+depend:
+	@echo "Rebuilding dependencies..."
+	@$(MAKE) CoMD_info.h
+	@makedepend -f .depend -Y. --$(CXXFLAGS)-- $(SOURCES) 2> /dev/null
+
+
+-include .depend
